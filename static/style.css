@@ -1,0 +1,280 @@
+.left-buttons {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 200px;
+  height: 100vh;
+  padding: 16px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #f8f8f8e8;
+  border-right: 1px solid #ddd;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+  align-items: flex-start;
+  font-weight: bold;
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  z-index: 999;
+}
+
+/* ========== Logo ========== */
+.logo {
+  display: block;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 20px auto;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.logo:hover {
+  filter: brightness(1.1);
+  cursor: pointer;
+}
+
+/* ========== Menü Toggle Butonu ========== */
+#menu-toggle {
+  margin: 0 0 10px 0;
+  padding: 12px 15px;
+  font-size: 1.3em;
+  background: #e9e9e9;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+#menu-toggle:hover {
+  background: #ddd;
+}
+
+/* ========== Arama Kutusu ========== */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-input {
+  width: 250px;
+  border-radius: 20px;
+  padding: 8px 12px;
+  border: 1.5px solid rgba(128, 128, 128, 0.438);
+  font-size: 0.9em;
+  transition: all 0.3s;
+  height: auto;
+}
+
+.search-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-button i {
+  font-size: 1.1em;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+/* ========== Logout Butonu ========== */
+.left-button-logout {
+  margin-top: auto;
+  margin-bottom: 30px;
+  padding: 10px 15px;
+  background-color: #f44336;
+  color: white;
+  font-weight: 600;
+  border-radius: 5px;
+  transition: all 0.3s;
+  transform: translateY(-3px);
+  width: 200px;
+}
+
+.left-button-logout:hover {
+  background-color: #d32f2f;
+  transform: translateY(-1px);
+  color: white;
+}
+
+/* ========== Signup Butonu ========== */
+#signup {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  padding: 8px 20px;
+  background-color: #4CAF50;
+  color: white;
+  font-weight: 500;
+  border-radius: 30px;
+  transition: all 0.3s;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#signup:hover {
+  background-color: #45a049;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ========== Genel Butonlar ========== */
+.left-button,
+.top-button {
+  padding: 10px 15px;
+  border: none;
+  background: none;
+  text-align: center;
+  font-size: 0.95em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.left-button:hover,
+.top-button:hover {
+  background: #e9e9e9;
+}
+
+/* ========== Üst Menü (Top Bar) ========== */
+.top-buttons {
+  position: fixed;
+  top: 0;
+  left: 232px;
+  right: 0;
+  height: 50px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: white;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  z-index: 999;
+}
+
+.top-button {
+  font-weight: 500;
+  color: #555;
+}
+
+.top-button:hover {
+  color: #000;
+}
+
+/* ========== Aktif Buton Efekti ========== */
+.left-button:active,
+.top-button:active,
+#signup:active,
+#logout:active {
+  transform: translateY(1px);
+}
+
+/* ========== Topluluk Kutusu (Community Card) ========== */
+
+h1 {
+  font-family: sans-serif;
+  font-size: 23px;
+  margin-bottom: 15px;
+  color: #222;
+  position: fixed;
+  left: 250px;
+  top: 70px;
+  transform: translateY(-50%);
+}
+
+h2 {
+  color: #222;
+  font-weight: 500;
+  margin: 10px 0 5px;
+}
+
+h3 {
+  color: #444;
+  font-weight: 400;
+  margin: 0 0 8px;
+}
+
+h4 {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 300;
+}
+
+
+.com_boxes{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,0fr));
+  gap: 65px;
+  padding: 90px 50px 0px 250px;
+  box-sizing: border-box;
+}
+
+.com_box h4 {
+  display: -webkit-box;
+  line-clamp: 5;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+.com_box{
+  max-width: 220px;
+  background-color: #f9f9f9;
+  color: #000;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgb(0, 0, 0,0.05);
+  padding: 10px;
+  transform: scale(1);
+  transition: all 0.4s ease;
+}
+
+.com_box:hover{
+  transform: scale(1.05);
+}
+
+.com-link{
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+#com_image {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+@media screen and (max-width: 1000px) {
+  .com_box{
+    width: 100%;
+    max-width: 100%;
+  }
+  
+}
+
+
+.hide{
+  opacity: 0;
+  transform: scale(0.7);
+  display: none;
+}
