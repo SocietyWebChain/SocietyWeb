@@ -21,7 +21,12 @@
     <button class="left-button" id="settings"><i class="fas fa-cog"></i> Ayarlar</button>
     <button class="left-button" id="forum"><i class="fas fa-envelope"></i> Forum</button>
     <button onclick="window.location.href = 'help.html';" class="left-button" id="help"><i class="fas fa-question-circle"></i> Destek</button>
-    <button class="left-button-logout" id="log-out"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
+    <form action="/logout" method="get">
+  <button class="left-button-logout" id="log-out">
+    <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+  </button>
+</form>
+
   </div>
 
   <div class="top-buttons">
@@ -32,14 +37,26 @@
     <button onclick="delcom(this)" class="top-button" id="software">Yazılım</button>
     <button onclick="delcom(this)" class="top-button" id="science">Bilim</button>
     <button onclick="delcom(this)" class="top-button" id="social">Sosyal Bilimler</button>
+
+      {% if not user %}
+
     <button class="top-button" id="signup">Giriş Yap</button>
+  <form class="login-form" id="loginForm" action="/login" method="post">
+    <h2>Giriş Yap</h2>
+    <input type="text" name="username" placeholder="Kullanıcı Adı" required>
+    <input type="password" name="password" placeholder="Şifre" required>
+    <button type="submit">Giriş</button>
+  </form>
+
      <form class="register-form" action="/register" method="post">
     <h2>Kayıt Ol</h2>
-    <input type="text" name="username" placeholder="Adınız" required>
+    <input type="text" name="username" placeholder="Kullanıcı Adı" required>
     <input type="email" name="email" placeholder="E-posta" required>
     <input type="password" name="password" placeholder="Şifre" required>
     <button type="submit">Gönder</button>
   </form>
+
+      {% endif %}
 
   </div>
 
@@ -254,6 +271,17 @@ async function submitForm() {
   const result = await res.json();
   alert(result.message || "İşlem tamam");
 }
+
+    const loginButton = document.getElementById('signup');
+    const loginForm = document.getElementById('loginForm');
+
+    loginButton.addEventListener('click', () => {
+      if (loginForm.style.display === 'flex') {
+        loginForm.style.display = 'none';
+      } else {
+        loginForm.style.display = 'flex';
+      }
+    });
 
   </script>
   

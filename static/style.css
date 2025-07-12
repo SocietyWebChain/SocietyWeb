@@ -474,3 +474,36 @@ h4 {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 }
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; 
+  padding: 50px; 
+  height: 100vh; 
+}
+
+.button-container {
+  position: relative; 
+}
+
+.top-button {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.login-form {
+  display: none; 
+  flex-direction: column;
+  gap: 10px;
+  width: 220px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  background: #fff;
+  position: absolute; 
+  top: 100%; 
+  right: 0; 
+  margin-top: 10px; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 6px;
+}
