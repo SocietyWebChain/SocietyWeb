@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Ana Sayfa</title>
+  <link rel="stylesheet" href="../css-files/style.css">
+
+  <!-- Font Awesome (ikonlar için) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+  <!-- Roboto Font (Google Fonts'tan) -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="left-buttons">
+    <button class="left-button" id="menu-toggle">≡</button>
+    <img onclick="window.location.href = 'settings.html'" src="" class="logo" id="logo">
+
+    <button onclick="window.location.href = 'settings.html'" class="left-button" id="settings"><i class="fas fa-cog"></i> Ayarlar</button>
+    <button class="left-button" id="forum"><i class="fas fa-envelope"></i> Forum</button>
+    <button onclick="window.location.href = 'help.html';" class="left-button" id="help"><i
+        class="fas fa-question-circle"></i> Destek</button>
+    <button class="left-button-logout" id="log-out"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
+  </div>
+
+  <div class="top-buttons">
+    <div class="search-container">
+      <input type="text" id="searchBox" class="search-input" placeholder="Ara...">
+    </div>
+    <button onclick="delcom(this)" class="top-button" id="home">Ana Sayfa</button>
+    <button onclick="delcom(this)" class="top-button" id="software">Yazılım</button>
+    <button onclick="delcom(this)" class="top-button" id="science">Bilim</button>
+    <button onclick="delcom(this)" class="top-button" id="social">Sosyal Bilimler</button>
+    <button onclick="window.location.href = 'login.html'" class="top-button" id="signup">Giriş Yap</button>
+  </div>
+
+  <h1 id="h1" class="hide">Eşleşme Bulunamadı!</h1>
+
+  <div id="overlay" class="overlay hide"></div>
+
+  <div id="popup" class="popup-modal hide">
+
+    <span id="closeModal" class="close-btn">&times;</span>
+    <img id="popup-img" src="" alt="Görsel">
+    <h2 id="popup-title"></h2>
+    <h3 id="popup-cat"></h3>
+    <h5 id="popup-link"></h5>
+    <p id="popup-desc"></p>
+
+  </div>
+
+  <div class="com_boxes">
+
+    <!-- YAZILIM -->
+    <div class="com_box" id="software">
+      <div class="com-link" 
+      data-title="<u>CYBERSEC</u>" 
+      data-cat="  
+  <h2>&#128197; <b>Yaklaşan Etkinlikler</b></h2>
+  <ul>
+    <li>&#128737;&#65039; <strong>15 Temmuz:</strong> Web Güvenliği Atölyesi <em>(Zoom)</em></li>
+    <li>&#127937; <strong>22 Temmuz:</strong> Capture The Flag (CTF) Yarışması</li>
+    <li>&#128373;&#65039; <strong>5 Ağustos:</strong> OSINT ile Dijital İz Sürme Eğitimi</li>
+  </ul>" 
+      data-desc="CyberSec, üniversite öğrencileri ve alan uzmanlarını bir araya getiren, bilgi paylaşımı ve eğitim odaklı bir siber güvenlik topluluğudur. Misyonumuz, Türkiye'de siber farkındalığı artırmak ve genç yetenekleri desteklemektir."
+      data-img="../photos/cybersec.jpg"
+      data-link=" <i style='font-size:20px' class='fa fa-instagram'></i> <a href='https://instagram.com/cybersec' target='_blank' style = 'font-weight: bold;'>Instagram</a> &nbsp;&nbsp; &Xopf; <a href='https://twitter.com/cybersec' target='_blank'>Twitter</a>  &nbsp;&nbsp; <i class='fa fa-linkedin-square' style='font-size:20px'></i> <a href='https://linkedin.com/company/cybersec' target='_blank'>LinkedIn</a> &nbsp;&nbsp; <i style='font-size:20px' class='fa fa-github'></i> <a href='https://github.com/cybersec' target='_blank'>GitHub</a>">
+
+        <img id="com_image"
+          src="https://media.licdn.com/dms/image/v2/D4D0BAQFyTqKt6LGKxQ/company-logo_200_200/company-logo_200_200/0/1709828236381/iztech_cyber_security_society_logo?e=1757548800&v=beta&t=JTEYoSaWqU6qx8X4Jq5EywzWWon4NKEE8veF4QicfFE"
+          alt="Cyber Security">
+        <h2>CyberSec</h2>
+        <h3>>Yazılım<</h3>
+        <h4>Siber güvenlik alanında bilinçli bir toplum oluşturmak için çalışıyoruz.</h4>
+      </div>
+    </div>
+
+    <div class="com_box" id="software">
+      <div class="com-link" data-title="aişsdkşalkd" data-cat="software" data-desc="Hebele hübele" data-img="../photos/kuş.jpg">
+        <img id="com_image"
+          src="https://media.licdn.com/dms/image/v2/D4D0BAQFyTqKt6LGKxQ/company-logo_200_200/company-logo_200_200/0/1709828236381/iztech_cyber_security_society_logo?e=1757548800&v=beta&t=JTEYoSaWqU6qx8X4Jq5EywzWWon4NKEE8veF4QicfFE"
+          alt="Cyber Security">
+        <h2>CyberSec</h2>
+        <h3>>Yazılım< </h3>
+        <h4>Siber güvenlik alanında bilinçli bir toplum oluşturmak için çalışıyoruz.</h4>
+      </div>
+    </div>
+
+
+  </div>
+
+  <script>
+    function delcom(element) {
+      elid = element.id
+      if (elid !== "home") {
+        const boxes = document.querySelectorAll(".com_box");
+
+        boxes.forEach(box => {
+          if (box.id === elid) {
+            box.classList.remove("hide");
+          } else {
+            box.classList.add("hide");
+          }
+        });
+      } else {
+        // "home" ise hepsini göster
+        const boxes = document.querySelectorAll(".com_box");
+        boxes.forEach(box => box.classList.remove("hide"));
+      }
+    }
+
+    document.getElementById("searchBox").addEventListener("input", function () {
+      h1 = document.getElementById("h1");
+      const query = this.value.toLowerCase();
+      const boxes = document.querySelectorAll(".com_box");
+      let matchFound = false;
+
+      boxes.forEach(box => {
+        const text = box.textContent.toLowerCase();
+
+        if (text.includes(query)) {
+          box.classList.remove("hide");
+          matchFound = true; // ✅ eşleşme varsa sadece burada true olur
+        } else {
+          box.classList.add("hide");
+        }
+      });
+
+      if (matchFound) {
+        h1.classList.add("hide");
+      } else {
+        h1.classList.remove("hide");
+      }
+
+
+    });
+
+    const popup = document.getElementById("popup");
+    const overlay = document.getElementById("overlay");
+
+    document.querySelectorAll('.com-link').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById("popup-title").innerHTML = link.dataset.title;
+        document.getElementById("popup-cat").innerHTML = link.dataset.cat;
+        document.getElementById("popup-desc").textContent = link.dataset.desc;
+        document.getElementById("popup-img").src = link.dataset.img;
+        document.getElementById("popup-link").innerHTML = link.dataset.link;
+
+        overlay.classList.remove("hide");
+        overlay.classList.add("show");
+
+
+        popup.classList.remove("hide-anim");
+        popup.classList.add("show");        
+        popup.classList.remove("hide");
+      });
+    });
+    
+    function closeModal() {
+      overlay.classList.remove("show");
+      overlay.classList.add("hide");
+
+      popup.classList.remove("show");
+      popup.classList.add("hide-anim");
+
+
+      setTimeout(() => {
+        popup.classList.add("hide");
+        overlay.classList.add("hide");
+        popup.classList.remove("hide-anim");
+      }, 300);
+
+    }
+
+    document.getElementById("closeModal").addEventListener("click", closeModal);
+    overlay.addEventListener("click",closeModal);
+
+    document.addEventListener("keydown", function(e){
+      if (e.key == "Escape") closeModal();
+    });
+
+
+    
+  const logo = document.getElementById("logo");
+
+  if (logo.hasAttribute("src") || logo.getAttribute("src").trim() !== "") {
+    logo.src = "../photos/empty.png";
+  }
+  </script>
+
+
+</body>
+
+</html>

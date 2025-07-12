@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>İzmir Communities - Yardım & Destek</title>
+  <style>
+    /* GENEL STİLLER */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f4f8;
+      color: #222;
+      padding: 30px;
+      line-height: 1.6;
+      text-align: left;
+      margin-left: 450px;
+      margin: 0 auto;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 30px;
+
+
+
+
+
+
+    }
+
+    footer {
+      text-align: center;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #0056b3;
+      margin-top: 2%;
+      font-size: 20px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    /* SSS STİLLERİ */
+    details {
+      background: white;
+      padding: 15px 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      margin-bottom: 20px;
+      width: 1000px;
+      align-items: center;
+      text-align: left;
+      left: center;
+      justify-content: center;
+    }
+
+    summary {
+      font-weight: bold;
+      cursor: pointer;
+      color: #007BFF;
+      font-size: 16px;
+    }
+
+    #elma {
+      color: #0056b3;
+      margin-top: 20px;
+      font-size: 20px;
+      margin-bottom: 30px;
+    }
+
+    /* TAKIM ÜYESİ BÖLÜMÜ */
+    .team-description {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 1.1em;
+    }
+
+    .team-members {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .member-card {
+      width: 220px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      /* Taşmaları gizler */
+      display: flex;
+      flex-direction: column;
+      /* Dikey içerik düzeni */
+      align-items: center;
+      /* Yatay ortalama */
+      justify-content: center;
+      /* Dikey ortalama */
+      transition: transform 0.3s ease;
+
+    }
+
+    .member-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .member-photo {
+      width: 100%;
+
+      object-fit: cover;
+      /* Görseli kutuya sığacak şekilde kırpar */
+      border-bottom: 1px solid #eee;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .member-info {
+      padding: 15px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .member-name {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 5px;
+      color: #0a66c2;
+    }
+
+    .member-title {
+      color: #666;
+      font-size: 0.9em;
+      margin-bottom: 10px;
+    }
+
+    .linkedin-link {
+      display: inline-block;
+      background-color: #0a66c2;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 0.8em;
+      transition: background-color 0.3s;
+
+    }
+
+    .linkedin-link:hover {
+      background-color: #004182;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .team-description {
+      left: 450px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- BİZ KİMİZ -->
+  <h1>👥 Biz Kimiz?</h1>
+  <p class="team-description">İYTE'de okuyan ve öğrenci topluluklarını bir araya getirmeyi amaçlayan üç kişilik bir ekip
+    olarak bu platformu kurduk.</p>
+
+  <div class="team-members">
+    <!-- Üye 1 -->
+    <div class="member-card">
+      <img class="member-photo"
+        src="https://media.licdn.com/dms/image/v2/D4E03AQHMYjwLG4I_cw/profile-displayphoto-shrink_200_200/B4EZZKfNfWHkAk-/0/1745006419234?e=1756944000&v=beta&t=G_Kzw0_3Ye7UEcB30XrIlMvIN64BM-TVcHoJfVSTDi4"
+        alt="Burak Eslem Arık">
+      <div class="member-info">
+        <div class="member-name">Burak Eslem Arık</div>
+        <div class="member-title">Backend Developer</div>
+        <a href="https://www.linkedin.com/in/onur-kulan-492010361/" class="linkedin-link" target="_blank">Linkedin</a>
+      </div>
+    </div>
+
+    <!-- Üye 2 -->
+    <div class="member-card">
+      <img class="member-photo"
+        src="https://media.licdn.com/dms/image/v2/D4E03AQHMYjwLG4I_cw/profile-displayphoto-shrink_200_200/B4EZZKfNfWHkAk-/0/1745006419234?e=1756944000&v=beta&t=G_Kzw0_3Ye7UEcB30XrIlMvIN64BM-TVcHoJfVSTDi4"
+        alt="Onur Kulan">
+      <div class="member-info">
+        <div class="member-name">Onur Kulan</div>
+        <div class="member-title">Frontend Developer</div>
+        <a href="https://www.linkedin.com/in/onur-kulan-492010361/" class="linkedin-link" target="_blank">Linkedin</a>
+      </div>
+    </div>
+
+    <!-- Üye 3 -->
+    <div class="member-card">
+      <img class="member-photo"
+        src="https://media.licdn.com/dms/image/v2/D4E03AQHMYjwLG4I_cw/profile-displayphoto-shrink_200_200/B4EZZKfNfWHkAk-/0/1745006419234?e=1756944000&v=beta&t=G_Kzw0_3Ye7UEcB30XrIlMvIN64BM-TVcHoJfVSTDi4"
+        alt="Batuhan Demiröz">
+      <div class="member-info">
+        <div class="member-name">Batuhan Demiröz</div>
+        <div class="member-title">Backend Developer</div>
+        <a href="https://www.linkedin.com/in/onur-kulan-492010361/" class="linkedin-link" target="_blank">Linkedin</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SSS ve Yardım -->
+  <h2>🏛 İzmir Topluluklar Platformu Hakkında</h2>
+  <p>
+    İzmir Topluluklar Platformu, öğrenci kulüpleri, etkinlikler ve duyurular gibi içerikleri tek bir yerde toplayan
+    kapsamlı bir web sistemidir. Bu platform sayesinde öğrenciler:<br>
+    • Yaklaşan etkinlikleri takip edebilir<br>
+    • Forumlarda tartışmalara katılabilir<br>
+    • Topluluk bağlarını güçlendirebilir
+  </p>
+
+  <h3>🤝 Topluluk Katılımı</h3>
+
+  <details>
+    <summary>Topluluklara nasıl katılırım?</summary>
+    Katılmak istediğiniz topluluğun detay sayfasına gidin:<br>
+    • "İletişim" bölümünü kontrol edin<br>
+    • Listelenen sosyal medya hesapları üzerinden iletişime geçin<br>
+    • Kulüp başkanına doğrudan ulaşın
+  </details>
+
+  <details>
+    <summary>Ben bir kulüp başkanıyım ve bilgiler yanlış. Ne yapmalıyım?</summary>
+    Sayfanın en altındaki iletişim formunu kullanarak güncelleme talebinde bulunabilirsiniz.
+  </details>
+
+  <details>
+    <summary>Yeni bir topluluk nasıl eklenir?</summary>
+    Yeni kurulan kulüpler, bilgilerini "Topluluk Kayıt Formu" aracılığıyla gönderebilir.
+  </details>
+
+  <h4>👤 Hesap Yönetimi</h4>
+
+  <details>
+    <summary>Hesap oluşturmak zorunlu mu?</summary>
+    Evet. Şu işlemler için kayıtlı bir hesap gereklidir:<br>
+    • Topluluklara katılmak<br>
+    • Etkinliklere katılmak<br>
+    • Forumlarda paylaşım yapmak
+  </details>
+
+  <details>
+    <summary>Şifremi unuttum, ne yapmalıyım?</summary>
+    Giriş ekranındaki "Şifremi Unuttum" seçeneğine tıklayarak e-posta ile sıfırlama bağlantısı alabilirsiniz.
+  </details>
+
+  <details>
+    <summary>Bilgilerimi nasıl güncellerim?</summary>
+    Profil sayfanızdaki "Ayarlar" bölümünden şu bilgileri düzenleyebilirsiniz:<br>
+    • E-posta adresi<br>
+    • Görünen ad<br>
+    • Şifre
+  </details>
+
+  <h5>🏛 Topluluk Özellikleri</h5>
+
+  <details>
+    <summary>Topluluk kartlarıyla nasıl etkileşim kurabilirim?</summary>
+    Ana sayfada topluluk kartları görüntülenir.<br>
+    Herhangi bir karta tıklayarak detay sayfasına ulaşabilirsiniz.<br>
+    Kartta şu bilgiler yer alır: topluluk adı, kategorisi (bilim, sanat, sosyal) ve kısa açıklama.
+  </details>
+
+  <details>
+    <summary>Forum nedir ve kimler paylaşım yapabilir?</summary>
+    Kayıtlı kullanıcıların katılabileceği açık tartışma alanıdır.<br>
+    Katılmak için giriş yapmanız gereklidir.<br>
+    <b>Not:</b> Spam veya saygısız içerikler silinecek ve kullanıcılar yasaklanabilecektir.
+  </details>
+
+  <h6>⚙ Profil Yönetimi</h6>
+
+  <details>
+    <summary>Hangi ayarlara nereden ulaşabilirim?</summary>
+    Profil menüsünden tüm hesap ayarlarına ulaşabilirsiniz:<br>
+    • Profil bilgilerini düzenleme<br>
+    • Gizlilik ayarlarını güncelleme<br>
+    • Hesabı silme
+  </details>
+
+  <h6 id="elma">📬 İletişim ve Geri Bildirim</h6>
+
+  <details>
+    <summary>Geri bildirim ve yardım için nereye ulaşabilirim?</summary>
+    Görüşlerinizi bizimle paylaşabilirsiniz:<br>
+    🐞 Teknik sorunları bildirin<br>
+    💡 Geliştirme önerilerinde bulunun<br>
+    🏫 Topluluk bilgilerinde güncelleme talep edin
+  </details>
+
+  <!-- GDPR BİLGİLENDİRMESİ -->
+
+</body>
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Şikayet Formu</title>
+  <style>
+    /* Sayfa genel stili */
+
+
+
+    /* Şikayet formunu saran kutu */
+    .şikayet {
+      display: flex;
+      flex-direction: column;
+      /* Elemanları dikey sırala */
+      gap: 15px;
+      /* Elemanlar arası boşluk */
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+    }
+
+    /* Giriş alanları */
+    input[type="email"],
+    textarea {
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+      /* Sadece dikey boyutlandırılabilir */
+    }
+
+    textarea {
+      min-height: 120px;
+    }
+
+    /* Gönder butonu */
+    #submit {
+      width: 200px;
+      text-align: center;
+      padding: 12px;
+      background-color: #0a66c2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #submit:hover {
+      background-color: #004a99;
+    }
+
+    /* GDPR yazısı */
+    .info-text {
+      font-size: 12px;
+      color: #555;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    /* Mobil uyum */
+    @media (max-width: 600px) {
+      .şikayet {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="şikayet">
+    <form action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="beca921b-f0c0-4bbf-979b-f30d1857f76b">
+      <input type="email" name="email" placeholder="E-posta adresinizi girin" required>
+      <textarea name="message" id="mesaj" placeholder="Mesajınızı buraya yazın..." required></textarea>
+      <button type="submit">Gönder</button>
+    </form>
+  </div>
+  </div>
+
+</body>
+
+</html>
+
+
+<footer>
+  &copy; 2025 İzmir Communities Platform. All rights reserved.
+</footer>
+<style>
+  footer {
+    text-align: center;
+  }
+
+  .şikayet {
+    all: unset;
+    -webkit-appearance: none;
+    /* Safari */
+    -moz-appearance: none;
+    /* Firefox */
+    appearance: none;
+    box-sizing: border-box;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border: 1px solid #d0d0d0;
+    width: 98%;
+    margin: auto;
+
+  }
+
+  .şikayet input[type="email"],
+  .şikayet textarea {
+    all: unset;
+    -webkit-appearance: none;
+    /* Safari */
+    -moz-appearance: none;
+    /* Firefox */
+    appearance: none;
+    box-sizing: border-box;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
+    width: 100%;
+    box-sizing: border-box;
+    margin: auto;
+  }
+
+  .şikayet textarea { 
+    -webkit-appearance: none;
+    /* Safari */
+    -moz-appearance: none;
+    /* Firefox */
+    appearance: none;
+    min-height: 120px;
+  }
+
+  .şikayet button[type="submit"] {
+    all: unset;
+    -webkit-appearance: none;
+    /* Safari */
+    -moz-appearance: none;
+    /* Firefox */
+    appearance: none;
+    box-sizing: border-box;
+    width: 200px;
+    align-self: center;
+    padding: 12px;
+    background-color: #0a66c2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+
+  }
+
+  .şikayet button[type="submit"]:hover {
+    background-color: #004a99;
+
+  }
+
+  @media (max-width: 768px) {
+    body {
+      padding: 20px;
+      font-size: 15px;
+    }
+
+    .team-members {
+      gap: 20px;
+    }
+
+    .member-card {
+      width: 50%;
+
+    }
+
+    .şikayet {
+      padding: 15px;
+      width: 95%;
+    }
+
+    details {
+      width: 100%;
+    }
+  }
+</style>
