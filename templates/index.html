@@ -49,11 +49,15 @@
     <button class="left-button" id="menu-toggle">≡</button>
     <img onclick="window.location.href = 'settings.html'" src="" class="logo" id="logo">
 
-    <button onclick="window.location.href = 'settings.html'" class="left-button" id="settings"><i class="fas fa-cog"></i> Ayarlar</button>
-    <button onclick="window.location.href='forum.html'" class="left-button" id="forum"><i class="fas fa-envelope"></i> Forum</button>
-    <button onclick="window.location.href = 'help.html';" class="left-button" id="help"><i
-        class="fas fa-question-circle"></i> Destek</button>
-    <button class="left-button-logout" id="log-out"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
+    <button onclick='window.location.href = "/settings"' class="left-button" id="settings"><i class="fas fa-cog"></i> Ayarlar</button>
+    <button onclick='window.location.href = "/forum"' class="left-button" id="forum"><i class="fas fa-envelope"></i> Forum</button>
+    <button onclick='window.location.href = "/help"' class="left-button" id="help">
+  <i class="fas fa-question-circle"></i> Destek
+</button>
+
+<button onclick='window.location.href = "/logout";' class="left-button-logout" id="log-out">
+  <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+</button>
   </div>
 
   <div class="top-buttons">
@@ -64,7 +68,10 @@
     <button onclick="delcom(this)" class="top-button" id="software">Yazılım</button>
     <button onclick="delcom(this)" class="top-button" id="science">Bilim</button>
     <button onclick="delcom(this)" class="top-button" id="social">Sosyal Bilimler</button>
+{% if not logged_in %}
     <button onclick='window.location.href = "/login"' class="top-button" id="signup">Giriş Yap</button>
+{% endif %}
+
 
   </div>
 

@@ -18,33 +18,74 @@ argon2 = Argon2(app)
 @app.route("/")
 def index():
     user = session.get("user")
-    return render_template("index.html", user=user)
+    logged_in = user is not None
+    return render_template("index.html", user=user, logged_in=logged_in)
 
-@app.route("/register", methods=["POST"])
+    
+@app.route('/register_page', methods=['GET', 'POST'])
 def register():
-    username = request.form.get("username")
-    email = request.form.get("email")
-    password = request.form.get("password")
+    if request.method == 'POST':
+        username = request.form.get("username")
+        email = request.form.get("email")
+        password = request.form.get("password")
 
-    password_hash = argon2.generate_password_hash(password)
+        password_hash = argon2.generate_password_hash(password)
 
-    data = {
-        "username": username,
-        "email": email,
-        "password_hash": password_hash  
-    }
+        data = {
+            "username": username,
+            "email": email,
+            "password_hash": password_hash  
+        }
 
-    supabase.table("users").insert(data).execute()
-    return redirect(url_for("index"))
+        supabase.table("users").insert(data).execute()
+        return redirect(url_for("index"))
+    
+    return render_template('register.html')
 
-@app.route('/login')
-def login_page():
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        response = supabase.table('users').select('*').eq('username', username).execute()
+        users = response.data
+
+        if not users:
+            return "Kullanıcı bulunamadı!", 401
+
+        user = users[0]
+        hashed_password = user['password_hash']
+
+        if argon2.check_password_hash(hashed_password, password):
+            session['user'] = username
+            return redirect(url_for('index'))
+        else:
+            return "Hatalı şifre!", 401
+
     return render_template('login.html')
+
+@app.route('/settings')
+def settings_page():
+    return render_template('settings.html')
+
+@app.route('/forum')
+def forum_page():
+    return render_template('forum.html')
+
+@app.route("/help")
+def help_page():
+    return render_template("help.html")
 
 @app.route("/logout")
 def logout():
     session.pop("user", None)
     return redirect(url_for("index"))
+
+@app.route('/register_page')
+def register_page():
+    return render_template('register.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
