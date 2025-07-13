@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>settings</title>
+    <link rel="stylesheet" href="../css-files/style_settings.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded",function(){
+      const links = document.querySelectorAll("a[href]");
+
+      links.forEach(link => {
+        if(
+          link.href.startsWith(window.location.origin) &&
+          !link.href.includes("#")
+        ){
+          link.addEventListener("click",function(e){
+            e.preventDefault();
+            document.body.classList.add("fade-out");
+
+            setTimeout(() =>{
+              window.location.href = link.href;
+            }, 5000);
+          });
+        }
+      });
+    });
+  </script>    
+
+</head>
+
+<body>
+
+    
+    <div class="tamamı">
+        <button class="backtopage" onclick="history.back()">
+            <i class="fa fa-arrow-left"></i>
+        </button>
+
+        <h1>Profil Ayarları</h1>
+        <h2>Profil Fotoğrafı</h2>
+        <h3 id="photoexplain">Profilinizde görünen fotoğrafınızı güncelleyin. JPG, PNG veya GIF formatlarını
+            kullanabilirsiniz.</h3>
+        <div class="profile-container">
+            <img src="https://media.licdn.com/dms/image/v2/D4E03AQHMYjwLG4I_cw/profile-displayphoto-shrink_200_200/B4EZZKfNfWHkAk-/0/1745006419234?e=1757548800&v=beta&t=BLpxBNALMdHJ1Ctd2jUdSACAKfZqBK9xkI_02Yj5n2E"
+                id="image">
+            <button id="resimyukle">Resim Yükle</button>
+            <button id="kaldir">Kaldır</button>
+
+
+        </div>
+        <div class="kullanıcı">
+            <h2> Kullanıcı Adı</h2>
+            <h3>Benzersiz kullanıcı adınızı değiştirin. Bu ad diğer kullanıcılar tarafından görüntülenecektir. </h3>
+            <div class="username-section">
+                <h4>Yeni Kullanıcı Adı</h4>
+                <input type="text" id="mevcut_kullanici_adi-input" placeholder="mevcut_kullanici_adi    ">
+                <button id="kulla">Kullanıcı Adını Güncelle</button>
+            </div>
+        </div>
+        <div id="se">
+
+            <h2 id="olma">Şifre Değiştirme</h2>
+            <h3 id="olmak">Güvenliğiniz için şifrenizi düzenli aralıklarla güncellemeniz önerilir.</h3>
+            <div class="username-section">
+                <h4> Mevcut Şifre </h4>
+                <input type="text" id="mevcut_kullanici_adi-input">
+                <h4>Yeni Şifre </h4>
+                <input type="text" id="mevcut_kullanici_adi-input">
+                <h4>Yeni Şifreyi Onayla</h4>
+                <input type="text" id="mevcut_kullanici_adi-input">
+                <button id="şifre">Şifreyi Değiştir</button>
+            </div>
+
+
+        </div>
+        <!-- E-Posta Güncelleme Bölümü -->
+        <div class="kullanıcı">
+            <h2>E-posta Adresi</h2>
+            <h3>Hesap güvenliği ve bildirimler için kullanılan e-posta adresiniz.</h3>
+            <div class="username-section">
+                <h4>Yeni E-posta Adresi</h4>
+                <input type="email" id="eposta-input" placeholder="mevcut@email.com">
+
+                <button id="eposta-guncelle">E-posta Adresini Güncelle</button>
+            </div>
+
+
+        </div>
+
+        <!-- Oturum Yönetimi Bölümü -->
+        <div class="kullanıcı">
+            <h2>Oturum Yönetimi</h2>
+            <div class="username-section">
+                <h3>Şu anda bu cihazda oturum açmış durumdasınız. Belirli bir cihazdan çıkış yapabilir veya tüm
+                    cihazlardan
+                    çıkış yapabilirsiniz.</h3>
+
+                <div class="button-group">
+                    <button id="kaldir">Bu Cihazdan Çıkış Yap</button>
+                    <button id="cikis-tum-cihaz">Tüm Cihazlardan Çıkış Yap</button>
+                </div>
+            </div>
+
+        </div>
+        <button id="kaldir">İptal</button>
+        <button id="resimyukle">Değişiklikleri Kaydet</button>
+        <div>
+
+        </div>
+
+
+        <script>
+            const logo = document.getElementById("image");
+            if(logo.hasAttribute("src") || logo.getAttribute("src").trim() !== ""){
+                logo.src = "../photos/empty.png";
+            }
+        </script>
+
+</body>
+
+</html>

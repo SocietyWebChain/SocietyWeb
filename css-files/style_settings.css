@@ -1,0 +1,328 @@
+body{
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+body.fade-out{
+  opacity: 0;
+}
+
+
+
+
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3f37c9;
+    --accent-color: #4895ef;
+    --border-radius: 8px;
+    --box-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.15);
+    --transition-speed: 0.3s;
+}
+
+.profile-container {
+    display: contents;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+
+}
+
+/*Return to previous Page*/
+
+.backtopage{
+    position: absolute;
+    left: auto;
+    margin-left: 20px;
+    border-radius: 40%;
+    font-size: 150%;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    border: none;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    
+}
+
+.backtopage.hover{
+    background-color: var(--secondary-color);
+    transform: scale(1.05);
+}
+/**/
+
+.kullanıcı {
+    border-bottom: 1px solid #ddd;
+
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    min-height: 100vh;
+    padding-left: 300px;
+    padding-right: 300px;
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+/* Başlık (h1) */
+h1 {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    padding: 40px 20px;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Alt başlık (h2) */
+h2 {
+    padding: 10px 20px 0;
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 0;
+}
+
+/* Açıklama metni */
+h3 {
+    font-size: 15px;
+    padding-left: 20px;
+    color: #6c757d;
+    margin: 0;
+}
+
+h4 {
+    font-size: 17px;
+
+    font-weight: 600;
+    margin: 0;
+    margin-top: 5px;
+
+}
+
+
+/* Profil fotoğrafı */
+#image {
+    width: 100px;
+    height: 100px;
+    margin: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--accent-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Ortak Buton Stilleri */
+#resimyukle,
+#kaldir {
+    padding: 12px 25px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition-speed) ease;
+    font-size: 15px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+/* Yükle Butonu */
+#resimyukle {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+#resimyukle:hover,
+#kulla {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+/* Kaldır Butonu */
+#kaldir {
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+#kaldir:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+
+
+.username-section {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 40px;
+
+}
+
+#mevcut_kullanici_adi-input {
+    background-color: white;
+    border: 1.5px solid rgba(128, 128, 128, 0.438);
+    padding: 10px 12px;
+    border-radius: 5px;
+    font-size: 0.95em;
+}
+
+#kulla {
+    width: fit-content;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+}
+
+#kulla:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+#olma,
+#olmak {
+    margin: 0;
+    margin-left: 0;
+}
+
+#şifre {
+
+    width: fit-content;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+}
+
+#şifre:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+#eposta-input {
+    background-color: white;
+    border: 1.5px solid rgba(128, 128, 128, 0.438);
+    padding: 10px 12px;
+    border-radius: 5px;
+    font-size: 0.95em;
+    width: 100%;
+}
+
+#eposta-guncelle,
+#cikis-bu-cihaz,
+#cikis-tum-cihaz {
+    width: fit-content;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+#eposta-guncelle:hover,
+#cikis-bu-cihaz:hover,
+#cikis-tum-cihaz:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+button {
+    margin-top: 20px;
+}
+
+#se {
+
+    border-bottom: 1px solid #ddd;
+
+}
+
+#cikis-tum-cihaz {
+    background-color: red;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition-speed) ease;
+    font-size: 15px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+
+}
+
+#cikis-tum-cihaz:hover {
+    background-color: #c82333;
+    /* Daha koyu kırmızı */
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+#uygulama {
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.tamamı {
+
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        padding: 20px;
+    }
+
+    .backtopage{
+        display: none;
+    }
+}
+
