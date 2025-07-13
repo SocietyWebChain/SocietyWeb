@@ -37,25 +37,9 @@ def register():
     supabase.table("users").insert(data).execute()
     return redirect(url_for("index"))
 
-@app.route("/login", methods=["POST"])
-def login():
-    username = request.form.get("username")
-    password = request.form.get("password")
-
-    response = supabase.table("users").select("*").eq("username", username).execute()
-    users = response.data
-
-    if not users:
-        return "Kullanıcı bulunamadı!"
-
-    user = users[0]
-    hashed_password = user["password_hash"]
-
-    if argon2.check_password_hash(hashed_password, password):
-        session["user"] = username  
-        return redirect(url_for("index"))
-    else:
-        return "Hatalı şifre!"
+@app.route('/login')
+def login_page():
+    return render_template('login.html')
 
 @app.route("/logout")
 def logout():

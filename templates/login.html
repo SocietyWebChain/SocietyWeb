@@ -5,11 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giriş Ekranı</title>
-    <link rel="stylesheet" href="../css-files/register_style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login_style.css') }}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
-
-
 
 
 
@@ -39,19 +36,12 @@
 <body>
     <div class="wrapper">
         <form action="">
-            <h1>Kayıt</h1>
-            <div class="input-box">
-                <input type="email" placeholder="E-mail" 
-                required>
-                <i class='bx bxs-envelope' ></i>
-            </div>              
-            
+            <h1>Giriş</h1>
             <div class="input-box">
                 <input type="text" placeholder="Kullanıcı Adı"
                 required>
                 <i class="bx bxs-user"></i>
             </div>
-
             <div class="input-box">
                 <input type="password" placeholder="Şifre" 
                 required>
@@ -62,10 +52,14 @@
                 <label>
                     <input type="checkbox"> Beni Hatırla
                 </label>
-                <a href="#">Şifremi unuttum</a>
+                
             </div>
 
-            <button type="submit" class="btn">Kayıt Ol</button>
+            <button type="submit" class="btn">Giriş Yap</button>
+
+            <div class="register-link"> 
+                
+            </div>
         </form>
     </div>
     

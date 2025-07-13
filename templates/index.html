@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Ana Sayfa</title>
-  <link rel="stylesheet" href="../css-files/style.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
   <!-- Font Awesome (ikonlar için) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -64,7 +64,8 @@
     <button onclick="delcom(this)" class="top-button" id="software">Yazılım</button>
     <button onclick="delcom(this)" class="top-button" id="science">Bilim</button>
     <button onclick="delcom(this)" class="top-button" id="social">Sosyal Bilimler</button>
-    <button onclick="window.location.href = 'login.html'" class="top-button" id="signup">Giriş Yap</button>
+    <button onclick='window.location.href = "/login"' class="top-button" id="signup">Giriş Yap</button>
+
   </div>
 
   <h1 id="h1" class="hide">Eşleşme Bulunamadı!</h1>
