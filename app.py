@@ -7,10 +7,11 @@ import os
 
 load_dotenv()
 
-SUPABASE_URL = os.getenv("a")
-SUPABASE_KEY = os.getenv("")
 
-supabase: Client = create_client("")
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
