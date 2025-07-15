@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Doğrulama Kodu</title>
+</head>
+<body>
+    <h1>Doğrulama Kodu</h1>
+    <form action="{{ url_for('verify_email') }}" method="POST">
+        <input type="text" name="code" placeholder="Kod" required>
+        <button type="submit">Doğrula</button>
+    </form>
+</body>
+</html>

@@ -104,7 +104,7 @@
     <li>&#128373;&#65039; <strong>5 Ağustos:</strong> OSINT ile Dijital İz Sürme Eğitimi</li>
   </ul>" 
       data-desc="CyberSec, üniversite öğrencileri ve alan uzmanlarını bir araya getiren, bilgi paylaşımı ve eğitim odaklı bir siber güvenlik topluluğudur. Misyonumuz, Türkiye'de siber farkındalığı artırmak ve genç yetenekleri desteklemektir."
-      data-img="../photos/cybersec.jpg"
+      data-img="{{ url_for('static', filename='photos/cybersec.jpg') }}"
       data-link=" <i style='font-size:20px' class='fa fa-instagram'></i> <a href='https://instagram.com/cybersec' target='_blank' style = 'font-weight: bold;'>Instagram</a> &nbsp;&nbsp; &Xopf; <a href='https://twitter.com/cybersec' target='_blank'>Twitter</a>  &nbsp;&nbsp; <i class='fa fa-linkedin-square' style='font-size:20px'></i> <a href='https://linkedin.com/company/cybersec' target='_blank'>LinkedIn</a> &nbsp;&nbsp; <i style='font-size:20px' class='fa fa-github'></i> <a href='https://github.com/cybersec' target='_blank'>GitHub</a>">
 
         <img id="com_image"
@@ -117,7 +117,7 @@
     </div>
 
     <div class="com_box" id="software">
-      <div class="com-link" data-title="aişsdkşalkd" data-cat="software" data-desc="Hebele hübele" data-img="../photos/kuş.jpg">
+      <div class="com-link" data-title="aişsdkşalkd" data-cat="software" data-desc="Hebele hübele" data-img="{{ url_for('static', filename='photos/kuş.jpg') }}">
         <img id="com_image"
           src="https://media.licdn.com/dms/image/v2/D4D0BAQFyTqKt6LGKxQ/company-logo_200_200/company-logo_200_200/0/1709828236381/iztech_cyber_security_society_logo?e=1757548800&v=beta&t=JTEYoSaWqU6qx8X4Jq5EywzWWon4NKEE8veF4QicfFE"
           alt="Cyber Security">
@@ -223,9 +223,10 @@
 
     
   const logo = document.getElementById("logo");
+  const emptyImagePath = "{{ url_for('static', filename='photos/empty.png') }}";
 
   if (logo.hasAttribute("src") || logo.getAttribute("src").trim() !== "") {
-    logo.src = "../photos/empty.png";
+    logo.src = emptyImagePath;
   }
   </script>
 

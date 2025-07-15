@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="tr">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Forum</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,303 +34,62 @@
         }
       });
     });
-  </script>    
+  </script>   
 </head>
 
+
+
+
+
 <body>
-    <div class="chat-container">
-        <button class="backtopage" onclick="history.back()">
-            <i class="fa fa-arrow-left"></i>
-        </button>
+    
+    <h2>Üniversite toplulukları</h2>
+    <div id="chat-box" style="height: 300px; overflow-y:auto; border:1px solid black; padding: 10px;"></div>
+    <form id="chat-form">
+        <input type="text" id="message" placeholder="Bir şey yaz..." required>
+        <button type="submit">Gönder</button>
+    </form>
 
-        <div class="chat-header">
-            <h1>Üniversite Toplulukları Merkezi</h1>
-        </div>
-
-        <div class="chat-messages" id="chatMessages">
-            <!-- Başlangıçta boş, JavaScript ile mesajlar burada oluşacak -->
-        </div>
-
-
-        <div class="chat-input">
-            <input type="text" aria-label="Mesaj kutusu" placeholder="Buraya mesajınızı yazın..." id="messageInput" />
-            <button onclick="sendMessage()">Gönder</button>
-        </div>
-
-    </div>
 </body>
 
-</html>
-<style>
-
-
-
-    body{
-        opacity: 1;
-        transition: opacity 0.5s ease;
-    }
-
-    body.fade-out{
-        opacity: 0;
-}   
-
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Inter', sans-serif;
-        background-color: #e5ddd5;
-        background-size: cover;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-
-    .clear-history-button {
-        margin: 10px auto 20px;
-        padding: 10px 20px;
-        background-color: #ff5c5c;
-        color: white;
-        border: none;
-        border-radius: 20px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        align-self: center;
-    }
-
-    .clear-history-button:hover {
-        background-color: #e04b4b;
-        transform: scale(1.05);
-    }
-
-    .username {
-        font-weight: 600;
-        color: #075e54;
-        /* koyu yeşil ton */
-        display: block;
-        margin-bottom: 4px;
-        font-size: 13px;
-    }
-
-    /* Konteyner */
-    .chat-container {
-        width: 100%;
-        max-width: 600px;
-        height: 90vh;
-        background-color: #ffffff;
-        display: flex;
-        flex-direction: column;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        overflow: hidden;
-        position: relative;
-    }
-
-    /* Geri butonu */
-    .backtopage {
-        position: absolute;
-        left: 20px;
-        top: 20px;
-        border-radius: 50%;
-        font-size: 20px;
-        font-weight: bold;
-        color: white;
-        background-color: #008069;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        z-index: 1000;
-    }
-
-    .backtopage:hover {
-        background-color: #006e5d;
-        transform: scale(1.05);
-    }
-
-    /* Başlık */
-    .chat-header {
-        background-color: #008069;
-        color: white;
-        padding: 16px;
-        font-weight: bold;
-        text-align: center;
-    }
-
-    /* Mesajlar alanı */
-    .chat-messages {
-        flex: 1;
-        padding: 20px;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        background-image: url("whatsapp.jpg");
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
-
-    /* Mesaj balonları */
-    .chat-bubble {
-        max-width: 70%;
-        padding: 10px 15px;
-        border-radius: 8px;
-        background-color: #dcf8c6;
-        align-self: flex-end;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        font-size: 14px;
-        position: relative;
-    }
-
-    .chat-bubble.left {
-        align-self: flex-start;
-        background-color: #ffffff;
-    }
-
-    .chat-bubble::after {
-        content: attr(data-time);
-        font-size: 10px;
-        position: absolute;
-        bottom: -16px;
-        right: 10px;
-        color: gray;
-    }
-
-    /* Mesaj kutusu */
-    .chat-input {
-        display: flex;
-        padding: 10px;
-        border-top: 1px solid #ccc;
-        background-color: #f0f0f0;
-    }
-
-    .chat-input input {
-        flex: 1;
-        padding: 10px;
-        border: none;
-        border-radius: 20px;
-        font-size: 14px;
-        outline: none;
-        background-color: white;
-    }
-
-    .chat-input button {
-        margin-left: 10px;
-        padding: 10px 15px;
-        background-color: #008069;
-        color: white;
-        border: none;
-        border-radius: 20px;
-        cursor: pointer;
-        font-weight: bold;
-    }
-
-    .chat-input button:hover {
-        background-color: #006e5d;
-    }
-
-    .chat-bubble::after {
-        font-size: 12px;
-        bottom: -18px;
-        right: 8px;
-    }
-
-    @media (max-width: 600px) {
-        .chat-container {
-            width: 100%;
-            height: 100vh;
-            border-radius: 0;
-        }
-
-        .backtopage {
-            top: 10px;
-            left: 10px;
-        }
-    }
-</style>
-<script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 <script>
-    const username = window.USERNAME || 'Kullanıcı';
-    const socket = io();
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("chat-form");
+        const messageInput = document.getElementById("message");
+        const chatBox = document.getElementById("chat-box");
 
-    const input = document.getElementById('messageInput');
-    const chatMessages = document.getElementById('chatMessages');
+        function loadMessages(){
+            fetch("/get_messages")
+            .then(res => res.json())
+            .then(data => {
+                chatBox.innerHTML = "";
+                data.messages.forEach(msg => {
+                    const div = document.createElement("div");
+                    div.textContent = `${msg.username}: ${msg.message_text}`;
+                    chatBox.appendChild(div);
+                });
+                chatBox.scrollTop = chatBox.scrollHeight;
+            });
+        }
 
-    // 💾 localStorage'a mesajları kaydet
-    function saveMessagesToLocalStorage() {
-        const bubbles = document.querySelectorAll('.chat-bubble');
-        const messages = [];
-
-        bubbles.forEach(bubble => {
-            messages.push({
-                username: bubble.querySelector('.username')?.innerText.replace(':', '') || 'Anonim',
-                text: bubble.innerText.replace(bubble.querySelector('.username')?.innerText || '', '').trim(),
-                time: bubble.getAttribute('data-time'),
-                side: bubble.classList.contains('right') ? 'right' : 'left'
+        form.addEventListener("submit", (e) =>{
+            e.preventDefault();
+            const message = messageInput.value;
+            fetch("/send_message", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                credentials : "include",
+                body: JSON.stringify({message: message})
+            }).then(() => {
+                messageInput.value = "";
+                loadMessages();
             });
         });
 
-        localStorage.setItem('chatMessages', JSON.stringify(messages));
-    }
-
-    // 💾 Sayfa açıldığında mesajları geri yükle
-    function loadMessagesFromLocalStorage() {
-        const messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
-        messages.forEach(msg => {
-            createMessageBubble(msg);
-        });
-    }
-
-    // 🟢 Mesaj balonu oluştur
-    function createMessageBubble({ username, text, time, side }) {
-        const bubble = document.createElement('div');
-        bubble.classList.add('chat-bubble');
-        bubble.classList.add(side === 'right' ? 'right' : 'left');
-        bubble.setAttribute('data-time', time);
-        bubble.innerHTML = `<span class="username">${username}</span> ${text}`;
-        chatMessages.appendChild(bubble);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    // ✉️ Mesaj gönder
-    function sendMessage() {
-        const text = input.value.trim();
-        if (!text) return;
-
-        const now = new Date();
-        const time = now.getHours().toString().padStart(2, '0') + ':' +
-            now.getMinutes().toString().padStart(2, '0');
-
-        createMessageBubble({ username, text, time, side: 'right' });
-
-        socket.emit('message', { username, text });
-
-        input.value = '';
-
-        saveMessagesToLocalStorage(); // 📌 yeni mesajı sakla
-    }
-
-    // 📥 Gelen mesajı göster ve sakla
-    socket.on('message', function (data) {
-        if (data.username !== username) {
-            const now = new Date();
-            const time = now.getHours().toString().padStart(2, '0') + ':' +
-                now.getMinutes().toString().padStart(2, '0');
-            createMessageBubble({ username: data.username, text: data.text, time, side: 'left' });
-
-            saveMessagesToLocalStorage(); // 📌 gelen mesajı da sakla
-        }
+        setInterval(loadMessages,2000);
+        loadMessages();
     });
-
-    // ⌨️ Enter ile gönder
-    input.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter') {
-            sendMessage();
-        }
-    });
-
-    // 🔁 Sayfa açıldığında mesajları yükle
-    loadMessagesFromLocalStorage();
 </script>
+
+
+</html>
