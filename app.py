@@ -145,6 +145,8 @@ def chat_page():
     return render_template('forum.html')
 
 
+max_message_limit = 200
+
 @app.route("/send_message", methods=["POST"])
 def send_message():
     if 'user' not in session:
@@ -153,24 +155,40 @@ def send_message():
         data = request.get_json()
         message = data.get("message")
         username = session['user']
-        
-        print("DEBUG | Mesaj:",message)
-        print("DEBUG | Kullanıcı:",username)
-    
+
+        print("DEBUG | Mesaj:", message)
+        print("DEBUG | Kullanıcı:", username)
+
         supabase.table("messages").insert({
             "username": username,
             "message_text": message
         }).execute()
-    
+
+        count_res = supabase.table("messages").select("id", count="exact").execute()
+        total_count = count_res.count
+
+        excess = total_count - max_message_limit
+        if excess > 0:
+            oldest = supabase.table("messages")\
+                .select("id")\
+                .order("timestamp", desc=False)\
+                .limit(excess)\
+                .execute()
+
+            for row in oldest.data:
+                supabase.table("messages").delete().eq("id", row['id']).execute()
+
         return jsonify(status="ok")
-    
+
     except Exception as e:
-        print("HATA:",str(e))
-        return jsonify(error="Server error", detay=str(e)),500
+        print("HATA:", str(e))
+        return jsonify(error="Server error", detay=str(e)), 500
+
+
 
 @app.route("/get_messages", methods=["GET"])
 def get_messages():
-    res = supabase.table("messages").select("*").order("timestamp", desc=False).limit(50).execute()
+    res = supabase.table("messages").select("*").order("timestamp", desc=False).limit(max_message_limit).execute()
     return jsonify(messages=res.data)
 
 
