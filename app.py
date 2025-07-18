@@ -21,7 +21,7 @@ def register():
         password = request.form.get("password")
         username = request.form.get("username") 
         
-        #var olan kullanıcı adı ve email ile giris yapma engellenecek
+        #var olan kullanıcı adı ve email ile kayıt olma, mail girildiginden emin olma
 
         response = supabase.auth.sign_up({
             "email": email,
@@ -52,15 +52,10 @@ def login():
             "password": password
         })
         
-        #email dogrulaması yapılmadıysa uygun geri bildirm ve error handling eklenecek
+        #email dogrulaması yapılmadıysa uygun geri bildirim ve error handling eklenecek
 
         if response.user:
-            session['user'] = {
-                "id": response.user.id,
-                "email": response.user.email,
-                "confirmed_at": response.user.confirmed_at,
-                "username": response.user.user_metadata.get('display_name', ''), 
-            }
+            session['user'] = response.user.user_metadata.get('display_name', response.user.email)
             return redirect(url_for('index'))
         else:
             error_message = "Giriş başarısız. Lütfen tekrar deneyin."
@@ -84,12 +79,9 @@ def logout():
 def settings_page():
     if 'user' not in session:
         return redirect(url_for('login'))
-
-    username = session['user']
-    response = supabase.table('users').select('*').eq('username', username).execute()
-    user_data = response.data[0] if response.data else None
-
-    return render_template('settings.html', user=user_data)
+    
+    username = session['user']  
+    return render_template('settings.html', username=username)
 
 @app.route('/forum')
 def forum_page():
@@ -99,5 +91,58 @@ def forum_page():
 def help_page():
     return render_template('help.html')
 
+@app.route("/chat")
+def chat_page():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    return render_template('forum.html')
+
+
+max_message_limit = 200
+
+@app.route("/send_message", methods=["POST"])
+def send_message():
+    if 'user' not in session:
+        return "Unauthorized", 401
+    try:
+        data = request.get_json()
+        message = data.get("message")
+        username = session['user']
+
+        print("DEBUG | Mesaj:", message)
+        print("DEBUG | Kullanıcı:", username)
+
+        supabase.table("messages").insert({
+            "username": username,
+            "message_text": message
+        }).execute()
+
+        count_res = supabase.table("messages").select("id", count="exact").execute()
+        total_count = count_res.count
+
+        excess = total_count - max_message_limit
+        if excess > 0:
+            oldest = supabase.table("messages")\
+                .select("id")\
+                .order("timestamp", desc=False)\
+                .limit(excess)\
+                .execute()
+
+            for row in oldest.data:
+                supabase.table("messages").delete().eq("id", row['id']).execute()
+
+        return jsonify(status="ok")
+
+    except Exception as e:
+        print("HATA:", str(e))
+        return jsonify(error="Server error", detay=str(e)), 500
+
+
+
+@app.route("/get_messages", methods=["GET"])
+def get_messages():
+    res = supabase.table("messages").select("*").order("timestamp", desc=False).limit(max_message_limit).execute()
+    return jsonify(messages=res.data)
+    
 if __name__ == "__main__":
     app.run(debug=True)
