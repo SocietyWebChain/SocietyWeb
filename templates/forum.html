@@ -1,40 +1,41 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Forum</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Forum</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/forum.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 
 
 
 
   <script>
-    document.addEventListener("DOMContentLoaded",function(){
+    document.addEventListener("DOMContentLoaded", function () {
       const links = document.querySelectorAll("a[href]");
 
       links.forEach(link => {
-        if(
+        if (
           link.href.startsWith(window.location.origin) &&
           !link.href.includes("#")
-        ){
-          link.addEventListener("click",function(e){
+        ) {
+          link.addEventListener("click", function (e) {
             e.preventDefault();
             document.body.classList.add("fade-out");
 
-            setTimeout(() =>{
+            setTimeout(() => {
               window.location.href = link.href;
             }, 5000);
           });
         }
       });
     });
-  </script>   
+  </script>
 </head>
 
 
@@ -42,58 +43,61 @@
 
 
 <body>
-    
+  <div class="chat-container">
+    <button class="backtopage" onclick="history.back()">
+      <i class="fa fa-arrow-left"></i>
+    </button>
     <h2>Üniversite toplulukları</h2>
-    <div id="chat-box" style="height: 300px; overflow-y:auto; border:1px solid black; padding: 10px;"></div>
+    <div id="chat-box"></div>
     <form id="chat-form">
-        <input type="text" id="message" placeholder="Bir şey yaz..." required>
-        <button type="submit">Gönder</button>
+      <input type="text" id="message" placeholder="Bir şey yaz..." required>
+      <button type="submit">Gönder</button>
     </form>
-
+  </div>
 </body>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("chat-form");
-        const messageInput = document.getElementById("message");
-        const chatBox = document.getElementById("chat-box");
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("chat-form");
+    const messageInput = document.getElementById("message");
+    const chatBox = document.getElementById("chat-box");
 
-        function loadMessages(){
-            fetch("/get_messages")
-            .then(res => res.json())
-            .then(data => {
-                chatBox.innerHTML = "";
-                data.messages.forEach(msg => {
-                    const div = document.createElement("div");
-                    const time = new Date(msg.timestamp).toLocaleString("tr-TR",{
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      second: "2-digit"
-                    });
-                    div.textContent = `[${time}] ${msg.username}: ${msg.message_text}`;                    
-                    chatBox.appendChild(div);
-                });
-                chatBox.scrollTop = chatBox.scrollHeight;
+    function loadMessages() {
+      fetch("/get_messages")
+        .then(res => res.json())
+        .then(data => {
+          chatBox.innerHTML = "";
+          data.messages.forEach(msg => {
+            const div = document.createElement("div");
+            const time = new Date(msg.timestamp).toLocaleString("tr-TR", {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit"
             });
-        }
-
-        form.addEventListener("submit", (e) =>{
-            e.preventDefault();
-            const message = messageInput.value;
-            fetch("/send_message", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                credentials : "include",
-                body: JSON.stringify({message: message})
-            }).then(() => {
-                messageInput.value = "";
-                loadMessages();
-            });
+            div.textContent = `[${time}] ${msg.username}: ${msg.message_text}`;
+            chatBox.appendChild(div);
+          });
+          chatBox.scrollTop = chatBox.scrollHeight;
         });
+    }
 
-        setInterval(loadMessages,2000);
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const message = messageInput.value;
+      fetch("/send_message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ message: message })
+      }).then(() => {
+        messageInput.value = "";
         loadMessages();
+      });
     });
+
+    setInterval(loadMessages, 2000);
+    loadMessages();
+  });
 </script>
 
 
