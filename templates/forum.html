@@ -69,12 +69,12 @@
           chatBox.innerHTML = "";
           data.messages.forEach(msg => {
             const div = document.createElement("div");
-            const time = new Date(msg.timestamp).toLocaleString("tr-TR", {
+            const time = new Date(msg.created_at).toLocaleString("tr-TR", {
               hour: "2-digit",
               minute: "2-digit",
               second: "2-digit"
             });
-            div.textContent = `[${time}] ${msg.username}: ${msg.message_text}`;
+            div.textContent = `[${time}] ${msg.display_name}: ${msg.messages}`;
             chatBox.appendChild(div);
           });
           chatBox.scrollTop = chatBox.scrollHeight;

@@ -56,6 +56,8 @@ def login():
 
         if response.user:
             session['user'] = response.user.user_metadata.get('display_name', response.user.email)
+            session['user_id'] = response.user.id
+            print("DEBUG | SESSİON:",session)
             return redirect(url_for('index'))
         else:
             error_message = "Giriş başarısız. Lütfen tekrar deneyin."
@@ -102,19 +104,18 @@ max_message_limit = 200
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
-    if 'user' not in session:
+    if 'user' not in session or 'user_id' not in session:
         return "Unauthorized", 401
     try:
         data = request.get_json()
         message = data.get("message")
-        username = session['user']
-
-        print("DEBUG | Mesaj:", message)
-        print("DEBUG | Kullanıcı:", username)
+        display_name = session['user']
+        user_id = session['user_id']
 
         supabase.table("messages").insert({
-            "username": username,
-            "message_text": message
+            "user_id": user_id,
+            "display_name": display_name,
+            "messages": message
         }).execute()
 
         count_res = supabase.table("messages").select("id", count="exact").execute()
@@ -124,7 +125,7 @@ def send_message():
         if excess > 0:
             oldest = supabase.table("messages")\
                 .select("id")\
-                .order("timestamp", desc=False)\
+                .order("created_at", desc=False)\
                 .limit(excess)\
                 .execute()
 
@@ -139,10 +140,12 @@ def send_message():
 
 
 
+
 @app.route("/get_messages", methods=["GET"])
 def get_messages():
-    res = supabase.table("messages").select("*").order("timestamp", desc=False).limit(max_message_limit).execute()
+    res = supabase.table("messages").select("*").order("created_at", desc=False).limit(max_message_limit).execute()
     return jsonify(messages=res.data)
+
     
 if __name__ == "__main__":
     app.run(debug=True)
