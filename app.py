@@ -146,6 +146,29 @@ def get_messages():
     res = supabase.table("messages").select("*").order("created_at", desc=False).limit(max_message_limit).execute()
     return jsonify(messages=res.data)
 
-    
+@app.route("/update_username", methods=["POST"])
+def update_username():
+    new_username = request.form.get("new_username")
+    response = supabase.auth.update_user(
+        {"data": {"display_name": new_username}}
+    )
+
+    if response:
+        return redirect(url_for("index"))
+    else:
+        return jsonify({"error": "Update failed"}), 400
+
+@app.route("/change_password", methods=["POST"])
+def change_password():
+    new_password = request.form.get("new_password")
+    response = supabase.auth.update_user(
+        {"password": new_password}
+    )
+
+    if response:
+        return redirect(url_for("index"))
+    else:
+        return jsonify({"error": "Update failed"}), 400
+
 if __name__ == "__main__":
     app.run(debug=True)
