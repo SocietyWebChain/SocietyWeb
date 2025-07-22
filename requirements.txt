@@ -1,4 +1,5 @@
 flask
+gunicorn
 supabase
 dotenv
 datetime
