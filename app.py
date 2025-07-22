@@ -1,8 +1,8 @@
-
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, abort
 from supabase import create_client, Client
 from dotenv import load_dotenv
 import os
+import datetime
 
 load_dotenv()
 
@@ -14,14 +14,35 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
+max_message_limit = 200
+
+@app.before_request
+def check_ban():
+    if 'user_id' in session:
+        try:
+            user_id = session['user_id']
+            user_response = supabase.auth.admin.get_user_by_id(user_id)
+            user_data = user_response.user
+            user_metadata = user_data.user_metadata or {}
+
+            banned_until = user_metadata.get('banned_until')
+            if banned_until and banned_until != "null":
+                try:
+                    banned_time = datetime.datetime.fromisoformat(banned_until)
+                    if datetime.datetime.now() < banned_time:
+                        return render_template("banned.html", banned_until=banned_until)
+                except Exception as e:
+                    print("Ban kontrolünde tarih hatası:", e)
+
+        except Exception as e:
+            print("Ban kontrol hatası:", e)
+
 @app.route('/register_page', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         email = request.form.get("email")
         password = request.form.get("password")
         username = request.form.get("username") 
-        
-        #var olan kullanıcı adı ve email ile kayıt olma, mail girildiginden emin olma
 
         response = supabase.auth.sign_up({
             "email": email,
@@ -51,30 +72,27 @@ def login():
             "email": email,
             "password": password
         })
-        
-        #email dogrulaması yapılmadıysa uygun geri bildirim ve error handling eklenecek
 
         if response.user:
             session['user'] = response.user.user_metadata.get('display_name', response.user.email)
             session['user_id'] = response.user.id
-            print("DEBUG | SESSİON:",session)
             return redirect(url_for('index'))
         else:
             error_message = "Giriş başarısız. Lütfen tekrar deneyin."
             return render_template('login.html', error=error_message)
-    
+
     return render_template('login.html')
 
 @app.route("/")
 def index():
     user = session.get("user")
     logged_in = user is not None
-
     return render_template("index.html", user=user, logged_in=logged_in)
 
 @app.route('/logout')
 def logout():
     session.pop('user', None)
+    session.pop('user_id', None)
     return redirect(url_for('index'))
 
 @app.route('/settings')
@@ -100,12 +118,25 @@ def chat_page():
     return render_template('forum.html')
 
 
-max_message_limit = 200
+def is_user_banned(user_id):
+    response = supabase.table("banned_users").select("*").eq("user_id", user_id).execute()
+    return len(response.data) > 0
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
+    user_id = session.get("user_id")
+    
+    if not user_id:
+        abort(401)
+        print("Yetkin yok!")
+        
+    if is_user_banned(user_id):
+        abort(403)
+    
     if 'user' not in session or 'user_id' not in session:
+        print("ne")
         return "Unauthorized", 401
+        
     try:
         data = request.get_json()
         message = data.get("message")
@@ -138,9 +169,6 @@ def send_message():
         print("HATA:", str(e))
         return jsonify(error="Server error", detay=str(e)), 500
 
-
-
-
 @app.route("/get_messages", methods=["GET"])
 def get_messages():
     res = supabase.table("messages").select("*").order("created_at", desc=False).limit(max_message_limit).execute()
@@ -154,6 +182,7 @@ def update_username():
     )
 
     if response:
+        session['user'] = new_username
         return redirect(url_for("index"))
     else:
         return jsonify({"error": "Update failed"}), 400
