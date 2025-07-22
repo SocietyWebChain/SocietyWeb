@@ -1,5 +1,4 @@
 flask
 supabase
 dotenv
-os
 datetime
