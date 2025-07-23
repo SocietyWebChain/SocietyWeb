@@ -55,27 +55,36 @@ def register():
         if username_check.data:
             return render_template('register.html', error="Bu kullanıcı adı zaten alınmış.")
 
-        response = supabase.auth.sign_up({
-            "email": email,
-            "password": password
-        })
-
-        if response.user:
-            user_id = response.user.id
-
-            profile_insert = supabase_admin.table("profiles").insert({
-                "id": user_id,
+        try:
+            response = supabase.auth.sign_up({
                 "email": email,
-                "username": username
-            }).execute()
+                "password": password
+            })
+            if response.user:
+                user_id = response.user.id
 
-            if profile_insert.error is None:
-                return render_template('login.html', success="Kayıt başarılı! Giriş yapabilirsiniz.")
+                try:
+                    profile_insert = supabase_admin.table("profiles").insert({
+                        "id": user_id,
+                        "email": email,
+                        "username": username
+                    }).execute()
+
+                    if profile_insert.data: 
+                        return render_template('login.html', success="Kayıt başarılı! Giriş yapabilirsiniz.")
+                    else:
+                        return render_template('register.html', error="Profil kaydedilemedi. Lütfen tekrar deneyin.")
+                except Exception as e:
+                    print(f"Profil kaydedilirken hata oluştu: {e}")
+                    return render_template('register.html', error=f"Profil kaydedilemedi: {e}")
+
             else:
-                return render_template('register.html', error=f"Profil kaydedilemedi: {profile_insert.error}")
+                print(f"Auth kaydı başarısız: {response.error.message if response.error else 'No specific error message'}")
+                return render_template('register.html', error="Auth kaydı başarısız. Lütfen tekrar deneyin.")
 
-        else:
-            return render_template('register.html', error="Auth kaydı başarısız. Lütfen tekrar deneyin.")
+        except Exception as e:
+            print(f"Kullanıcı kaydı sırasında hata oluştu: {e}")
+            return render_template('register.html', error=f"Auth kaydı başarısız: {e}. Lütfen tekrar deneyin.")
 
     return render_template('register.html')
 
