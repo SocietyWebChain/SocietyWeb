@@ -9,8 +9,10 @@ load_dotenv()
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+supabase_admin = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -43,32 +45,39 @@ def register():
     if request.method == 'POST':
         email = request.form.get("email")
         password = request.form.get("password")
-        username = request.form.get("username") 
+        username = request.form.get("username")
 
-        # E-posta doğrulama kontrolü
-        email_pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-        if not re.match(email_pattern, email):
-            return render_template('register.html', error="Geçersiz e-posta formatı. Lütfen kontrol edin.")
+        email_check = supabase_admin.table("profiles").select("id").eq("email", email).execute()
+        if email_check.data:
+            return render_template('register.html', error="Bu e-posta zaten kayıtlı.")
 
-        # Supabase ile kayıt işlemi
+        username_check = supabase_admin.table("profiles").select("id").eq("username", username).execute()
+        if username_check.data:
+            return render_template('register.html', error="Bu kullanıcı adı zaten alınmış.")
+
         response = supabase.auth.sign_up({
             "email": email,
-            "password": password,
-            "options": {
-                "data": {
-                    "display_name": username,  
-                    "username": username       
-                }
-            }
+            "password": password
         })
 
         if response.user:
-            return render_template('login.html', success="Kayıt başarılı! Giriş yapabilirsiniz.")
+            user_id = response.user.id
+
+            profile_insert = supabase_admin.table("profiles").insert({
+                "id": user_id,
+                "email": email,
+                "username": username
+            }).execute()
+
+            if profile_insert.error is None:
+                return render_template('login.html', success="Kayıt başarılı! Giriş yapabilirsiniz.")
+            else:
+                return render_template('register.html', error=f"Profil kaydedilemedi: {profile_insert.error}")
+
         else:
-            return render_template('register.html', error="Kayıt başarısız. Lütfen tekrar deneyin.")
+            return render_template('register.html', error="Auth kaydı başarısız. Lütfen tekrar deneyin.")
 
     return render_template('register.html')
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -76,13 +85,6 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        # E-posta geçerlilik kontrolü (basit regex ile)
-        email_pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-        if not re.match(email_pattern, email):
-            error_message = "Geçersiz e-posta adresi formatı. Lütfen doğru giriniz."
-            return render_template('login.html', error=error_message)
-
-        # Supabase giriş işlemi
         response = supabase.auth.sign_in_with_password({
             "email": email,
             "password": password
@@ -217,4 +219,4 @@ def change_password():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT",5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)
