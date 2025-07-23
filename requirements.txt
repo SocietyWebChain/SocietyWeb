@@ -4,3 +4,4 @@ supabase
 dotenv
 datetime
 resolver
+dnspython
