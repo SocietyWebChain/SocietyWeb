@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import re
 import os
 import datetime
+from gotrue.errors import AuthApiError
 
 load_dotenv()
 
@@ -94,21 +95,32 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        response = supabase.auth.sign_in_with_password({
-            "email": email,
-            "password": password
-        })
+        try:
+            response = supabase.auth.sign_in_with_password({
+                "email": email,
+                "password": password
+            })
 
-        if response.user:
-            session['user'] = response.user.user_metadata.get('display_name', response.user.email)
-            session['user_id'] = response.user.id
-            return redirect(url_for('index'))
-        else:
-            error_message = "Giriş başarısız. Lütfen e-posta ve şifrenizi kontrol edin."
+            if response.user:
+                session['user'] = response.user.user_metadata.get('display_name', response.user.email)
+                session['user_id'] = response.user.id
+                return redirect(url_for('index'))
+            else:
+                error_message = "Giriş başarısız. Lütfen e-posta ve şifrenizi kontrol edin."
+                return render_template('login.html', error=error_message)
+
+        except AuthApiError as e:
+            msg = str(e).lower()
+            if "email" in msg and "confirm" in msg:
+                error_message = "E-posta adresiniz henüz doğrulanmamış. Lütfen e-postanızı kontrol edin ve hesabınızı doğrulayın."
+            elif "invalid login credentials" in msg:
+                error_message = "Geçersiz giriş bilgileri. Lütfen tekrar deneyin."
+            else:
+                error_message = f"Giriş başarısız: {str(e)}"
+
             return render_template('login.html', error=error_message)
 
     return render_template('login.html')
-
 
 @app.route("/")
 def index():
@@ -225,6 +237,17 @@ def change_password():
         return redirect(url_for("index"))
     else:
         return jsonify({"error": "Update failed"}), 400
+
+@app.route('/resend_verify', methods=['POST'])
+def resend_verify():
+    email = request.form.get('email')
+    try:
+        supabase.auth.reset_password_for_email(email)
+        success_message = "Doğrulama (şifre sıfırlama) e-postası yeniden gönderildi!"
+        return render_template('login.html', success=success_message, email=email)
+    except Exception as e:
+        error_message = f"Doğrulama e-postası gönderilemedi: {str(e)}"
+        return render_template('login.html', error=error_message, email=email)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT",5000))
