@@ -61,8 +61,15 @@ def register():
         try:
             response = supabase.auth.sign_up({
                 "email": email,
-                "password": password
+                "password": password,
+                "options": {
+                    "data": {
+                        "display_name": username,
+                        "username": username
+                    }
+                }
             })
+            
             if response.user:
                 user_id = response.user.id
 
