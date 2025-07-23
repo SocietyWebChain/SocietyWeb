@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 import re
 import os
 import datetime
+import dns.resolver
+import socket
 from gotrue.errors import AuthApiError
 
 load_dotenv()
