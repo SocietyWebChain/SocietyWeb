@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, abort
 from supabase import create_client, Client
 from dotenv import load_dotenv
+import re
 import os
 import datetime
 
@@ -44,6 +45,12 @@ def register():
         password = request.form.get("password")
         username = request.form.get("username") 
 
+        # E-posta doğrulama kontrolü
+        email_pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        if not re.match(email_pattern, email):
+            return render_template('register.html', error="Geçersiz e-posta formatı. Lütfen kontrol edin.")
+
+        # Supabase ile kayıt işlemi
         response = supabase.auth.sign_up({
             "email": email,
             "password": password,
@@ -54,13 +61,14 @@ def register():
                 }
             }
         })
-        
+
         if response.user:
             return render_template('login.html', success="Kayıt başarılı! Giriş yapabilirsiniz.")
         else:
             return render_template('register.html', error="Kayıt başarısız. Lütfen tekrar deneyin.")
-    
+
     return render_template('register.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -68,6 +76,13 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
+        # E-posta geçerlilik kontrolü (basit regex ile)
+        email_pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        if not re.match(email_pattern, email):
+            error_message = "Geçersiz e-posta adresi formatı. Lütfen doğru giriniz."
+            return render_template('login.html', error=error_message)
+
+        # Supabase giriş işlemi
         response = supabase.auth.sign_in_with_password({
             "email": email,
             "password": password
@@ -78,10 +93,11 @@ def login():
             session['user_id'] = response.user.id
             return redirect(url_for('index'))
         else:
-            error_message = "Giriş başarısız. Lütfen tekrar deneyin."
+            error_message = "Giriş başarısız. Lütfen e-posta ve şifrenizi kontrol edin."
             return render_template('login.html', error=error_message)
 
     return render_template('login.html')
+
 
 @app.route("/")
 def index():
@@ -199,6 +215,6 @@ def change_password():
     else:
         return jsonify({"error": "Update failed"}), 400
 
-#if __name__ == "__main__":
-#    port = int(os.environ.get("PORT",5000))
-#    app.run(host='0.0.0.0', port=port)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT",5000))
+    app.run(host='0.0.0.0', port=port)
