@@ -53,10 +53,11 @@
     <button onclick='window.location.href = "/help"' class="left-button" id="help">
   <i class="fas fa-question-circle"></i> Destek
 </button>
-
+{%if logged_in %}
 <button onclick='window.location.href = "/logout";' class="left-button-logout" id="log-out">
   <i class="fas fa-sign-out-alt"></i> Çıkış Yap
 </button>
+{% endif %}
   </div>
 
   <div class="top-buttons">
@@ -111,17 +112,6 @@
           alt="Cyber Security">
         <h2>CyberSec</h2>
         <h3>>Yazılım<</h3>
-        <h4>Siber güvenlik alanında bilinçli bir toplum oluşturmak için çalışıyoruz.</h4>
-      </div>
-    </div>
-
-    <div class="com_box" id="software">
-      <div class="com-link" data-title="aişsdkşalkd" data-cat="software" data-desc="Hebele hübele" data-img="{{ url_for('static', filename='photos/kuş.jpg') }}">
-        <img id="com_image"
-          src="https://media.licdn.com/dms/image/v2/D4D0BAQFyTqKt6LGKxQ/company-logo_200_200/company-logo_200_200/0/1709828236381/iztech_cyber_security_society_logo?e=1757548800&v=beta&t=JTEYoSaWqU6qx8X4Jq5EywzWWon4NKEE8veF4QicfFE"
-          alt="Cyber Security">
-        <h2>CyberSec</h2>
-        <h3>>Yazılım< </h3>
         <h4>Siber güvenlik alanında bilinçli bir toplum oluşturmak için çalışıyoruz.</h4>
       </div>
     </div>
