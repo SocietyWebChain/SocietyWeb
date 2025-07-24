@@ -7,6 +7,7 @@ import datetime
 import dns.resolver
 import socket
 from gotrue.errors import AuthApiError
+from flask_caching import Cache
 
 load_dotenv()
 
@@ -21,6 +22,14 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 max_message_limit = 200
+
+cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache'})
+
+@cache.memoize(timeout=60)
+def is_user_banned(user_id):
+    response = supabase.table("banned_users").select("*").eq("user_id", user_id).execute()
+    
+    return len(response.data) > 0
 
 @app.before_request
 def check_ban():
@@ -165,47 +174,21 @@ def is_user_banned(user_id):
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
-    user_id = session.get("user_id")
-    
-    if not user_id:
-        abort(401)
-        print("Yetkin yok!")
-        
-    if is_user_banned(user_id):
-        abort(403)
-    
-    if 'user' not in session or 'user_id' not in session:
-        print("ne")
-        return "Unauthorized", 401
-        
     try:
         data = request.get_json()
         message = data.get("message")
         display_name = session['user']
         user_id = session['user_id']
 
-        supabase.table("messages").insert({
-            "user_id": user_id,
-            "display_name": display_name,
-            "messages": message
+        # Tek seferde ekle + eski mesajları sil
+        supabase.rpc("add_message_and_cleanup", {
+            "p_user_id": user_id,
+            "p_display_name": display_name,
+            "p_message": message,
+            "p_max_limit": max_message_limit
         }).execute()
 
-        count_res = supabase.table("messages").select("id", count="exact").execute()
-        total_count = count_res.count
-
-        excess = total_count - max_message_limit
-        if excess > 0:
-            oldest = supabase.table("messages")\
-                .select("id")\
-                .order("created_at", desc=False)\
-                .limit(excess)\
-                .execute()
-
-            for row in oldest.data:
-                supabase.table("messages").delete().eq("id", row['id']).execute()
-
         return jsonify(status="ok")
-
     except Exception as e:
         print("HATA:", str(e))
         return jsonify(error="Server error", detay=str(e)), 500
@@ -252,5 +235,4 @@ def resend_verify():
         return render_template('login.html', error=error_message, email=email)
 
 #if __name__ == "__main__":
-#    port = int(os.environ.get("PORT",5000))
-#    app.run(host='0.0.0.0', port=port, debug=True)
+#    app.run(debug=True)

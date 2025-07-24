@@ -5,3 +5,4 @@ dotenv
 datetime
 resolver
 dnspython
+flask-caching
