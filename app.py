@@ -234,5 +234,5 @@ def resend_verify():
         error_message = f"Doğrulama e-postası gönderilemedi: {str(e)}"
         return render_template('login.html', error=error_message, email=email)
 
-#if __name__ == "__main__":
-#    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
