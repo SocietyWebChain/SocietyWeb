@@ -49,53 +49,46 @@ def register():
         email = request.form.get("email")
         password = request.form.get("password")
         username = request.form.get("username")
-
+        
+        if not email or not password or not username:
+            return render_template('register.html', error="Tüm alanları doldurun.")
+        
         email_check = supabase_admin.table("profiles").select("id").eq("email", email).execute()
         if email_check.data:
             return render_template('register.html', error="Bu e-posta zaten kayıtlı.")
-
+        
         username_check = supabase_admin.table("profiles").select("id").eq("username", username).execute()
         if username_check.data:
             return render_template('register.html', error="Bu kullanıcı adı zaten alınmış.")
-
+        
         try:
             response = supabase.auth.sign_up({
                 "email": email,
                 "password": password,
                 "options": {
                     "data": {
-                        "display_name": username,
                         "username": username
                     }
                 }
             })
             
-            if response.user:
-                user_id = response.user.id
-
-                try:
-                    profile_insert = supabase_admin.table("profiles").insert({
-                        "id": user_id,
-                        "email": email,
-                        "username": username
-                    }).execute()
-
-                    if profile_insert.data: 
-                        return render_template('login.html', success="Kayıt başarılı! Giriş yapabilirsiniz.")
-                    else:
-                        return render_template('register.html', error="Profil kaydedilemedi. Lütfen tekrar deneyin.")
-                except Exception as e:
-                    print(f"Profil kaydedilirken hata oluştu: {e}")
-                    return render_template('register.html', error=f"Profil kaydedilemedi: {e}")
-
+            if hasattr(response, 'user') and response.user:
+                return render_template('login.html', success="Kayıt başarılı! Giriş yapabilirsiniz.")
             else:
-                print(f"Auth kaydı başarısız: {response.error.message if response.error else 'No specific error message'}")
-                return render_template('register.html', error="Auth kaydı başarısız. Lütfen tekrar deneyin.")
-
+                error_message = "Auth kaydı başarısız. Lütfen tekrar deneyin."
+                if hasattr(response, 'error') and response.error:
+                    if hasattr(response.error, 'message'):
+                        error_message = f"Kayıt başarısız: {response.error.message}"
+                    else:
+                        error_message = f"Kayıt başarısız: {str(response.error)}"
+                
+                print(f"Auth kaydı başarısız: {error_message}")
+                return render_template('register.html', error=error_message)
+                
         except Exception as e:
             print(f"Kullanıcı kaydı sırasında hata oluştu: {e}")
-            return render_template('register.html', error=f"Auth kaydı başarısız: {e}. Lütfen tekrar deneyin.")
-
+            return render_template('register.html', error="Kayıt sırasında hata oluştu. Lütfen tekrar deneyin.")
+    
     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
