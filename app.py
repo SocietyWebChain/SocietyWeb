@@ -229,16 +229,19 @@ def change_password():
     else:
         return jsonify({"error": "Update failed"}), 400
 
-@app.route('/password_reset', methods=['POST'])
+@app.route('/password_reset', methods=['GET', 'POST'])
 def password_reset():
-    email = request.form.get('email')
-    try:
-        supabase.auth.reset_password_for_email(email)
-        success_message = "Doğrulama (şifre sıfırlama) e-postası yeniden gönderildi!"
-        return render_template('login.html', success=success_message, email=email)
-    except Exception as e:
-        error_message = f"Doğrulama e-postası gönderilemedi: {str(e)}"
-        return render_template('login.html', error=error_message, email=email)
+    if request.method == "POST":    
+        email = request.form.get('email')
+        try:
+            supabase.auth.reset_password_for_email(email)
+            success_message = "Doğrulama (şifre sıfırlama) e-postası yeniden gönderildi!"
+            return render_template('login.html', success=success_message, email=email)
+        except Exception as e:
+            error_message = f"Doğrulama e-postası gönderilemedi: {str(e)}"
+            return render_template('login.html', error=error_message, email=email)
+    return render_template('password_reset.html')
+
 
 @app.route("/resetting_password", methods=["GET", "POST"])
 def resetting_password():
