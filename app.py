@@ -229,8 +229,8 @@ def change_password():
     else:
         return jsonify({"error": "Update failed"}), 400
 
-@app.route('/resend_verify', methods=['POST'])
-def resend_verify():
+@app.route('/password_reset', methods=['POST'])
+def password_reset():
     email = request.form.get('email')
     try:
         supabase.auth.reset_password_for_email(email)
@@ -239,6 +239,30 @@ def resend_verify():
     except Exception as e:
         error_message = f"Doğrulama e-postası gönderilemedi: {str(e)}"
         return render_template('login.html', error=error_message, email=email)
+
+@app.route("/resetting_password", methods=["GET", "POST"])
+def resetting_password():
+    if request.method == "POST":
+        password = request.form.get("password")
+        password_confirm = request.form.get("password_confirm")
+
+        if password != password_confirm:
+            return render_template("password_reset.html", error="Şifreler eşleşmiyor.")
+
+        try:
+            access_token = request.args.get("access_token")
+            if not access_token:
+                return render_template("password_reset.html", error="Geçersiz token.")
+
+            supabase.auth.update_user(
+                {"password": password},
+                {"access_token": access_token}
+            )
+            return render_template("password_reset.html", success="Şifre başarıyla değiştirildi.")
+        except Exception as e:
+            return render_template("password_reset.html", error=f"Hata: {e}")
+
+    return render_template("password_reset.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
