@@ -10,7 +10,7 @@ from gotrue.errors import AuthApiError
 from flask_caching import Cache
 
 load_dotenv()
-
+ 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
@@ -19,7 +19,7 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 supabase_admin = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
+app.secret_key = os.getenv("SECRET_KEY")
 
 max_message_limit = 200
 
@@ -180,7 +180,7 @@ def is_user_banned(user_id):
 def send_message():
     if 'user_id' not in session or 'display_name' not in session:
         return jsonify(error="Unauthorized"), 401
-        
+
     try:
         data = request.get_json()
         message = data.get("message")
