@@ -84,14 +84,29 @@
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const message = messageInput.value;
+
       fetch("/send_message", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({ message: message })
-      }).then(() => {
-        messageInput.value = "";
-        loadMessages();
+      })
+      .then(response => {
+        if (response.status === 401) {
+          // Oturum yoksa login sayfasına yönlendir
+          window.location.href = "/login";  // kendi login route’unu yaz
+          return;
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data && data.status === "ok") {
+          messageInput.value = "";
+          loadMessages();
+        }
+      })
+      .catch(err => {
+        console.error("Hata:", err);
       });
     });
 

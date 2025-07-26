@@ -178,6 +178,9 @@ def is_user_banned(user_id):
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
+    if 'user_id' not in session or 'display_name' not in session:
+        return jsonify(error="Unauthorized"), 401
+        
     try:
         data = request.get_json()
         message = data.get("message")
