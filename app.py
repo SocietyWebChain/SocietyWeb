@@ -264,5 +264,5 @@ def resetting_password():
 
     return render_template("password_reset.html")
 
-if __name__ == "__main__":
-    app.run(debug=True)
+#if __name__ == "__main__":
+#    app.run(debug=True)
