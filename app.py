@@ -253,7 +253,7 @@ def resetting_password():
             return render_template("password_reset.html", error="Şifreler eşleşmiyor.")
 
         try:
-            access_token = request.args.get("access_token")
+            access_token = request.form.get("access_token")
             if not access_token:
                 return render_template("password_reset.html", error="Geçersiz token.")
 
