@@ -231,41 +231,73 @@ def change_password():
 
 @app.route('/password_reset', methods=['GET', 'POST'])
 def password_reset():
-    if request.method == "POST":    
+    if request.method == "POST":
         email = request.form.get('email')
         try:
-            supabase.auth.reset_password_for_email(email)
-            success_message = "Doğrulama (şifre sıfırlama) e-postası yeniden gönderildi!"
+            # redirect_to parametresi ile doğru URL'yi belirtin
+            redirect_url = request.url_root + 'resetting_password'
+            supabase.auth.reset_password_for_email(
+                email, 
+                {"redirect_to": redirect_url}
+            )
+            success_message = "Şifre sıfırlama e-postası gönderildi! E-postanızı kontrol edin."
             return render_template('login.html', success=success_message, email=email)
         except Exception as e:
-            error_message = f"Doğrulama e-postası gönderilemedi: {str(e)}"
+            error_message = f"E-posta gönderilemedi: {str(e)}"
             return render_template('login.html', error=error_message, email=email)
     return render_template('password_reset.html')
 
-
 @app.route("/resetting_password", methods=["GET", "POST"])
 def resetting_password():
+    if request.method == "GET":
+        # URL parametrelerinden token bilgilerini al
+        access_token = request.args.get('access_token')
+        refresh_token = request.args.get('refresh_token')
+        
+        if access_token and refresh_token:
+            # Session'ı token'larla güncelle
+            try:
+                supabase.auth.set_session(access_token, refresh_token)
+                return render_template("password_reset.html", 
+                                     access_token=access_token,
+                                     refresh_token=refresh_token)
+            except Exception as e:
+                return render_template("password_reset.html", 
+                                     error=f"Token doğrulama hatası: {e}")
+        else:
+            # Hash'ten token alınacaksa normal template'i döndür
+            return render_template("password_reset.html")
+    
     if request.method == "POST":
         password = request.form.get("password")
         password_confirm = request.form.get("password_confirm")
-
+        access_token = request.form.get("access_token")
+        refresh_token = request.form.get("refresh_token")
+        
         if password != password_confirm:
-            return render_template("password_reset.html", error="Şifreler eşleşmiyor.")
-
+            return render_template("password_reset.html", 
+                                 error="Şifreler eşleşmiyor.",
+                                 access_token=access_token,
+                                 refresh_token=refresh_token)
+        
+        if not access_token:
+            return render_template("password_reset.html", error="Geçersiz token.")
+        
         try:
-            access_token = request.form.get("access_token")
-            if not access_token:
-                return render_template("password_reset.html", error="Geçersiz token.")
-
-            supabase.auth.update_user(
-                {"password": password},
-                {"access_token": access_token}
-            )
-            return render_template("password_reset.html", success="Şifre başarıyla değiştirildi.")
+            # Session'ı ayarla
+            if refresh_token:
+                supabase.auth.set_session(access_token, refresh_token)
+            
+            # Şifreyi güncelle
+            supabase.auth.update_user({"password": password})
+            
+            return render_template("password_reset.html", 
+                                 success="Şifre başarıyla değiştirildi! Giriş yapabilirsiniz.")
         except Exception as e:
-            return render_template("password_reset.html", error=f"Hata: {e}")
-
-    return render_template("password_reset.html")
-
+            return render_template("password_reset.html", 
+                                 error=f"Şifre güncellenirken hata: {e}",
+                                 access_token=access_token,
+                                 refresh_token=refresh_token)
+                                 
 #if __name__ == "__main__":
 #    app.run(debug=True)
