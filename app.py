@@ -115,7 +115,11 @@ def login():
             if response.user:
                 session['user'] = response.user.user_metadata.get('display_name', response.user.email)
                 session['user_id'] = response.user.id
+                result = supabase.table("profiles").select("username").eq("id", response.user.id).single().execute()
+                display_name = result.data['username']
+                session['display_name'] = display_name
                 return redirect(url_for('index'))
+                
             else:
                 error_message = "Giriş başarısız. Lütfen e-posta ve şifrenizi kontrol edin."
                 return render_template('login.html', error=error_message)
@@ -177,10 +181,9 @@ def send_message():
     try:
         data = request.get_json()
         message = data.get("message")
-        display_name = session['user']
+        display_name = session['display_name']
         user_id = session['user_id']
 
-        # Tek seferde ekle + eski mesajları sil
         supabase.rpc("add_message_and_cleanup", {
             "p_user_id": user_id,
             "p_display_name": display_name,
@@ -234,5 +237,5 @@ def resend_verify():
         error_message = f"Doğrulama e-postası gönderilemedi: {str(e)}"
         return render_template('login.html', error=error_message, email=email)
 
-#if __name__ == "__main__":
-#    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
