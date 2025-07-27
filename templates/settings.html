@@ -9,16 +9,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
 
 </head>
-<body>
+<body class="dark-mode">
 
   <div class="container">
     <button class="backtopage" onclick="history.back()">
       <i class="fa fa-arrow-left"></i>
     </button>
 
-    <h1>Profil Ayarları</h1>
+    <h1 >Profil Ayarları</h1>
 
     <!-- KULLANICI ADI -->
     <section class="section">
@@ -53,5 +54,158 @@
 
   </div>
 
+<footer>
+  &copy;  2025 Üniversite Toplulukları. Tüm hakları saklıdır.
+</footer>
 </body>
 </html>
+
+<style>
+/* ===== ROOT RENKLER ===== */
+:root {
+  --dark-bg: #0d0f14;
+  --card-bg: rgba(25, 25, 35, 0.8);
+  --accent-purple: #8a2be2;
+  --accent-blue: #5b9dff;
+  --accent-hover: #a865ff;
+  --text-primary: #f0f0f0;
+  --text-secondary: #b5b5c3;
+  --input-bg: rgba(40, 40, 50, 0.7);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --shadow-color: rgba(0, 0, 0, 0.6);
+}
+
+/* ===== GENEL ===== */
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #0d0f14, #141621);
+  color: var(--text-primary);
+  padding: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+  line-height: 1.6;
+  transition: all 0.3s ease-in-out;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.7s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== BAŞLIKLAR ===== */
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  display: inline-block;
+  margin-left: 20px;
+  background: linear-gradient(to right, var(--accent-purple), var(--accent-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+h2 {
+  margin-top: 20px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--accent-blue);
+}
+
+p {
+  color: var(--text-secondary);
+  margin-bottom: 15px;
+}
+
+/* ===== FORM ===== */
+label {
+  display: block;
+  margin: 10px 0 6px;
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 14px;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.4);
+}
+
+input::placeholder {
+  color: #888;
+}
+
+/* ===== BUTTONS ===== */
+button,
+input[type="submit"] {
+  display: inline-block;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(138, 43, 226, 0.4);
+}
+
+/* ===== GERİ BUTONU ===== */
+.backtopage {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--accent-purple);
+  transition: transform 0.2s ease;
+}
+
+.backtopage:hover {
+  transform: scale(1.1);
+  color: var(--accent-hover);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+button{
+  margin-top: 20px ;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  body { padding: 15px; }
+  h1 { font-size: 1.6rem; margin-left: 10px; }
+  .container { padding: 20px; }
+}
+</style>
