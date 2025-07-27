@@ -207,15 +207,25 @@ def get_messages():
 @app.route("/update_username", methods=["POST"])
 def update_username():
     new_username = request.form.get("new_username")
+    user_id = session.get("user_id") 
+
     response = supabase.auth.update_user(
         {"data": {"display_name": new_username}}
     )
 
-    if response:
-        session['user'] = new_username
-        return redirect(url_for("index"))
-    else:
-        return jsonify({"error": "Update failed"}), 400
+    if not response:
+        return jsonify({"error": "Auth metadata update failed"}), 400
+
+    update_response = supabase.table("profiles").update({
+        "username": new_username
+    }).eq("id", user_id).execute()
+
+    if update_response.error:
+        return jsonify({"error": "Profiles update failed"}), 400
+
+    session['user'] = new_username
+
+    return redirect(url_for("index"))
 
 @app.route("/change_password", methods=["POST"])
 def change_password():
