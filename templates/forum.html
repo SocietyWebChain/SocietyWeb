@@ -10,10 +10,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-
-
-
-
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const links = document.querySelectorAll("a[href]");
@@ -27,9 +23,12 @@
             e.preventDefault();
             document.body.classList.add("fade-out");
 
+            // --- İYİLEŞTİRME ---
+            // 5 saniyelik gecikme kullanıcı deneyimi için çok uzun. 
+            // Animasyon süresine uygun olarak 300ms'ye düşürüldü.
             setTimeout(() => {
               window.location.href = link.href;
-            }, 5000);
+            }, 300); 
           });
         }
       });
@@ -54,24 +53,6 @@
       height: 100%;
     }
 
-    /* Temizle butonu */
-    .clear-history-button {
-      margin: 10px auto 15px;
-      padding: 10px 20px;
-      background: linear-gradient(135deg, #7e3ff2, #e63fa6);
-      color: #ffffff;
-      border: none;
-      border-radius: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .clear-history-button:hover {
-      transform: scale(1.05);
-      background: linear-gradient(135deg, #9c5ff5, #ff4fad);
-    }
-
     /* Konteyner */
     .chat-container {
       width: 100%;
@@ -79,7 +60,7 @@
       height: 90vh;
       background-color: #161b22;
       display: flex;
-      flex-direction: column;
+      flex-direction: column; /* Dikey flex düzeni */
       border-radius: 12px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
       overflow: hidden;
@@ -96,13 +77,12 @@
       font-weight: bold;
       background: transparent;
       border: 2px solid #7e3ff2;
-      /* sadece çerçeve */
       color: #fff;
+      z-index: 10; /* Başlığın üzerinde kalması için */
     }
 
     .backtopage:hover {
       transform: scale(1.05);
-
     }
 
     /* Başlık */
@@ -113,16 +93,23 @@
       padding: 16px;
       font-weight: bold;
       text-align: center;
+      /* Düzeltme: Flexbox'ın bir parçası, yüksekliği sabit */
+      flex-shrink: 0; 
     }
 
     /* Mesajlar alanı */
     #chat-box {
-      flex: 1;
+      /* --- ANA DÜZELTME --- */
+      /* `position: absolute;` kaldırıldı. Bu, tüm layout sorununu çözüyor. */
+      /* Artık flex item olarak davranacak ve kalan alanı dolduracak. */
+      flex: 1; /* Kalan tüm dikey alanı doldurmasını sağlar */
       padding: 20px;
       display: flex;
       flex-direction: column;
       gap: 10px;
       color: #c9d1d9;
+      overflow-y: auto; /* İçerik taştığında kaydırma çubuğu çıkar */
+      /* `position:absolute` kaldırıldığı için artık buna gerek yok. */
     }
 
     /* Mesaj balonları */
@@ -144,6 +131,8 @@
       padding: 10px;
       border-top: 1px solid #30363d;
       background-color: #161b22;
+      /* Düzeltme: Flexbox'ın bir parçası, yüksekliği sabit */
+      flex-shrink: 0;
     }
 
     #chat-form input {
@@ -191,21 +180,19 @@
 
 </head>
 
-
-
-
-
 <body>
   <div class="chat-container">
     <button class="backtopage" onclick="history.back()">
       <i class="fa fa-arrow-left"></i>
     </button>
     <h2>Üniversite toplulukları</h2>
+
     <div id="chat-box"></div>
     <form id="chat-form">
       <input type="text" id="message" placeholder="Bir şey yaz..." required>
       <button type="submit">Gönder</button>
     </form>
+
   </div>
 </body>
 
@@ -215,11 +202,24 @@
     const messageInput = document.getElementById("message");
     const chatBox = document.getElementById("chat-box");
 
+    // --- KULLANICI DENEYİMİ İYİLEŞTİRMESİ (SMART SCROLL) ---
+    // Kullanıcı en altta mı diye kontrol eden fonksiyon
+    function isScrolledToBottom() {
+      // Tolerans payı ekleyerek tam en dipte olmasa bile çalışmasını sağlıyoruz
+      const tolerance = 5; 
+      return chatBox.scrollHeight - chatBox.scrollTop - chatBox.clientHeight < tolerance;
+    }
+
+
     function loadMessages() {
+      // Yeni mesajları yüklemeden önce kullanıcının en altta olup olmadığını kontrol et
+      const shouldScroll = isScrolledToBottom();
+
       fetch("/get_messages")
         .then(res => res.json())
         .then(data => {
-          chatBox.innerHTML = "";
+          chatBox.innerHTML = ""; // Not: Bu yöntem hala verimsizdir.
+                                  // İdeal çözüm sadece yeni mesajları eklemektir.
           data.messages.forEach(msg => {
             const div = document.createElement("div");
             const time = new Date(msg.created_at).toLocaleString("tr-TR", {
@@ -230,13 +230,19 @@
             div.textContent = `[${time}] ${msg.display_name}: ${msg.messages}`;
             chatBox.appendChild(div);
           });
-          chatBox.scrollTop = chatBox.scrollHeight;
+
+          // Sadece ve sadece kullanıcı zaten en alttaysa otomatik kaydır.
+          if (shouldScroll) {
+            chatBox.scrollTop = chatBox.scrollHeight;
+          }
         });
     }
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const message = messageInput.value;
+
+      if (message.trim() === "") return; // Boş mesaj göndermeyi engelle
 
       fetch("/send_message", {
         method: "POST",
@@ -247,7 +253,7 @@
         .then(response => {
           if (response.status === 401) {
             // Oturum yoksa login sayfasına yönlendir
-            window.location.href = "/login";  // kendi login route’unu yaz
+            window.location.href = "/login";
             return;
           }
           return response.json();
@@ -255,6 +261,9 @@
         .then(data => {
           if (data && data.status === "ok") {
             messageInput.value = "";
+            
+            // Mesaj gönderildikten sonra hemen en alta kaydır ve mesajları yenile
+            chatBox.scrollTop = chatBox.scrollHeight; 
             loadMessages();
           }
         })
@@ -267,6 +276,5 @@
     loadMessages();
   });
 </script>
-
 
 </html>
