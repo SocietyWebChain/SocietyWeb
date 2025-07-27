@@ -199,10 +199,86 @@
     .team-description {
       left: 450px;
     }
+    :root {
+  --dark-blue: #0D1117;
+  --dark-card-bg: #1B1F27;       /* biraz daha açık kart arka planı */
+  --dark-border: #303843;
+  --text-light: #C9D1D9;        /* açık mavi-mor yazı */
+  --link-blue: #7F8CFF;
+  --link-hover: #5D6FFF;
+  --input-bg: #262B38;
+  --input-border: #444C5C;
+  --placeholder-color: #8E96B8;
+}
+
+body.dark-mode {
+  background-color: var(--dark-blue);
+  color: var(--text-light);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode details {
+  background: var(--dark-card-bg);
+  box-shadow: 0 2px 8px rgba(201, 209, 217, 0.1);
+  color: var(--text-light);
+}
+
+body.dark-mode summary {
+  color: var(--link-blue);
+}
+
+body.dark-mode .member-card {
+  background: var(--dark-card-bg);
+  box-shadow: 0 4px 12px rgba(201, 209, 217, 0.07);
+  color: var(--text-light);
+}
+
+body.dark-mode .linkedin-link {
+  background-color: var(--link-blue);
+  color: var(--dark-blue);
+}
+
+body.dark-mode .linkedin-link:hover {
+  background-color: var(--link-hover);
+}
+
+body.dark-mode .şikayet {
+  background-color: var(--dark-card-bg);
+  border-color: var(--dark-border);
+  color: var(--text-light);
+  box-shadow: 0 4px 12px rgba(201, 209, 217, 0.07);
+}
+
+body.dark-mode .şikayet input[type="email"],
+body.dark-mode .şikayet textarea {
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-light);
+}
+
+body.dark-mode .şikayet input::placeholder,
+body.dark-mode .şikayet textarea::placeholder {
+  color: var(--placeholder-color);
+}
+
+body.dark-mode .şikayet button[type="submit"] {
+  background-color: var(--link-blue);
+  color: var(--dark-blue);
+}
+
+body.dark-mode .şikayet button[type="submit"]:hover {
+  background-color: var(--link-hover);
+}
+
+body.dark-mode footer {
+  color: var(--placeholder-color);
+  background-color: var(--dark-blue);
+}
+
   </style>
 </head>
 
-<body>
+<body class="dark-mode">
   <!-- BİZ KİMİZ -->
   <h1>👥 Biz Kimiz?</h1>
   <p class="team-description">İYTE'de okuyan ve öğrenci topluluklarını bir araya getirmeyi amaçlayan üç kişilik bir ekip
@@ -217,7 +293,7 @@
       <div class="member-info">
         <div class="member-name">Burak Eslem Arık</div>
         <div class="member-title">Backend Developer</div>
-        <a href="https://www.linkedin.com/in/burak-eslem-arik-481045208/" class="linkedin-link" target="_blank">Linkedin</a>
+        <a href="https://www.linkedin.com/in/onur-kulan-492010361/" class="linkedin-link" target="_blank">Linkedin</a>
       </div>
     </div>
 
@@ -241,15 +317,15 @@
       <div class="member-info">
         <div class="member-name">Batuhan Demiröz</div>
         <div class="member-title">Backend Developer</div>
-        <a href="https://www.linkedin.com/in/batuhan-demiröz-565b0427b/" class="linkedin-link" target="_blank">Linkedin</a>
+        <a href="https://www.linkedin.com/in/onur-kulan-492010361/" class="linkedin-link" target="_blank">Linkedin</a>
       </div>
     </div>
   </div>
 
   <!-- SSS ve Yardım -->
-  <h2>🏛 Türkiye Topluluklar Platformu Hakkında</h2>
+  <h2>🏛 Universite Toplulukları Platformu Hakkında</h2>
   <p>
-    İzmir Topluluklar Platformu, öğrenci kulüpleri, etkinlikler ve duyurular gibi içerikleri tek bir yerde toplayan
+    Universite Toplulukları Platformu, öğrenci kulüpleri, etkinlikler ve duyurular gibi içerikleri tek bir yerde toplayan
     kapsamlı bir web sistemidir. Bu platform sayesinde öğrenciler:<br>
     • Yaklaşan etkinlikleri takip edebilir<br>
     • Forumlarda tartışmalara katılabilir<br>
@@ -273,7 +349,7 @@
 
   <details>
     <summary>Yeni bir topluluk nasıl eklenir?</summary>
-    Yeni kurulan kulüpler, bilgilerini "Topluluk Kayıt Formu" aracılığıyla gönderebilir.
+    Yeni kurulan kulüpler,  Sayfanın en altındaki iletişim formunu kullanarak veya universitetopluluklari instagram adresinden bize ulaşabilirsiniz
   </details>
 
   <h4>👤 Hesap Yönetimi</h4>
@@ -281,9 +357,8 @@
   <details>
     <summary>Hesap oluşturmak zorunlu mu?</summary>
     Evet. Şu işlemler için kayıtlı bir hesap gereklidir:<br>
-    • Topluluklara katılmak<br>
-    • Etkinliklere katılmak<br>
-    • Forumlarda paylaşım yapmak
+    • Forumlarda aktif mesajlaşmak için<br>
+ 
   </details>
 
   <details>
@@ -317,13 +392,6 @@
 
   <h6>⚙ Profil Yönetimi</h6>
 
-  <details>
-    <summary>Hangi ayarlara nereden ulaşabilirim?</summary>
-    Profil menüsünden tüm hesap ayarlarına ulaşabilirsiniz:<br>
-    • Profil bilgilerini düzenleme<br>
-    • Gizlilik ayarlarını güncelleme<br>
-    • Hesabı silme
-  </details>
 
   <h6 id="elma">📬 İletişim ve Geri Bildirim</h6>
 
@@ -432,7 +500,7 @@
 
 
 <footer>
-  &copy; 2025 İzmir Communities Platform. All rights reserved.
+  &copy;  2025 Üniversite Toplulukları. Tüm hakları saklıdır.
 </footer>
 <style>
   footer {

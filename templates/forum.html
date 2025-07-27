@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat Forum</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/forum.css') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -36,6 +35,160 @@
       });
     });
   </script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #0d1117;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    /* Temizle butonu */
+    .clear-history-button {
+      margin: 10px auto 15px;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #7e3ff2, #e63fa6);
+      color: #ffffff;
+      border: none;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .clear-history-button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #9c5ff5, #ff4fad);
+    }
+
+    /* Konteyner */
+    .chat-container {
+      width: 100%;
+      max-width: 600px;
+      height: 90vh;
+      background-color: #161b22;
+      display: flex;
+      flex-direction: column;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Geri butonu */
+    .backtopage {
+      position: absolute;
+      left: 20px;
+      top: 15px;
+      border-radius: 50%;
+      font-size: 20px;
+      font-weight: bold;
+      background: transparent;
+      border: 2px solid #7e3ff2;
+      /* sadece çerçeve */
+      color: #fff;
+    }
+
+    .backtopage:hover {
+      transform: scale(1.05);
+
+    }
+
+    /* Başlık */
+    h2 {
+      margin: 0;
+      background: linear-gradient(135deg, #7e3ff2, #e63fa6);
+      color: #ffffff;
+      padding: 16px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    /* Mesajlar alanı */
+    #chat-box {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      color: #c9d1d9;
+    }
+
+    /* Mesaj balonları */
+    .chat-box>div {
+      max-width: 70%;
+      padding: 10px 15px;
+      border-radius: 10px;
+      background-color: #21262d;
+      color: #c9d1d9;
+      align-self: flex-start;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+      font-size: 14px;
+      word-wrap: break-word;
+    }
+
+    /* Mesaj kutusu */
+    #chat-form {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #30363d;
+      background-color: #161b22;
+    }
+
+    #chat-form input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 20px;
+      font-size: 14px;
+      outline: none;
+      background-color: #0d1117;
+      color: #c9d1d9;
+    }
+
+    #chat-form button {
+      margin-left: 10px;
+      padding: 10px 15px;
+      background: linear-gradient(135deg, #7e3ff2, #e63fa6);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s ease;
+    }
+
+    #chat-form button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #9c5ff5, #ff4fad);
+    }
+
+    /* Mobil uyumluluk */
+    @media (max-width: 600px) {
+      .chat-container {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;
+      }
+
+      .backtopage {
+        top: 10px;
+        left: 10px;
+      }
+    }
+  </style>
+
 </head>
 
 
@@ -91,23 +244,23 @@
         credentials: "include",
         body: JSON.stringify({ message: message })
       })
-      .then(response => {
-        if (response.status === 401) {
-          // Oturum yoksa login sayfasına yönlendir
-          window.location.href = "/login";  // kendi login route’unu yaz
-          return;
-        }
-        return response.json();
-      })
-      .then(data => {
-        if (data && data.status === "ok") {
-          messageInput.value = "";
-          loadMessages();
-        }
-      })
-      .catch(err => {
-        console.error("Hata:", err);
-      });
+        .then(response => {
+          if (response.status === 401) {
+            // Oturum yoksa login sayfasına yönlendir
+            window.location.href = "/login";  // kendi login route’unu yaz
+            return;
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data && data.status === "ok") {
+            messageInput.value = "";
+            loadMessages();
+          }
+        })
+        .catch(err => {
+          console.error("Hata:", err);
+        });
     });
 
     setInterval(loadMessages, 2000);

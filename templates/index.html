@@ -4,20 +4,16 @@
 <head>
   <meta charset="UTF-8" />
   <title>Ana Sayfa</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
-  <!-- Font Awesome (ikonlar için) -->
+  <!-- TEK FONT AWESOME (6.4.0) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-  <!-- Roboto Font (Google Fonts'tan) -->
+  <!-- ROBOTO FONT -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <script>
     document.addEventListener("DOMContentLoaded",function(){
@@ -40,91 +36,93 @@
       });
     });
   </script>
-
 </head>
 
-<body>
-
+<body> <!-- EKSİK BODY TAG'İ EKLENDİ -->
   <div class="left-buttons">
-    <button class="left-button" id="menu-toggle">≡</button>
-
+    <span class="text-xl font-bold gradient-text select-none">ÜniversiteToplulukları</span>
     <button onclick='window.location.href = "/settings"' class="left-button" id="settings"><i class="fas fa-cog"></i> Ayarlar</button>
     <button onclick='window.location.href = "/forum"' class="left-button" id="forum"><i class="fas fa-envelope"></i> Forum</button>
     <button onclick='window.location.href = "/help"' class="left-button" id="help">
-    <i class="fas fa-question-circle"></i> Destek
+      <i class="fas fa-question-circle"></i> Destek
     </button>
-{%if logged_in %}
-  <button onclick='window.location.href = "/logout";' class="left-button-logout" id="log-out">
-    <i class="fas fa-sign-out-alt"></i> Çıkış Yap
-  </button>
-{% endif %}
+    
+  
+      <div class="search-container">
+        <input type="text" id="searchBox" class="search-input" placeholder="Ara...">
+      </div>
+      <button onclick='window.location.href = "/login"' class="top-button" id="signup">Giriş Yap</button>
+ <!-- KOŞULLU İFADE DÜZELTİLDİ -->
+  </div>  
+   <div id="backendsiz">
+    
+    
+  <span class="text-xl font-bold gradient-text select-none">Üniversite Topluluklarını Keşfet</span>
+  <span class="yazı">İlgi alanına uygun topluluklara katıl, etkinlikleri takip et, forumda sorularını sor ve destek al.</span>
+  
+  <div class="button-group">
+   <button onclick="document.getElementById('home').scrollIntoView({ behavior: 'smooth' });">
+  Toplulukları Keşfet
+</button>
+    <button onclick='window.location.href = "/forum"' class="left-button" id="forum">Foruma Git</button>
   </div>
+</div>
+ 
 
   <div class="top-buttons">
-    <div class="search-container">
-      <input type="text" id="searchBox" class="search-input" placeholder="Ara...">
-    </div>
     <button onclick="delcom(this)" class="top-button" id="home">Ana Sayfa</button>
     <button onclick="delcom(this)" class="top-button" id="software">Yazılım</button>
     <button onclick="delcom(this)" class="top-button" id="science">Bilim</button>
     <button onclick="delcom(this)" class="top-button" id="social">Sosyal Bilimler</button>
-{% if not logged_in %}
-    <button onclick='window.location.href = "/login"' class="top-button" id="signup">Giriş Yap</button>
-{% endif %}
-
-
   </div>
 
-  <h1 id="h1" class="hide">Eşleşme Bulunamadı!</h1>
 
-  <div id="overlay" class="overlay hide"></div>
+    <div id="popup" class="popup-modal hide">
+      <span id="closeModal" class="close-btn">&times;</span>
+      <img id="popup-img" src="" alt="Görsel">
+      <h2 id="popup-title"></h2>
+      <h3 id="popup-cat"></h3>
+      <h5 id="popup-link"></h5>
+      <p id="popup-desc"></p>
+    </div>
 
-  <div id="popup" class="popup-modal hide">
-
-    <span id="closeModal" class="close-btn">&times;</span>
-    <img id="popup-img" src="" alt="Görsel">
-    <h2 id="popup-title"></h2>
-    <h3 id="popup-cat"></h3>
-    <h5 id="popup-link"></h5>
-    <p id="popup-desc"></p>
-
-  </div>
 
   <div class="com_boxes">
-
     <!-- YAZILIM -->
-    <div class="com_box" id="software">
-      <div class="com-link" 
-      data-title="<u>CYBERSEC</u>" 
-      data-cat="  
-  <h2>&#128197; <b>Yaklaşan Etkinlikler</b></h2>
-  <ul>
-    <li>&#128737;&#65039; <strong>15 Temmuz:</strong> Web Güvenliği Atölyesi <em>(Zoom)</em></li>
-    <li>&#127937; <strong>22 Temmuz:</strong> Capture The Flag (CTF) Yarışması</li>
-    <li>&#128373;&#65039; <strong>5 Ağustos:</strong> OSINT ile Dijital İz Sürme Eğitimi</li>
-  </ul>" 
-      data-desc="CyberSec, üniversite öğrencileri ve alan uzmanlarını bir araya getiren, bilgi paylaşımı ve eğitim odaklı bir siber güvenlik topluluğudur. Misyonumuz, Türkiye'de siber farkındalığı artırmak ve genç yetenekleri desteklemektir."
-      data-img="{{ url_for('static', filename='photos/cybersec.jpg') }}"
-      data-link=" <i style='font-size:20px' class='fa fa-instagram'></i> <a href='https://instagram.com/cybersec' target='_blank' style = 'font-weight: bold;'>Instagram</a> &nbsp;&nbsp; &Xopf; <a href='https://twitter.com/cybersec' target='_blank'>Twitter</a>  &nbsp;&nbsp; <i class='fa fa-linkedin-square' style='font-size:20px'></i> <a href='https://linkedin.com/company/cybersec' target='_blank'>LinkedIn</a> &nbsp;&nbsp; <i style='font-size:20px' class='fa fa-github'></i> <a href='https://github.com/cybersec' target='_blank'>GitHub</a>">
+     
 
-        <img id="com_image"
-          src="https://media.licdn.com/dms/image/v2/D4D0BAQFyTqKt6LGKxQ/company-logo_200_200/company-logo_200_200/0/1709828236381/iztech_cyber_security_society_logo?e=1757548800&v=beta&t=JTEYoSaWqU6qx8X4Jq5EywzWWon4NKEE8veF4QicfFE"
-          alt="Cyber Security">
+    <div class="com_box" id="software">
+
+      <div class="com-link" 
+        data-title="<u>CYBERSEC</u" 
+        data-desc="CyberSec, üniversite öğrencileri ve alan uzmanlarını bir araya getiren, bilgi paylaşımı ve eğitim odaklı bir siber güvenlik topluluğudur. Misyonumuz, Türkiye'de siber farkındalığı artırmak ve genç yetenekleri desteklemektir."
+
+        data-cat="  
+          <h2>&#128197; <b>Yaklaşan Etkinlikler</b></h2>
+          <ul>
+            <li>&#128737;&#65039; <strong>15 Temmuz:</strong> Web Güvenliği Atölyesi <em>(Zoom)</em></li>
+            <li>&#127937; <strong>22 Temmuz:</strong> Capture The Flag (CTF) Yarışması</li>
+            <li>&#128373;&#65039; <strong>5 Ağustos:</strong> OSINT ile Dijital İz Sürme Eğitimi</li>
+          </ul>" 
+        data-img="{{ url_for('static', filename='photos/cybersec.jpg') }}"
+        data-link=" <i style='font-size:20px' class='fa fa-instagram'></i> <a href='https://instagram.com/cybersec' target='_blank' style = 'font-weight: bold;'>Instagram</a> &nbsp;&nbsp; &Xopf; <a href='https://twitter.com/cybersec' target='_blank'>Twitter</a>  &nbsp;&nbsp; <i class='fa fa-linkedin-square' style='font-size:20px'></i> <a href='https://linkedin.com/company/cybersec' target='_blank'>LinkedIn</a> &nbsp;&nbsp; <i style='font-size:20px' class='fa fa-github'></i> <a href='https://github.com/cybersec' target='_blank'>GitHub</a>">
+        <img id="com_image" src="https://media.licdn.com/dms/image/v2/D4D0BAQFyTqKt6LGKxQ/company-logo_200_200/company-logo_200_200/0/1709828236381/iztech_cyber_security_society_logo?e=1757548800&v=beta&t=JTEYoSaWqU6qx8X4Jq5EywzWWon4NKEE8veF4QicfFE" alt="Cyber Security">
         <h2>CyberSec</h2>
         <h3>>Yazılım<</h3>
         <h4>Siber güvenlik alanında bilinçli bir toplum oluşturmak için çalışıyoruz.</h4>
       </div>
     </div>
-
-
   </div>
+
+  <footer>
+    © 2025 Üniversite Toplulukları. Tüm hakları saklıdır.
+  </footer>
 
   <script>
     function delcom(element) {
       elid = element.id
       if (elid !== "home") {
         const boxes = document.querySelectorAll(".com_box");
-
         boxes.forEach(box => {
           if (box.id === elid) {
             box.classList.remove("hide");
@@ -133,13 +131,12 @@
           }
         });
       } else {
-        // "home" ise hepsini göster
         const boxes = document.querySelectorAll(".com_box");
         boxes.forEach(box => box.classList.remove("hide"));
       }
     }
 
-    document.getElementById("searchBox").addEventListener("input", function () {
+    document.getElementById("searchBox")?.addEventListener("input", function () {
       h1 = document.getElementById("h1");
       const query = this.value.toLowerCase();
       const boxes = document.querySelectorAll(".com_box");
@@ -147,22 +144,19 @@
 
       boxes.forEach(box => {
         const text = box.textContent.toLowerCase();
-
         if (text.includes(query)) {
           box.classList.remove("hide");
-          matchFound = true; // ✅ eşleşme varsa sadece burada true olur
+          matchFound = true;
         } else {
           box.classList.add("hide");
         }
       });
 
       if (matchFound) {
-        h1.classList.add("hide");
+        h1?.classList.add("hide");
       } else {
-        h1.classList.remove("hide");
+        h1?.classList.remove("hide");
       }
-
-
     });
 
     const popup = document.getElementById("popup");
@@ -176,9 +170,8 @@
         document.getElementById("popup-img").src = link.dataset.img;
         document.getElementById("popup-link").innerHTML = link.dataset.link;
 
-        overlay.classList.remove("hide");
-        overlay.classList.add("show");
-
+        overlay?.classList.remove("hide");
+        overlay?.classList.add("show");
 
         popup.classList.remove("hide-anim");
         popup.classList.add("show");        
@@ -187,32 +180,569 @@
     });
     
     function closeModal() {
-      overlay.classList.remove("show");
-      overlay.classList.add("hide");
+      overlay?.classList.remove("show");
+      overlay?.classList.add("hide");
 
       popup.classList.remove("show");
       popup.classList.add("hide-anim");
 
-
       setTimeout(() => {
         popup.classList.add("hide");
-        overlay.classList.add("hide");
+        overlay?.classList.add("hide");
         popup.classList.remove("hide-anim");
       }, 300);
-
     }
 
-    document.getElementById("closeModal").addEventListener("click", closeModal);
-    overlay.addEventListener("click",closeModal);
+    document.getElementById("closeModal")?.addEventListener("click", closeModal);
+    overlay?.addEventListener("click",closeModal);
 
     document.addEventListener("keydown", function(e){
       if (e.key == "Escape") closeModal();
     });
-
-
   </script>
+<style>
+  :root {
+  --dark-blue: #0D1117;
+  --light-dark-blue: #161B22;
+  --border-color: #30363d;
+  --main-purple: #8A2BE2;
+  --purple-hover: #7b24cc;
+  --text-primary: #f0f0f0;
+  --text-secondary: #c9d1d9;
+  --card-shadow-color: rgba(138, 43, 226, 0.2);
+}
+
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--dark-blue);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: opacity 0.5s ease-in-out;
+}
+
+body.fade-out {
+  opacity: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Utility Classes */
+.glass {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(12px);
+}
+
+.dark .glass {
+  background: rgba(17, 24, 39, 0.55);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg,#4f46e5,#a855f7,#ec4899);
+  background-clip:inherit;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Navigation */
+.left-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 20px 40px;
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 20px;
+  margin-left: 16%;
+  max-width: 60%;
+}
+
+.left-button {
+  color: var(--text-secondary);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.left-button:hover {
+  color: var(--text-primary);
+  background-color: var(--light-dark-blue);
+}
+
+/* Search */
+.search-container {
+  position: relative;
+  border-radius: 10000px;
+}
+
+.search-input {
+  background-color: var(--light-dark-blue);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  padding: 8px 12px;
+  width: 220px;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--main-purple);
+  box-shadow: 0 0 0 3px var(--card-shadow-color);
+}
+
+/* Buttons */
+#signup {
+  background-color: var(--main-purple);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 700;
+  transition: background-color 0.3s ease;
+}
+
+#signup:hover {
+  background-color: var(--purple-hover);
+}
+
+/* Main Content */
+#backendsiz {
+  text-align: center;
+  padding: 60px 20px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+#backendsiz .text-xl {
+  font-size: 2.5rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.yazı {
+  font-size: 20px;
+}
+
+.button-group {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#backendsiz button {
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  min-width: 180px;
+}
+
+#backendsiz button:first-child {
+  background-color: var(--main-purple);
+  color: white;
+  border: 1px solid var(--main-purple);
+}
+
+#backendsiz button:first-child:hover {
+  background-color: var(--purple-hover);
+}
+
+/* Filter Buttons */
+.top-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  padding: 0 1rem;
+}
+
+.top-button {
+  background-color: var(--light-dark-blue);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 8px 20px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.top-button:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+
+.top-button.active {
+  background-color: var(--main-purple);
+  color: white;
+  border-color: var(--main-purple);
+  font-weight: 700;
+}
+
+/* Community Cards */
+.com_boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 0 2rem;
+}
+
+.com_box {
+  width: 300px;
+  background-color: var(--light-dark-blue);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  text-align: center;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.com_box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px var(--card-shadow-color);
+}
+
+.com-link {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+}
+
+#com_image {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 1.5rem;
+}
+
+.com_box h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.com_box h3 {
+  font-size: 0.9rem;
+  color: var(--main-purple);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.com_box h4 {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.com_box.hide {
+  display: none;
+}
+
+/* Popup Modal */
+.popup-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  background-color: var(--light-dark-blue);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 600px;
+  z-index: 1001;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.popup-modal.show {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup-modal.hide-anim {
+  transform: translate(-50%, -50%) scale(0.95);
+  opacity: 0;
+}
+
+.popup-modal.hide {
+  display: none;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-size: 2rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: var(--text-primary);
+}
+
+#popup-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+  float: left;
+  margin: 0 1.5rem 1rem 0;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem;
+  margin-top: 4rem;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Responsive */
 
 
-</body>
+search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-</html>
+.search-input {
+  width: 250px;
+  border-radius: 20px;
+  padding: 8px 12px;
+  font-size: 0.9em;
+  transition: all 0.3s;
+  height: auto;
+}
+
+.search-button {
+
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-button i {
+  font-size: 1.1em;
+}
+#signup {
+  border-radius: 30px;
+  transition: all 0.3s;
+  transform: translateY(-2px);
+  
+}
+
+#signup:hover {
+
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+.top-button{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.top-buttons{
+  align-items: left;
+
+  flex-wrap: wrap;
+  gap: 1rem;
+  background-color: #161B22;
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 20px;
+ 
+}
+
+.close-btn{
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+#popup-img{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  max-width: 800px;
+  border-radius: 50%;
+}
+
+#popup-title{
+  position: absolute;
+  top: 30px;
+  left: 250px;
+  font-size: 30px;
+  font-weight: bold;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+#popup-cat{
+  position: absolute;
+  top: 300px;
+  left: 30px;
+  max-width: 500px;
+  font-size: 120%;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+
+#popup-desc{
+  position: absolute;
+  top: 80px;
+  left: 250px;
+  font-size: 20px;
+  font-family: 'Segoe UI', sans-serif; 
+}
+
+#popup-link{
+  position: absolute;
+  top: 92%;
+  font-size: 110%;
+  font-family: 'Segoe UI',sans-serif;
+  right: 20%;
+}
+
+.overlay{
+  position: fixed;
+  width: 100%; height: 100%;
+  background: rgb(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s ease; 
+}
+
+.overlay.show{
+  opacity: 1;
+}
+
+.popup-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  transform-origin: center;
+  border-radius: 12px;
+  width: min(90%, 1000px);
+  height: min(70vh, 600px);
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.popup-modal.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: all;
+}
+@media (max-width: 768px) {
+  .left-buttons {
+    justify-content: center;
+    padding: 1rem;
+    margin-left: 0;
+    max-width: 100%;
+  }
+
+  #signup {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  #backendsiz {
+    padding: 40px 15px;
+  }
+
+  #backendsiz .text-xl {
+    font-size: 2rem;
+  }
+
+  .com_boxes {
+    padding: 0 1rem;
+    align-items: center;
+  }
+
+  button {
+    flex-direction: column;
+    width: 60%;
+  }
+  .button-group{
+       width: 60%;
+  }
+
+  #backendsiz button {
+    width: 100%;
+  
+  }
+  .top-button{
+    margin: 0px;
+  }
+  #popup-img{display: none;}
+  #popup-title{text-align: center;
+  left: 100px;
+top :0;}
+  #popup-cat{top :240px;
+    ;
+  }
+  #popup-link{ display: flex   ;
+    font-size: 10px;
+
+  } 
+  #popup-desc{left: 0px;
+    top:40px;
+  
+  
+  }
+ 
+}
+  #home{
+    margin-top: 15px;
+  }
+  #social{
+    margin-bottom: 15px;
+  }
+  .com_boxes{margin-left: 40px;}
+
+</style>
+
