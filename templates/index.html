@@ -8,9 +8,6 @@
   </title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-
-  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
-
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
@@ -95,7 +92,7 @@
   <div class="popup-modal hide" id="popup">
     <span class="close-btn" id="closeModal">&times;</span>
     <img alt="Görsel" id="popup-img"
-      src="https://media.licdn.com/dms/image/v2/D4D0BAQFyTqKt6LGKxQ/company-logo_200_200/company-logo_200_200/0/1709828236381/iztech_cyber_security_society_logo?e=1756339200&v=beta&t=D6Rg9FNhUWQUV8_5xXPAMfYGKWEFuKa3rIim_aVVnv0" />
+      src="../static/photos/empty.png" />
     <h2 id="popup-title"></h2>
     <h3 id="popup-cat"></h3>
     <h5 id="popup-link"></h5>
@@ -144,6 +141,51 @@
 
 
   <script>
+    function delcom(element) {
+      elid = element.id
+      if (elid !== "home") {
+        const boxes = document.querySelectorAll(".com_box");
+
+        boxes.forEach(box => {
+          if (box.id === elid) {
+            box.classList.remove("hide");
+          } else {
+            box.classList.add("hide");
+          }
+        });
+      } else {
+        // "home" ise hepsini göster
+        const boxes = document.querySelectorAll(".com_box");
+        boxes.forEach(box => box.classList.remove("hide"));
+      }
+    }
+
+    document.getElementById("searchBox").addEventListener("input", function () {
+      h1 = document.getElementById("h1");
+      const query = this.value.toLowerCase();
+      const boxes = document.querySelectorAll(".com_box");
+      let matchFound = false;
+
+      boxes.forEach(box => {
+        const text = box.textContent.toLowerCase();
+
+        if (text.includes(query)) {
+          box.classList.remove("hide");
+          matchFound = true; // ✅ eşleşme varsa sadece burada true olur
+        } else {
+          box.classList.add("hide");
+        }
+      });
+
+      if (matchFound) {
+        h1.classList.add("hide");
+      } else {
+        h1.classList.remove("hide");
+      }
+
+
+    });
+
     const popup = document.getElementById("popup");
     const overlay = document.getElementById("overlay");
 
@@ -155,27 +197,37 @@
         document.getElementById("popup-img").src = link.dataset.img;
         document.getElementById("popup-link").innerHTML = link.dataset.link;
 
-        popup.classList.remove("hide");
-        popup.classList.add("show");
-
         overlay.classList.remove("hide");
         overlay.classList.add("show");
+
+
+        popup.classList.remove("hide-anim");
+        popup.classList.add("show");        
+        popup.classList.remove("hide");
       });
     });
-
+    
     function closeModal() {
-      popup.classList.remove("show");
-      popup.classList.add("hide");
-
       overlay.classList.remove("show");
       overlay.classList.add("hide");
+
+      popup.classList.remove("show");
+      popup.classList.add("hide-anim");
+
+
+      setTimeout(() => {
+        popup.classList.add("hide");
+        overlay.classList.add("hide");
+        popup.classList.remove("hide-anim");
+      }, 300);
+
     }
 
-    document.getElementById("closeModal")?.addEventListener("click", closeModal);
-    overlay?.addEventListener("click", closeModal);
+    document.getElementById("closeModal").addEventListener("click", closeModal);
+    overlay.addEventListener("click",closeModal);
 
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") closeModal();
+    document.addEventListener("keydown", function(e){
+      if (e.key == "Escape") closeModal();
     });
   </script>
 </body>
