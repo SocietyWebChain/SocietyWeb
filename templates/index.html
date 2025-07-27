@@ -47,12 +47,12 @@
       <i class="fas fa-question-circle"></i> Destek
     </button>
     
-  
+    {%if logged_in%}
       <div class="search-container">
         <input type="text" id="searchBox" class="search-input" placeholder="Ara...">
       </div>
       <button onclick='window.location.href = "/login"' class="top-button" id="signup">Giriş Yap</button>
- <!-- KOŞULLU İFADE DÜZELTİLDİ -->
+    {%endif%}
   </div>  
    <div id="backendsiz">
     
@@ -76,7 +76,7 @@
     <button onclick="delcom(this)" class="top-button" id="social">Sosyal Bilimler</button>
   </div>
 
-
+  {%if not logged_in%}
     <div id="popup" class="popup-modal hide">
       <span id="closeModal" class="close-btn">&times;</span>
       <img id="popup-img" src="" alt="Görsel">
@@ -85,7 +85,7 @@
       <h5 id="popup-link"></h5>
       <p id="popup-desc"></p>
     </div>
-
+  {%endif%}
 
   <div class="com_boxes">
     <!-- YAZILIM -->
