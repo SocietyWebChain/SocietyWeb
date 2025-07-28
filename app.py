@@ -210,44 +210,46 @@ def get_messages():
 @app.route("/update_username", methods=["POST"])
 def update_username():
     new_username = request.form.get("new_username")
-    user_id = session.get("user_id") 
+    user_id = session.get("user_id")
 
-    response = supabase.auth.update_user(
+
+    auth_response = supabase.auth.update_user(
         {"data": {"display_name": new_username}}
     )
-
-    if not response:
+    if not auth_response:
         return jsonify({"error": "Auth metadata update failed"}), 400
 
     update_response = supabase.table("profiles").update({
         "username": new_username
     }).eq("id", user_id).execute()
 
-    if update_response.error:
+    if not update_response.data:
         return jsonify({"error": "Profiles update failed"}), 400
 
-    session['user'] = new_username
+    session['display_name'] = new_username
 
     return redirect(url_for("index"))
+
 
 @app.route("/change_password", methods=["POST"])
 def change_password():
     new_password = request.form.get("new_password")
+
     response = supabase.auth.update_user(
         {"password": new_password}
     )
 
-    if response:
-        return redirect(url_for("index"))
-    else:
-        return jsonify({"error": "Update failed"}), 400
+    if not response:
+        return jsonify({"error": "Password update failed"}), 400
+
+    return redirect(url_for("index"))
+
 
 @app.route('/password_reset', methods=['GET', 'POST'])
 def password_reset():
     if request.method == "POST":
         email = request.form.get('email')
         try:
-            # redirect_to parametresi ile doğru URL'yi belirtin
             redirect_url = request.url_root + 'resetting_password'
             supabase.auth.reset_password_for_email(
                 email, 
@@ -263,12 +265,10 @@ def password_reset():
 @app.route("/resetting_password", methods=["GET", "POST"])
 def resetting_password():
     if request.method == "GET":
-        # URL parametrelerinden token bilgilerini al
         access_token = request.args.get('access_token')
         refresh_token = request.args.get('refresh_token')
         
         if access_token and refresh_token:
-            # Session'ı token'larla güncelle
             try:
                 supabase.auth.set_session(access_token, refresh_token)
                 return render_template("password_reset.html", 
@@ -278,7 +278,6 @@ def resetting_password():
                 return render_template("password_reset.html", 
                                      error=f"Token doğrulama hatası: {e}")
         else:
-            # Hash'ten token alınacaksa normal template'i döndür
             return render_template("password_reset.html")
     
     if request.method == "POST":
@@ -297,11 +296,9 @@ def resetting_password():
             return render_template("password_reset.html", error="Geçersiz token.")
         
         try:
-            # Session'ı ayarla
             if refresh_token:
                 supabase.auth.set_session(access_token, refresh_token)
             
-            # Şifreyi güncelle
             supabase.auth.update_user({"password": password})
             
             return render_template("password_reset.html", 
@@ -313,5 +310,5 @@ def resetting_password():
                                  refresh_token=refresh_token)
         
                                  
-#if __name__ == "__main__":
-#    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
