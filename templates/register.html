@@ -107,11 +107,11 @@
 }
 
 body {
-    min-height: 100vh;
+      min-height: 100vh;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     display: flex;
     justify-content: center;
-    align-items: center;
+   
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     position: relative;
     overflow-x: hidden;
@@ -390,6 +390,9 @@ body::before {
         left: 20px;
         right: 20px;
     }
+    body,.wrapper{
+    
+    }
 }
 
 /* Loading animation for form submission */
@@ -421,4 +424,15 @@ body::before {
     opacity: 0;
     transition: opacity 0.5s ease;
 }
+/* ...existing code... */
+.wrapper{
+    margin-top: 100px;
+    margin-bottom: 200px;
+}
+@media (min-width: 768px) and (max-width: 1400px) {
+  .wrapper {
+    margin-bottom: 700px;
+  }
+}
+
 </style>

@@ -18,10 +18,11 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     display: flex;
     justify-content: center;
-    align-items: center;
+    
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     position: relative;
     overflow-x: hidden;
+    padding: 20px;
 }
 
 /* Animated background particles */
@@ -444,3 +445,27 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
 </body>
 </html>
+
+<style>
+.wrapper{
+   justify-content: center;
+}
+body{
+     justify-content: center;
+}
+.wrapper{
+    margin-top: 50px;
+    margin-bottom: 200px;
+}
+@media (min-width: 768px) and (max-width: 1400px) {
+  .wrapper {
+    margin-bottom: 700px;
+  }
+}
+@media (min-width: 1000px) and (max-width: 1400px) and  (orientation: landscape)  {
+  .wrapper {
+   margin-right: 200px;
+
+  }
+}
+</style>
