@@ -30,6 +30,9 @@ def is_user_banned(user_id):
     response = supabase.table("banned_users").select("*").eq("user_id", user_id).execute()
     
     return len(response.data) > 0
+@app.context_processor
+def inject_logged_in():
+    return dict(logged_in='user' in session)
 
 @app.before_request
 def check_ban():
@@ -308,6 +311,7 @@ def resetting_password():
                                  error=f"Şifre güncellenirken hata: {e}",
                                  access_token=access_token,
                                  refresh_token=refresh_token)
+        
                                  
 #if __name__ == "__main__":
 #    app.run(debug=True)

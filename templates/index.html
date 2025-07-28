@@ -62,7 +62,10 @@
       <input class="search-input" id="searchBox" placeholder="Ara..." type="text" />
     </div>
 
-    <button class="top-button" id="signup" onclick='window.location.href = "/login"'>Giriş Yap</button>
+    <button class="top-button" id="signup" 
+        onclick="window.location.href = '{% if logged_in %}/logout{% else %}/login{% endif %}'">
+    {% if logged_in %}Çıkış Yap{% else %}Giriş Yap{% endif %}
+    </button>  
   </div>
 
   <div id="backendsiz">
@@ -1093,9 +1096,9 @@
     .popup-modal #popup-img {
       display: block !important;
       /* Görseli tekrar göster */
-      width: 80px !important;
+      width: 120px !important;
       /* Boyutunu ayarla */
-      height: 80px !important;
+      height: 120px !important;
       border-radius: 50% !important;
       /* Yuvarlak yap */
     }
@@ -1128,7 +1131,9 @@
         text-align: center;
         left: 60px;
         margin-left: 60px;
+      
       }
+      
     }
   }
 </style>
@@ -1145,3 +1150,14 @@
 
   // Diğer scriptlerin buradaydı...
 </script>
+
+
+<style>
+  @media only screen 
+  and (min-device-width: 390px) /* iPhone 14 Pro Max genişliği */
+  and (max-device-width: 490px) 
+  and (-webkit-min-device-pixel-ratio: 3) {
+  
+  .popup-modal {
+    max-height: 70vh; }}
+</style>
