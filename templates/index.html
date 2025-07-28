@@ -62,7 +62,7 @@
       <input class="search-input" id="searchBox" placeholder="Ara..." type="text" />
     </div>
 
-    <button class="top-button" id="signup" 
+    <button class="top-button" {%if logged_in%} id="logout" {%else%} id="signup" {%endif%}
         onclick="window.location.href = '{% if logged_in %}/logout{% else %}/login{% endif %}'">
     {% if logged_in %}Çıkış Yap{% else %}Giriş Yap{% endif %}
     </button>  
@@ -130,7 +130,7 @@
 
         <img alt="Cyber Security" id="com_image"
           src="https://media.licdn.com/dms/image/v2/D4D0BAQFyTqKt6LGKxQ/company-logo_200_200/company-logo_200_200/0/1709828236381/iztech_cyber_security_society_logo?e=1756339200&v=beta&t=D6Rg9FNhUWQUV8_5xXPAMfYGKWEFuKa3rIim_aVVnv0" />
-
+        <h2>CYBERSEC</h2>
         <h3>&gt;Yazılım&lt;</h3>
         <h4>Siber güvenlik alanında bilinçli bir toplum oluşturmak için çalışıyoruz.</h4>
       </div>
@@ -362,6 +362,22 @@
     background-color: var(--purple-hover);
   }
 
+  #logout{
+    background-color: var(--main-purple);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+    border-style:initial;
+    border: red;
+    background: red;
+  }
+
+  #logout:hover{
+    background-color:brown;
+  }
+
   /* Main Content */
   #backendsiz {
     text-align: center;
@@ -557,7 +573,7 @@
   /* Footer */
   footer {
     text-align: center;
-    padding: 2rem;
+    padding: 0.02rem;
     margin-top: 4rem;
     border-top: 1px solid var(--border-color);
     color: var(--text-secondary);
@@ -602,6 +618,17 @@
   }
 
   #signup:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  #logout{
+    border-radius: 30px;
+    transition: all 0.3s;
+    transform: translateY(-2px);
+  }
+
+  #logout:hover{
     transform: translateY(-1px);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   }
@@ -776,6 +803,11 @@
     }
 
     #signup {
+      margin-left: 0;
+      width: 100%;
+    }
+
+    #logout{
       margin-left: 0;
       width: 100%;
     }
