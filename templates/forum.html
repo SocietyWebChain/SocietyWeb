@@ -46,33 +46,36 @@
     });
   </script>
   <style>
+    :root{
+      --vh: 1vh;
+    }
+
     body {
-      margin: 0;
-      padding: 0;
       font-family: 'Inter', sans-serif;
       background-color: #0d1117;
       background-size: cover;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: auto;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
     }
 
     html,
     body {
+      margin: 0;
+      padding: 0;
       height: 100%;
+      overflow-x: hidden;
       overflow-y: auto;
     }
 
     /* Konteyner */
     .chat-container {
+      height: calc(var(--vh,1vh) * 100);
       width: 100%;
       max-width: 600px;
-      min-height: 90vh;
+      margin: 0 auto;
       background-color: #161b22;
       display: flex;
-      flex-direction: column; /* Dikey flex düzeni */
+      flex-direction: column;
       border-radius: 12px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
       overflow: hidden;
@@ -82,15 +85,15 @@
     /* Geri butonu */
     .backtopage {
       position: absolute;
-      left: 20px;
-      top: 15px;
-      border-radius: 50%;
+      top: 10px;
+      left: 10px;
       font-size: 20px;
       font-weight: bold;
       background: transparent;
       border: 2px solid #7e3ff2;
-      color: #fff;
-      z-index: 10; /* Başlığın üzerinde kalması için */
+      color: white;
+      border-radius: 50%;
+      z-index: 2;
     }
 
     .backtopage:hover {
@@ -105,23 +108,19 @@
       padding: 16px;
       font-weight: bold;
       text-align: center;
-      /* Düzeltme: Flexbox'ın bir parçası, yüksekliği sabit */
-      flex-shrink: 0; 
+      flex-shrink: 0;
+      z-index: 1;
     }
 
     /* Mesajlar alanı */
     #chat-box {
-      /* --- ANA DÜZELTME --- */
-      /* `position: absolute;` kaldırıldı. Bu, tüm layout sorununu çözüyor. */
-      /* Artık flex item olarak davranacak ve kalan alanı dolduracak. */
-      flex: 1; /* Kalan tüm dikey alanı doldurmasını sağlar */
+      flex: 1;
       padding: 20px;
       display: flex;
       flex-direction: column;
       gap: 10px;
       color: #c9d1d9;
-      overflow-y: auto; /* İçerik taştığında kaydırma çubuğu çıkar */
-      /* `position:absolute` kaldırıldığı için artık buna gerek yok. */
+      overflow-y: auto;
     }
 
     /* Mesaj balonları */
@@ -132,7 +131,7 @@
       background-color: #21262d;
       color: #c9d1d9;
       align-self: flex-start;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 1px 3px rgba(0,0, 0, 0.4);
       font-size: 14px;
       word-wrap: break-word;
     }
@@ -143,7 +142,6 @@
       padding: 10px;
       border-top: 1px solid #30363d;
       background-color: #161b22;
-      /* Düzeltme: Flexbox'ın bir parçası, yüksekliği sabit */
       flex-shrink: 0;
     }
 
@@ -178,9 +176,8 @@
     /* Mobil uyumluluk */
     @media (max-width: 600px) {
       .chat-container {
-        width: 100%;
         height: auto;
-        min-height: 100vh;
+        min-height: calc(var(--vh, 1vh) * 100);
         border-radius: 0;
       }
 
@@ -194,11 +191,22 @@
       }
 
       #chat-box{
-        max-height: 70vh;
+        max-height: 60vh;
       }
       
     }
   </style>
+
+  <script>
+    function updateViewportHeight() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+    } 
+    window.addEventListener('resize', updateViewportHeight);
+    window.addEventListener('orientationchange', updateViewportHeight);
+    window.addEventListener('load', updateViewportHeight);
+    updateViewportHeight();
+  </script>
 
 </head>
 
