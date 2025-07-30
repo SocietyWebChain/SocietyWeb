@@ -45,188 +45,135 @@
       });
     });
   </script>
-  <style>
-    :root{
-      --vh: 1vh;
-    }
+<style>
+  :root {
+    --vh: 1vh;
+  }
 
-    body {
-      scale: 95%;
-      font-family: 'Inter', sans-serif;
-      background-color: #0d1117;
-      background-size: cover;
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
-    }
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    background-color: #0d1117;
+    background-size: cover;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow-x: hidden;
-      overflow-y: auto;
-    }
+  .chat-container {
+    height: calc(var(--vh, 1vh) * 100);
+    max-width: 600px;
+    margin: auto;
+    background-color: #161b22;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    position: relative;
+  }
 
-    /* Konteyner */
+  .backtopage {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    background: transparent;
+    border: 2px solid #7e3ff2;
+    color: white;
+    border-radius: 50%;
+    z-index: 2;
+  }
+
+  h2 {
+    margin: 0;
+    background: linear-gradient(135deg, #7e3ff2, #e63fa6);
+    color: #ffffff;
+    padding: 16px;
+    font-weight: bold;
+    text-align: center;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  #chat-box {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #c9d1d9;
+  }
+
+  .chat-box > div {
+    max-width: 85%;
+    padding: 10px 15px;
+    border-radius: 10px;
+    background-color: #21262d;
+    color: #c9d1d9;
+    align-self: flex-start;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    font-size: 14px;
+    word-wrap: break-word;
+  }
+
+  #chat-form {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #30363d;
+    background-color: #161b22;
+    flex-shrink: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  #chat-form input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    outline: none;
+    background-color: #0d1117;
+    color: #c9d1d9;
+  }
+
+  #chat-form button {
+    margin-left: 10px;
+    padding: 10px 15px;
+    background: linear-gradient(135deg, #7e3ff2, #e63fa6);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s ease;
+  }
+
+  #chat-form button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #9c5ff5, #ff4fad);
+  }
+
+  @media (min-width: 601px) and (max-width: 1024px) {
     .chat-container {
-      height: calc(var(--vh,1vh) * 100);
-      width: 100%;
-      max-width: 600px;
-      margin: auto;
-      background-color: #161b22;
-      display: flex;
-      flex-direction: column;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
-      overflow: hidden;
-      position: relative;
+      max-width: 80%;
     }
-
-    /* Geri butonu */
-    .backtopage {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      font-size: 20px;
-      font-weight: bold;
-      background: transparent;
-      border: 2px solid #7e3ff2;
-      color: white;
-      border-radius: 50%;
-      z-index: 2;
+    .chat-box > div {
+      max-width: 75%;
     }
+  }
 
-    .backtopage:hover {
-      transform: scale(1.05);
+  @media (max-width: 600px) and (hover: none) and (pointer: coarse) {
+    .chat-box > div {
+      max-width: 95%;
     }
+  }
+</style>
 
-    /* Başlık */
-    h2 {
-      margin: 0;
-      background: linear-gradient(135deg, #7e3ff2, #e63fa6);
-      color: #ffffff;
-      padding: 16px;
-      font-weight: bold;
-      text-align: center;
-      flex-shrink: 0;
-      z-index: 1;
-    }
-
-    /* Mesajlar alanı */
-    #chat-box {
-      flex: 1;
-      padding: 10px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      color: #c9d1d9;
-      overflow-y: auto;
-      max-height: calc(var(--vh, 1vh) * 100 - 140px);
-    }
-
-    /* Mesaj balonları */
-    .chat-box>div {
-      max-width: 85%;
-      padding: 10px 15px;
-      border-radius: 10px;
-      background-color: #21262d;
-      color: #c9d1d9;
-      align-self: flex-start;
-      box-shadow: 0 1px 3px rgba(0,0, 0, 0.4);
-      font-size: 14px;
-      word-wrap: break-word;
-    }
-
-    /* Mesaj kutusu */
-    #chat-form {
-      display: flex;
-      padding: 10px;
-      border-top: 1px solid #30363d;
-      background-color: #161b22;
-      flex-shrink: 0;
-      padding-bottom: env(safe-area-inset-bottom);
-    }
-
-    #chat-form input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 20px;
-      font-size: 14px;
-      outline: none;
-      background-color: #0d1117;
-      color: #c9d1d9;
-    }
-
-    #chat-form button {
-      margin-left: 10px;
-      padding: 10px 15px;
-      background: linear-gradient(135deg, #7e3ff2, #e63fa6);
-      color: white;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s ease;
-    }
-
-    #chat-form button:hover {
-      transform: scale(1.05);
-      background: linear-gradient(135deg, #9c5ff5, #ff4fad);
-    }
-
-
-    @media only screen and (max-width: 650px) and (max-device-width: 600px) and (orientation: portrait) {
-      .chat-container {
-        height: calc(var(--vh, 1vh) * 110);
-        border-radius: 8px;
-        display: flex;
-        flex-direction: column;
-      }
-
-      body{
-        overflow: auto;
-        scale: 97%;
-      }
-
-      .backtopage {
-        top: 10px;
-        left: 10px;
-      }
-
-      #chat-box{
-        flex: 1;
-        overflow-y: auto;
-        padding: 15px;
-      }
-
-      #chat-form{
-        flex-shrink: 0;
-        padding: 10px;
-        background-color: #161b22;
-        padding-bottom: env(safe-area-inset-bottom);
-      }
-
-      .chat-box > div {
-        max-width: 95%;
-      }
-      
-    }
-
-
-    @media (min-width: 601px) and (max-width: 1024px) {
-      .chat-container {
-        max-width: 80%;
-        height: calc(var(--vh, 1vh) * 100);
-      }
-
-      .chat-box > div {
-        max-width: 70%;
-      }
-    }
-
-  </style>
 
   <script>
     function updateVH() {
