@@ -56,19 +56,20 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      overflow: hidden;
+      overflow: auto;
     }
 
     html,
     body {
       height: 100%;
+      overflow-y: auto;
     }
 
     /* Konteyner */
     .chat-container {
       width: 100%;
       max-width: 600px;
-      height: 90vh;
+      min-height: 90vh;
       background-color: #161b22;
       display: flex;
       flex-direction: column; /* Dikey flex düzeni */
@@ -178,14 +179,24 @@
     @media (max-width: 600px) {
       .chat-container {
         width: 100%;
-        height: 100vh;
+        height: auto;
+        min-height: 100vh;
         border-radius: 0;
+      }
+
+      body{
+        overflow: auto;
       }
 
       .backtopage {
         top: 10px;
         left: 10px;
       }
+
+      #chat-box{
+        max-height: 70vh;
+      }
+      
     }
   </style>
 
