@@ -81,6 +81,7 @@
 
 <body>
   <div class="wrapper">
+    
     <form action="{{ url_for('register') }}" method="POST">
       <h1>Kayıt</h1>
 
@@ -104,8 +105,43 @@
           <input type="checkbox" name="remember"> Beni Hatırla
         </label>
       </div>
+      <!-- SADECE GEREKLİ DEĞİŞİKLİKLER -->
 
-      <button type="submit" class="btn">Kayıt Ol</button>
+    <!-- ...diğer input alanları aynen kalıyor... -->
+
+    <!-- KVKK/GDPR ZORUNLU CHECKBOX -->
+    <div class="remember-forgot" style="margin-bottom: 15px; flex-direction: column; align-items: flex-start;">
+      <label style="display: flex; align-items: flex-start; margin-bottom: 10px; cursor: pointer;">
+        <input 
+          type="checkbox" 
+          name="kvkk_approval" 
+          required
+          style="margin-right: 8px; accent-color: #ff7675;"
+        >
+        <span style="color: rgba(255,255,255,0.8); font-size: 13px;">
+          <a href="/gizlilik-politikasi.html" target="_blank" style="color: #ff7675;">Gizlilik Politikası</a>'nı ve 
+          <a href="/kullanim-kosullari.html" target="_blank" style="color: #ff7675;">Kullanım Koşulları</a>'nı okudum, kabul ediyorum.
+        </span>
+      </label>
+      
+      <!-- OPSİYONEL: ÇEREZ ONAYI (GDPR İÇİN) -->
+      <label style="display: flex; align-items: flex-start; cursor: pointer;">
+        <input 
+          type="checkbox" 
+          name="cookie_approval"
+          style="margin-right: 8px; accent-color: #ff7675;"
+        >
+        <span style="color: rgba(255,255,255,0.8); font-<size: 13px;">
+          <a href="/cerez-politikasi.html" target="_blank" style="color: #ff7675;">Çerez Politikası</a>'nı kabul ediyorum.
+        </span>
+      </label>
+    </div>
+
+    <button type="submit" class="btn">Kayıt Ol</button>
+  </form>
+</div>
+
+
     </form>
   </div>
 </body>
@@ -448,3 +484,96 @@ body::before {
 }
 
 </style>
+<script>
+  // Cookie Kontrolü ve Banner Yönetimi
+  document.addEventListener("DOMContentLoaded", function() {
+    // Cookie Banner Elementleri
+    const cookieBanner = document.createElement('div');
+    cookieBanner.id = 'cookie-banner';
+    cookieBanner.style.cssText = `
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.85);
+      color: white;
+      padding: 15px;
+      text-align: center;
+      z-index: 1000;
+      display: none;
+      backdrop-filter: blur(5px);
+      border-top: 1px solid rgba(255,255,255,0.1);
+    `;
+    
+    cookieBanner.innerHTML = `
+      <p style="margin-bottom: 10px;">Sitemizde deneyiminizi geliştirmek için çerezler kullanıyoruz. 
+        <a href="/cerez-politikasi.html" style="color: #ff7675; text-decoration: none;">Detaylar</a>
+      </p>
+      <button id="accept-cookies" style="
+        background: #ff7675;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        margin: 0 5px;
+        border-radius: 5px;
+        cursor: pointer;
+      ">Kabul Et</button>
+      <button id="reject-cookies" style="
+        background: transparent;
+        color: white;
+        border: 1px solid white;
+        padding: 8px 20px;
+        margin: 0 5px;
+        border-radius: 5px;
+        cursor: pointer;
+      ">Reddet</button>
+    `;
+    
+    document.body.appendChild(cookieBanner);
+
+    // Cookie Kontrolü
+    if (!localStorage.getItem('cookiePreferences')) {
+      cookieBanner.style.display = 'block';
+    }
+
+    // Buton Eventleri
+    document.getElementById('accept-cookies').addEventListener('click', function() {
+      localStorage.setItem('cookiePreferences', 'accepted');
+      cookieBanner.style.display = 'none';
+      // Analytics çerezlerini yükleme kodu buraya gelecek
+    });
+
+    document.getElementById('reject-cookies').addEventListener('click', function() {
+      localStorage.setItem('cookiePreferences', 'rejected');
+      cookieBanner.style.display = 'none';
+      // Gerekirse çerezleri temizleme kodu buraya gelecek
+    });
+
+    // Form Gönderim Kontrolü
+    const form = document.querySelector('form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        const kvkkCheckbox = document.querySelector('input[name="kvkk_approval"]');
+        if (!kvkkCheckbox.checked) {
+          e.preventDefault();
+          alert('Lütfen gizlilik politikasını kabul ediniz!');
+          kvkkCheckbox.focus();
+        }
+      });
+    }
+
+    // Link Yönlendirme Animasyonu (Mevcut kodunuz)
+    const links = document.querySelectorAll("a[href]");
+    links.forEach((link) => {
+      if (link.href.startsWith(window.location.origin) && !link.href.includes("#")) {
+        link.addEventListener("click", function(e) {
+          e.preventDefault();
+          document.body.classList.add("fade-out");
+          setTimeout(() => {
+            window.location.href = link.href;
+          }, 500);
+        });
+      }
+    });
+  });
+</script>
