@@ -115,17 +115,18 @@
     /* Mesajlar alanı */
     #chat-box {
       flex: 1;
-      padding: 20px;
+      padding: 10px 20px;
       display: flex;
       flex-direction: column;
       gap: 10px;
       color: #c9d1d9;
       overflow-y: auto;
+      max-height: calc(var(--vh, 1vh) * 100 - 150px);
     }
 
     /* Mesaj balonları */
     .chat-box>div {
-      max-width: 70%;
+      max-width: 85%;
       padding: 10px 15px;
       border-radius: 10px;
       background-color: #21262d;
@@ -143,6 +144,7 @@
       border-top: 1px solid #30363d;
       background-color: #161b22;
       flex-shrink: 0;
+      padding-bottom: env(safe-area-inset-bottom);
     }
 
     #chat-form input {
@@ -192,6 +194,10 @@
 
       #chat-box{
         max-height: 60vh;
+      }
+
+      .chat-box > div {
+        max-width: 95%;
       }
       
     }
