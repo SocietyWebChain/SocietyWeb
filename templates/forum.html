@@ -140,7 +140,6 @@
 
     /* Mesaj kutusu */
     #chat-form {
-      max-height: 90%;
       display: flex;
       padding: 10px;
       border-top: 1px solid #30363d;
@@ -178,7 +177,7 @@
     }
 
     /* Mobil uyumluluk */
-    @media (max-width: 600px) {
+    @media (max-width: 650px) {
       .chat-container {
         height: calc(var(--vh, 1vh) * 100);
         border-radius: 0;
@@ -188,7 +187,7 @@
 
       body{
         overflow: auto;
-        
+        scale: 85%;
       }
 
       .backtopage {
@@ -198,6 +197,7 @@
 
       #chat-box{
         max-height: 65vh;
+        scale: 90%;
       }
 
       .chat-box > div {
