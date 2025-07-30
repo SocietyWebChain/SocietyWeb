@@ -310,9 +310,6 @@ def resetting_password():
                                  refresh_token=refresh_token)
 @app.route('/favicon.ico')
 def favicon():
-    return redirect(url_for('static', filename='photos/favicon.ico'))
-        
-        
+    return redirect('/static/photos/favicon.ico')
+
                                  
-#if __name__ == "__main__":
-#    app.run(debug=True)
