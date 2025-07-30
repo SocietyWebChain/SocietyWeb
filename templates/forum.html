@@ -73,7 +73,7 @@
       height: calc(var(--vh,1vh) * 100);
       width: 100%;
       max-width: 600px;
-      margin: 0 auto;
+      margin: auto;
       background-color: #161b22;
       display: flex;
       flex-direction: column;
@@ -176,8 +176,8 @@
       background: linear-gradient(135deg, #9c5ff5, #ff4fad);
     }
 
-    /* Mobil uyumluluk */
-    @media (max-width: 650px) {
+
+    @media only screen and (max-width: 650px) and (max-device-width: 600px) and (orientation: portrait) {
       .chat-container {
         height: calc(var(--vh, 1vh) * 110);
         border-radius: 8px;
@@ -213,6 +213,19 @@
       }
       
     }
+
+
+    @media (min-width: 601px) and (max-width: 1024px) {
+      .chat-container {
+        max-width: 80%;
+        height: calc(var(--vh, 1vh) * 100);
+      }
+
+      .chat-box > div {
+        max-width: 70%;
+      }
+    }
+
   </style>
 
   <script>
