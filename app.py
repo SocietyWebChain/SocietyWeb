@@ -308,8 +308,3 @@ def resetting_password():
                                  error=f"Şifre güncellenirken hata: {e}",
                                  access_token=access_token,
                                  refresh_token=refresh_token)
-@app.route('/favicon.ico')
-def favicon():
-    return redirect('/static/photos/favicon.ico')
-
-                                 
