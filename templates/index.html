@@ -6,14 +6,14 @@
   <title>Ana Sayfa</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Üniversite kulüplerini ve etkinliklerini tek çatı altında toplayan Türkiye'nin en büyük öğrenci platformu.">
+  <meta name="description"
+    content="Üniversite kulüplerini ve etkinliklerini tek çatı altında toplayan Türkiye'nin en büyük öğrenci platformu.">
   <meta name="google-adsense-account" content="ca-pub-6977258738670620">
 
   <!-- Google Ads -->
-  <script async 
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6977258738670620"
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6977258738670620"
     crossorigin="anonymous">
-  </script>
+    </script>
 
   <!-- Faviconlar -->
   <link rel="icon" type="image/png" sizes="96x96" href="/static/photos/favicon-96x96.png" />
@@ -80,9 +80,9 @@
     </div>
 
     <button class="top-button" {%if logged_in%} id="logout" {%else%} id="signup" {%endif%}
-        onclick="window.location.href = '{% if logged_in %}/logout{% else %}/login{% endif %}'">
-    {% if logged_in %}Çıkış Yap{% else %}Giriş Yap{% endif %}
-    </button>  
+      onclick="window.location.href = '{% if logged_in %}/logout{% else %}/login{% endif %}'">
+      {% if logged_in %}Çıkış Yap{% else %}Giriş Yap{% endif %}
+    </button>
   </div>
 
   <div id="backendsiz">
@@ -111,8 +111,7 @@
 
   <div class="popup-modal hide" id="popup">
     <span class="close-btn" id="closeModal">&times;</span>
-    <img alt="Görsel" id="popup-img"
-      src="../static/photos/empty.png" />
+    <img alt="Görsel" id="popup-img" src="../static/photos/empty.png" />
     <h2 id="popup-title"></h2>
     <h3 id="popup-cat"></h3>
     <h5 id="popup-link"></h5>
@@ -154,8 +153,8 @@
     </div>
   </div>
 
-<!-- TAM YASAL UYUMLU FOOTER ÖRNEĞİ -->
-<footer style="
+  <!-- TAM YASAL UYUMLU FOOTER ÖRNEĞİ -->
+  <footer style="
     background: rgba(0,0,0,0.8);
     color: white;
     padding: 20px 0;
@@ -166,32 +165,29 @@
     width: 100%;
 ">
     <div style="/margin-bottom: 10px;">
-        <a href="/gizlilik" 
-           style="color: #ff7675; 
+      <a href="/gizlilik" style="color: #ff7675; 
                   text-decoration: none;
                   margin: 0 15px;
                   transition: all 0.3s ease;">Gizlilik Politikası</a>
-        
-        <span style="color: rgba(255,255,255,0.5);">|</span>
-        
-        <a href="/cerez"
-           style="color: #ff7675;
+
+      <span style="color: rgba(255,255,255,0.5);">|</span>
+
+      <a href="/cerez" style="color: #ff7675;
                   text-decoration: none;
                   margin: 0 15px;
                   transition: all 0.3s ease;">Çerez Politikası</a>
-        
-        <span style="color: rgba(255,255,255,0.5);">|</span>
-        
-        <a href="/kullanim_kosul"
-           style="color: #ff7675;
+
+      <span style="color: rgba(255,255,255,0.5);">|</span>
+
+      <a href="/kullanım_kosul" style="color: #ff7675;
                   text-decoration: none;
                   margin: 0 15px;
                   transition: all 0.3s ease;">Kullanım Koşulları</a>
     </div>
     <div style="color: rgba(255,255,255,0.7);">
-        © 2025 Üniversite Toplulukları - Tüm hakları saklıdır
+      © 2025 Üniversite Toplulukları - Tüm hakları saklıdır
     </div>
-</footer>
+  </footer>
 
   <script>
     function delcom(element) {
@@ -255,11 +251,11 @@
 
 
         popup.classList.remove("hide-anim");
-        popup.classList.add("show");        
+        popup.classList.add("show");
         popup.classList.remove("hide");
       });
     });
-    
+
     function closeModal() {
       overlay.classList.remove("show");
       overlay.classList.add("hide");
@@ -277,9 +273,9 @@
     }
 
     document.getElementById("closeModal").addEventListener("click", closeModal);
-    overlay.addEventListener("click",closeModal);
+    overlay.addEventListener("click", closeModal);
 
-    document.addEventListener("keydown", function(e){
+    document.addEventListener("keydown", function (e) {
       if (e.key == "Escape") closeModal();
     });
   </script>
@@ -412,20 +408,20 @@
     background-color: var(--purple-hover);
   }
 
-  #logout{
+  #logout {
     background-color: var(--main-purple);
     color: white;
     padding: 10px 20px;
     border-radius: 6px;
     font-weight: 700;
     transition: background-color 0.3s ease;
-    border-style:initial;
+    border-style: initial;
     border: red;
     background: red;
   }
 
-  #logout:hover{
-    background-color:brown;
+  #logout:hover {
+    background-color: brown;
   }
 
   /* Main Content */
@@ -672,13 +668,13 @@
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   }
 
-  #logout{
+  #logout {
     border-radius: 30px;
     transition: all 0.3s;
     transform: translateY(-2px);
   }
 
-  #logout:hover{
+  #logout:hover {
     transform: translateY(-1px);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   }
@@ -857,7 +853,7 @@
       width: 100%;
     }
 
-    #logout{
+    #logout {
       margin-left: 0;
       width: 100%;
     }
@@ -1213,18 +1209,18 @@
         text-align: center;
         left: 60px;
         margin-left: 60px;
-      
+
       }
-      
+
     }
   }
-  .left-buttons{
+
+  .left-buttons {
 
     background-color: #0D1117;
 
     margin-right: 10%;
   }
- 
 </style>
 <script>
   // Bu script'i </body> etiketinden hemen önceye taşıman en iyi pratiktir.
@@ -1242,11 +1238,12 @@
 
 
 <style>
-  @media only screen 
-  and (min-device-width: 390px) /* iPhone 14 Pro Max genişliği */
-  and (max-device-width: 490px) 
-  and (-webkit-min-device-pixel-ratio: 3) {
-  
-  .popup-modal {
-    max-height: 70vh; }}
+  @media only screen and (min-device-width: 390px)
+  /* iPhone 14 Pro Max genişliği */
+  and (max-device-width: 490px) and (-webkit-min-device-pixel-ratio: 3) {
+
+    .popup-modal {
+      max-height: 70vh;
+    }
+  }
 </style>
