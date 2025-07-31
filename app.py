@@ -25,6 +25,10 @@ max_message_limit = 200
 
 cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache'})
 
+@app.route("/cerezpolitikasi")
+def cerezpolitikasi():
+    return render_template("cerez-politikası.html")
+
 @cache.memoize(timeout=60)
 def is_user_banned(user_id):
     response = supabase.table("banned_users").select("*").eq("user_id", user_id).execute()
