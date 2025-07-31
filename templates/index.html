@@ -2,33 +2,34 @@
 <html lang="tr">
 
 <head>
-<head>
+  <meta charset="utf-8" />
+  <title>Ana Sayfa</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Üniversite kulüplerini ve etkinliklerini tek çatı altında toplayan Türkiye'nin en büyük öğrenci platformu.">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6977258738670620"
-     crossorigin="anonymous"></script>
-</head>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6977258738670620"
-     crossorigin="anonymous"></script>
+  <meta name="google-adsense-account" content="ca-pub-6977258738670620">
+
+  <!-- Google Ads -->
+  <script async 
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6977258738670620"
+    crossorigin="anonymous">
+  </script>
 
   <!-- Faviconlar -->
-  <link rel="icon" type="image/png" href="/static/photos/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/static/photos/favicon-96x96.png" />
   <link rel="icon" type="image/svg+xml" href="/static/photos/favicon.svg" />
   <link rel="shortcut icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/static/photos/apple-touch-icon.png" />
   <link rel="manifest" href="/static/photos/site.webmanifest" />
 
-  <meta charset="utf-8" />
-  <title>
-    Ana Sayfa
-  </title>
+  <!-- Font ve İkonlar -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com" rel="preconnect" />
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-
+  <!-- Sayfa geçiş animasyonu (fade-out) -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const links = document.querySelectorAll("a[href]");
@@ -42,16 +43,17 @@
             e.preventDefault();
             document.body.classList.add("fade-out");
 
+            // 300ms yeterlidir, UX ve reklam yüklemesi açısından daha uygundur
             setTimeout(() => {
               window.location.href = link.href;
-            }, 5000);
+            }, 300);
           });
         }
       });
     });
   </script>
-
 </head>
+
 
 
 <body>

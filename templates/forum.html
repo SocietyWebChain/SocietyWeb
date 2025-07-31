@@ -3,13 +3,11 @@
 
 <head>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-<head>
   <meta name="description" content="Üniversite topluluklarıyla ilgili sorular sor, fikirlerini paylaş ve öğrencilerle etkileşim kur. Forumda sen de yerini al!">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6977258738670620"
      crossorigin="anonymous"></script>
-</head>
-
   <!-- Faviconlar -->
+  <meta name="google-adsense-account" content="ca-pub-6977258738670620">
   <link rel="icon" type="image/png" href="/static/photos/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/static/photos/favicon.svg" />
   <link rel="shortcut icon" href="/favicon.ico" />
@@ -45,8 +43,19 @@
           });
         }
       });
-    });
+    }); 
+
+    function updateVH() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    window.addEventListener('resize', updateVH);
+    window.addEventListener('orientationchange', updateVH);
+    window.addEventListener('load', updateVH);
+    updateVH();
   </script>
+
+</head>
 <style>
   :root {
     --vh: 1vh;
@@ -189,18 +198,7 @@
 </style>
 
 
-  <script>
-    function updateVH() {
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-    }
-    window.addEventListener('resize', updateVH);
-    window.addEventListener('orientationchange', updateVH);
-    window.addEventListener('load', updateVH);
-    updateVH();
-  </script>
 
-</head>
 
 <body>
   <div class="chat-container">
