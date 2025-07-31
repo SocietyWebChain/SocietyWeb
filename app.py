@@ -179,19 +179,19 @@ def chat_page():
     return render_template('forum.html')
 
 @app.route("/cerez")
-def cerez():
+def cerez_page():
     return render_template('cerez.html')
 
 @app.route("/gizlilik")
-def gizlilik():
+def gizlilik_page():
     return render_template('gizlilik.html')
 
 @app.route("/kullanım_kosul")
-def kullanım_kosul():
+def kullanım_kosul_page():
     return render_template('kullanım_kosul.html')
 
 @app.route('/ads.txt')
-def ads_txt():
+def ads_txt_page():
     return send_from_directory('static', 'ads.txt')
 
 
