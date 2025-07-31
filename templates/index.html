@@ -52,7 +52,65 @@
       });
     });
   </script>
+  <!-- Cookie Consent by Osano -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
+
 </head>
+
+<script>
+  window.addEventListener("load", function () {
+    window.cookieconsent.initialise({
+      palette: {
+        popup: {
+          background: "#161B22",
+          text: "#ffffff"
+        },
+        button: {
+          background: "#8A2BE2",
+          text: "#ffffff"
+        }
+      },
+      theme: "classic",
+      position: "bottom-right",
+      type: "opt-in",
+      content: {
+        message: "Web sitemiz, kullanıcı deneyimini geliştirmek ve reklam gösterimlerini iyileştirmek için çerezler kullanır.",
+        dismiss: "Reddet",
+        allow: "Kabul Et",
+        link: "Detaylar",
+        href: "/cerez"  // kendi çerez politikanı buraya bağla
+      },
+      onInitialise: function (status) {
+        if (status === 'allow') {
+          enableCookies();
+        }
+      },
+      onStatusChange: function (status) {
+        if (status === 'allow') {
+          enableCookies();
+        } else {
+          disableCookies();
+        }
+      }
+    });
+
+    function enableCookies() {
+      var adScript = document.createElement("script");
+      adScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6977258738670620";
+      adScript.async = true;
+      adScript.crossOrigin = "anonymous";
+      document.head.appendChild(adScript);
+
+      console.log("Çerezler etkin.");
+    }
+
+    function disableCookies() {
+      // Çerez tabanlı takipler devre dışı kalabilir
+      console.log("Çerezler reddedildi.");
+    }
+  });
+</script>
 
 
 
