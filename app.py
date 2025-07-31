@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, send_from_directory, abort
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, abort, flash
 from supabase import create_client, Client
 from dotenv import load_dotenv
 import re
@@ -24,22 +24,6 @@ app.secret_key = os.getenv("SECRET_KEY")
 max_message_limit = 200
 
 cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache'})
-
-@app.route("/cerez")
-def cerez():
-    return render_template("cerez.html")
-
-@app.route("/kullanım_kosul")
-def kullanım_kosul():
-    return render_template("kullanım_kosul.html")
-
-@app.route("/gizlilik")
-def gizlilik():
-    return render_template("gizlilik.html")
-
-@app.route('/ads.txt')
-def ads_txt():
-    return send_from_directory('static', 'ads.txt')
 
 @cache.memoize(timeout=60)
 def is_user_banned(user_id):
@@ -101,7 +85,7 @@ def register():
             })
             
             if hasattr(response, 'user') and response.user:
-                return render_template('login.html', success="Kayıt başarılı! Giriş yapabilirsiniz.")
+                return render_template('login.html', success="Kayıt başarılı! Email onaylayıp giriş yapabilirsiniz.")
             else:
                 error_message = "Auth kaydı başarısız. Lütfen tekrar deneyin."
                 if hasattr(response, 'error') and response.error:
@@ -260,67 +244,51 @@ def change_password():
 
     return redirect(url_for("index"))
 
+@app.route('/resend_verify', methods=['GET', 'POST'])
+def resend_verify():
+    error = ""
+    success = ""
+    if request.method == "POST":
+        email = request.form.get('email')
+        if not email:
+            return render_template('login.html', error="E‑posta adresi gereklidir.")
 
+        try:
+            response = supabase.auth.resend({
+                "type": "signup",
+                "email": email,
+                "options": {
+                    "email_redirect_to": "https://universitetopluluklari.com/login",
+                },
+            })
+            success = "Doğrulama maili başarıyla gönderildi."
+        except Exception as e:
+            error = f"Bir hata oluştu: {e}"
+
+        return render_template('login.html', error=error, success=success)
+    return redirect(url_for('login'))
+                                 
 @app.route('/password_reset', methods=['GET', 'POST'])
 def password_reset():
     if request.method == "POST":
-        email = request.form.get('email')
-        try:
-            redirect_url = request.url_root + 'resetting_password'
-            supabase.auth.reset_password_for_email(
-                email, 
-                {"redirect_to": redirect_url}
-            )
-            success_message = "Şifre sıfırlama e-postası gönderildi! E-postanızı kontrol edin."
-            return render_template('login.html', success=success_message, email=email)
-        except Exception as e:
-            error_message = f"E-posta gönderilemedi: {str(e)}"
-            return render_template('login.html', error=error_message, email=email)
-    return render_template('password_reset.html')
+        return render_template('index')
 
-@app.route("/resetting_password", methods=["GET", "POST"])
+    return render_template('password_reset_email.html')
+
+@app.route('/resetting_password', methods=['GET', 'POST'])
 def resetting_password():
-    if request.method == "GET":
-        access_token = request.args.get('access_token')
-        refresh_token = request.args.get('refresh_token')
-        
-        if access_token and refresh_token:
-            try:
-                supabase.auth.set_session(access_token, refresh_token)
-                return render_template("password_reset.html", 
-                                     access_token=access_token,
-                                     refresh_token=refresh_token)
-            except Exception as e:
-                return render_template("password_reset.html", 
-                                     error=f"Token doğrulama hatası: {e}")
-        else:
-            return render_template("password_reset.html")
-    
-    if request.method == "POST":
-        password = request.form.get("password")
-        password_confirm = request.form.get("password_confirm")
-        access_token = request.form.get("access_token")
-        refresh_token = request.form.get("refresh_token")
-        
-        if password != password_confirm:
-            return render_template("password_reset.html", 
-                                 error="Şifreler eşleşmiyor.",
-                                 access_token=access_token,
-                                 refresh_token=refresh_token)
-        
-        if not access_token:
-            return render_template("password_reset.html", error="Geçersiz token.")
-        
-        try:
-            if refresh_token:
-                supabase.auth.set_session(access_token, refresh_token)
-            
-            supabase.auth.update_user({"password": password})
-            
-            return render_template("password_reset.html", 
-                                 success="Şifre başarıyla değiştirildi! Giriş yapabilirsiniz.")
-        except Exception as e:
-            return render_template("password_reset.html", 
-                                 error=f"Şifre güncellenirken hata: {e}",
-                                 access_token=access_token,
-                                 refresh_token=refresh_token)
+    email = request.form.get('email')
+    try:
+        supabase.auth.reset_password_for_email(email)
+        flash("Şifre sıfırlama e-postası gönderildi!", "success")
+    except Exception as e:
+        print(e)
+        flash("Bir hata oluştu. Lütfen tekrar deneyin.", "error")
+    return redirect(url_for('login'))
+
+@app.route('/password_change', methods=['GET', 'POST'])
+def password_change():
+    asdfasfd
+
+#if __name__ == "__main__":
+#    app.run(debug=True)

@@ -426,19 +426,27 @@ document.addEventListener("DOMContentLoaded", function () {
             <i class="bx bxs-lock-alt"></i>
         </div>
         <button type="submit" class="btn">Giriş Yap</button>
+        
+        <div class="remember-forgot">
+          <label>
+            <input type="checkbox" name="remember"> Beni Hatırla
+          </label>
+          <a href="{{ url_for('password_reset') }}" class="top-button">Şifremi Unuttum?</a>
+        </div>
+
         <div class="register-link">
             <button
                 type="button"
                 class="btn register-btn"
                 onclick="window.location.href = '/register_page'"
-            >
+            >   
                 Kayıt Ol
             </button>
         </div>
     </form>
     
     <div class="resend-verify">
-        <form action="{{ url_for('password_reset') }}" method="POST">
+        <form action="{{ url_for('resend_verify') }}" method="POST">
             <div class="input-box">
                 <input
                     type="email"
@@ -448,7 +456,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 />
                 <i class="bx bxs-envelope"></i>
             </div>
-            <button type="submit" class="btn">Şifre Sıfırlama / Doğrulama Kodu Gönderilecek Email'i Giriniz</button>
+            <button type="submit" class="btn">Yeniden Doğrulama Mail'i Gönder</button>
         </form>
     </div>
 </div>
