@@ -292,7 +292,7 @@ def resetting_password():
 
 @app.route('/password_change', methods=['GET', 'POST'])
 def password_change():
-        if request.method == "POST":
+    if request.method == "POST":
         email = request.form.get('email')
         
         try:
@@ -313,38 +313,18 @@ def password_change():
 
 @app.route("/password_change", methods=["GET", "POST"])
 def password_change():
-    if request.method == "GET":
-        # URL parametrelerinden token bilgilerini al
-        access_token = request.args.get('access_token')
-        refresh_token = request.args.get('refresh_token')
-        
-        if access_token and refresh_token:
-            try:
-                supabase.auth.set_session(access_token, refresh_token)
-                return render_template("password_reset.html", 
-                                     access_token=access_token,
-                                     refresh_token=refresh_token)
-            except Exception as e:
-                return render_template("password_reset.html", 
-                                     error=f"Token doğrulama hatası: {e}")
-        else:
-            # Hash'ten token alınacaksa normal template'i döndür
-            return render_template("password_reset.html")
-
     if request.method == "POST":
         password = request.form.get("password")
         password_confirm = request.form.get("password_confirm")
         access_token = request.form.get("access_token")
         refresh_token = request.form.get("refresh_token")
         
-        # Şifre eşleşme kontrolü
         if password != password_confirm:
             return render_template("password_reset.html", 
                                  error="Şifreler eşleşmiyor.",
                                  access_token=access_token,
                                  refresh_token=refresh_token)
         
-        # Token kontrolü
         if not access_token:
             return render_template("password_reset.html", 
                                  error="Geçersiz token.",
@@ -352,11 +332,9 @@ def password_change():
                                  refresh_token=refresh_token)
         
         try:
-            # Session'ı ayarla
             if refresh_token:
                 supabase.auth.set_session(access_token, refresh_token)
             
-            # Şifreyi güncelle
             supabase.auth.update_user({"password": password})
             
             return render_template("password_reset.html", 
