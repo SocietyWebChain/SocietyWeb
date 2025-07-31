@@ -6,17 +6,25 @@
   <title>Gizlilik Politikası | Üniversite Toplulukları</title>
 
   <script>
-      document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        fetch(this.href)
-          .then(res => res.text())
-          .then(html => {
-            document.getElementById('icerik-alani').innerHTML = html;
+    document.addEventListener("DOMContentLoaded", function () {
+      const links = document.querySelectorAll("a[href]");
+
+      links.forEach(link => {
+        if (
+          link.href.startsWith(window.location.origin) &&
+          !link.href.includes("#")
+        ) {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.body.classList.add("fade-out");
+
+            setTimeout(() => {
+              window.location.href = link.href;
+            }, 500); // 0.5 saniye bekle
           });
+        }
       });
     });
-
   </script>
   <style>
     body {
