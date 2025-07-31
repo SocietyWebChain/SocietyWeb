@@ -73,87 +73,40 @@ window.addEventListener("load", function () {
         text: "#ffffff"
       }
     },
-    theme: "edgeless",
+    theme: "classic",
     position: "bottom-right",
     type: "opt-in",
-    law:{
-      regionalLaw: false,
+    law: {
+      regionalLaw: false
     },
-    revokable: true,
-    showLink: true,
     content: {
-      header: "Çerez Bildirimi",
-      message: "Bu web sitesi, deneyiminizi iyileştirmek ve analiz hizmetleri sunmak için çerezler kullanır. Çerez tercihlerinizi aşağıdan seçebilirsiniz.",
-      allow: "Seçilenleri Kabul Et",
-      deny: "Tümünü Reddet",
-      dismiss: "İptal",
-      link: "Çerez Politikamız",
-      href: "/cerez-politikasi",
-      close: "Kapat"
-    },
-    elements: {
-      allow: '<button class="cc-btn cc-allow">Seçilenleri Kabul Et</button>',
-      deny: '<button class="cc-btn cc-deny">Tümünü Reddet</button>',
-      link: '<a aria-label="Çerez Politikamız" class="cc-link" href="{{href}}" target="_blank">{{link}}</a>'
-    },
-    categories: {
-      necessary: {
-        needed: true,
-        wanted: true,
-        readonly: true,
-        title: "Zorunlu Çerezler",
-        description: "Bu çerezler sitenin çalışması için gereklidir ve kaldırılamaz."
-      },
-      analytics: {
-        needed: false,
-        wanted: false,
-        title: "Analitik Çerezler",
-        description: "Site trafiğini analiz etmek ve performansı iyileştirmek için kullanılır."
-      },
-      marketing: {
-        needed: false,
-        wanted: false,
-        title: "Pazarlama Çerezleri",
-        description: "Reklam performansını izlemek ve kişiselleştirilmiş reklamlar sunmak için kullanılır."
-      }
+      message: "Bu site, kullanıcı deneyiminizi geliştirmek için çerezler kullanır.",
+      allow: "Kabul Et",
+      deny: "Reddet",
+      link: "Detaylar",
+      href: "/cerez-politikasi"
     },
     onInitialise: function (status) {
-      handleConsent(status);
+      if (status === 'allow') {
+        enableCookies();
+      }
     },
     onStatusChange: function (status) {
-      handleConsent(status);
-    },
-    law: {
-      regionalLaw: true,
-    },
-    location: true
+      if (status === 'allow') {
+        enableCookies();
+      }
+    }
   });
 
-  function handleConsent(status) {
-    const cc = window.cookieconsent;
-    //if (cc.allowedCategory('analytics')) {
-    //  // Google Analytics
-    //  var gaScript = document.createElement("script");
-    //  gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-6977258738670620"; // Değiştir
-    //  gaScript.async = true;
-    //  document.head.appendChild(gaScript);
-    //  window.dataLayer = window.dataLayer || [];
-    //  function gtag(){dataLayer.push(arguments);}
-    //  gtag('js', new Date());
-    //  gtag('config', 'G-6977258738670620'); // Değiştir
-    //}
-    if (cc.allowedCategory('marketing')) {
-      // Google Ads
-      var adScript = document.createElement("script");
-      adScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6977258738670620";
-      adScript.async = true;
-      adScript.crossOrigin = "anonymous";
-      document.head.appendChild(adScript);
-    }
+  function enableCookies() {
+    // Örnek: Google Ads
+    var adScript = document.createElement("script");
+    adScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6977258738670620";
+    adScript.async = true;
+    adScript.crossOrigin = "anonymous";
+    document.head.appendChild(adScript);
   }
 });
-
-console.log("Çerez paneli yüklendi.")
 </script>
 
 
