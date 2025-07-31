@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6977258738670620"
-     crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
 
-  <meta name="description" content="Üniversite topluluklarına katılmak ve etkinliklerden haberdar olmak için hemen ücretsiz üye olun.">
+  <meta name="description"
+    content="Üniversite topluluklarına katılmak ve etkinliklerden haberdar olmak için hemen ücretsiz üye olun.">
   <meta name="google-adsense-account" content="ca-pub-6977258738670620">
   <link rel="icon" type="image/png" href="/static/photos/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/static/photos/favicon.svg" />
@@ -28,13 +30,14 @@
       color: #fff;
       padding: 15px 20px;
       border-radius: 5px;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.4s ease, transform 0.4s ease;
       transform: translateY(-20px);
       z-index: 9999;
     }
+
     .popup.show {
       opacity: 1;
       pointer-events: auto;
@@ -81,7 +84,7 @@
 
 <body>
   <div class="wrapper">
-    
+
     <form action="{{ url_for('register') }}" method="POST">
       <h1>Kayıt</h1>
 
@@ -107,44 +110,37 @@
       </div>
       <!-- SADECE GEREKLİ DEĞİŞİKLİKLER -->
 
-    <!-- ...diğer input alanları aynen kalıyor... -->
+      <!-- ...diğer input alanları aynen kalıyor... -->
 
-    <!-- KVKK/GDPR ZORUNLU CHECKBOX -->
-    <div class="remember-forgot" style="margin-bottom: 15px; flex-direction: column; align-items: flex-start;">
-      <label style="display: flex; align-items: flex-start; margin-bottom: 10px; cursor: pointer;">
-        <input 
-          type="checkbox" 
-          name="kvkk_approval" 
-          required
-          style="margin-right: 8px; accent-color: #ff7675;"
-        >
-        <span style="color: rgba(255,255,255,0.8); font-size: 13px;">
-          <a href="/gizlilik-politikasi.html" target="_blank" style="color: #ff7675;">Gizlilik Politikası</a>'nı ve 
-          <a href="/kullanim-kosullari.html" target="_blank" style="color: #ff7675;">Kullanım Koşulları</a>'nı okudum, kabul ediyorum.
-        </span>
-      </label>
-      
-      <!-- OPSİYONEL: ÇEREZ ONAYI (GDPR İÇİN) -->
-      <label style="display: flex; align-items: flex-start; cursor: pointer;">
-        <input 
-          type="checkbox" 
-          name="cookie_approval"
-          style="margin-right: 8px; accent-color: #ff7675;"
-        >
-        <span style="color: rgba(255,255,255,0.8); font-<size: 13px;">
-          <a href="/cerez-politikasi.html" target="_blank" style="color: #ff7675;">Çerez Politikası</a>'nı kabul ediyorum.
-        </span>
-      </label>
-    </div>
+      <!-- KVKK/GDPR ZORUNLU CHECKBOX -->
+      <div class="remember-forgot" style="margin-bottom: 15px; flex-direction: column; align-items: flex-start;">
+        <label style="display: flex; align-items: flex-start; margin-bottom: 10px; cursor: pointer;">
+          <input type="checkbox" name="kvkk_approval" required style="margin-right: 8px; accent-color: #ff7675;">
+          <span style="color: rgba(255,255,255,0.8); font-size: 13px;">
+            <a href="/gizlilik" target="_blank" style="color: #ff7675;">Gizlilik Politikası</a>'nı ve
+            <a href="/kullanım_kosul" target="_blank" style="color: #ff7675;">Kullanım Koşulları</a>'nı okudum, kabul
+            ediyorum.
+          </span>
+        </label>
 
-    <button type="submit" class="btn">Kayıt Ol</button>
-  </form>
-</div>
+        <!-- OPSİYONEL: ÇEREZ ONAYI (GDPR İÇİN) -->
+        <label style="display: flex; align-items: flex-start; cursor: pointer;">
+          <input type="checkbox" name="cookie_approval" style="margin-right: 8px; accent-color: #ff7675;">
+          <span style="color: rgba(255,255,255,0.8); font-<size: 13px;">
+            <a href="/cerez" target="_blank" style="color: #ff7675;">Çerez Politikası</a>'nı kabul ediyorum.
+          </span>
+        </label>
+      </div>
 
-
+      <button type="submit" class="btn">Kayıt Ol</button>
     </form>
   </div>
+
+
+  </form>
+  </div>
 </body>
+
 </html>
 
 <style>
@@ -152,41 +148,51 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
+  }
 
-body {
-      min-height: 100vh;
+  body {
+    min-height: 100vh;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     display: flex;
     justify-content: center;
-   
+
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     position: relative;
     overflow-x: hidden;
-}
+  }
 
-/* Animated background particles */
-body::before {
+  /* Animated background particles */
+  body::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
-        radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 118, 117, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 40% 80%, rgba(255, 204, 112, 0.3) 0%, transparent 50%);
+    background:
+      radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 118, 117, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 40% 80%, rgba(255, 204, 112, 0.3) 0%, transparent 50%);
     animation: float 20s ease-in-out infinite;
-}
+  }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    33% { transform: translateY(-20px) rotate(1deg); }
-    66% { transform: translateY(10px) rotate(-1deg); }
-}
+  @keyframes float {
 
-.wrapper {
+    0%,
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+
+    33% {
+      transform: translateY(-20px) rotate(1deg);
+    }
+
+    66% {
+      transform: translateY(10px) rotate(-1deg);
+    }
+  }
+
+  .wrapper {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -197,20 +203,21 @@ body::before {
     position: relative;
     z-index: 1;
     animation: slideInUp 0.8s ease-out;
-}
+  }
 
-@keyframes slideInUp {
+  @keyframes slideInUp {
     from {
-        opacity: 0;
-        transform: translateY(50px);
+      opacity: 0;
+      transform: translateY(50px);
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
-.wrapper h1 {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .wrapper h1 {
     font-size: 2.2rem;
     color: #fff;
     text-align: center;
@@ -218,42 +225,49 @@ body::before {
     font-weight: 600;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     animation: fadeInDown 1s ease-out 0.2s both;
-}
+  }
 
-@keyframes fadeInDown {
+  @keyframes fadeInDown {
     from {
-        opacity: 0;
-        transform: translateY(-20px);
+      opacity: 0;
+      transform: translateY(-20px);
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
-.input-box {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .input-box {
     position: relative;
     width: 100%;
     height: 55px;
     margin: 20px 0;
     animation: fadeInUp 1s ease-out both;
-}
+  }
 
-.input-box:nth-child(2) { animation-delay: 0.3s; }
-.input-box:nth-child(3) { animation-delay: 0.4s; }
+  .input-box:nth-child(2) {
+    animation-delay: 0.3s;
+  }
 
-@keyframes fadeInUp {
+  .input-box:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes fadeInUp {
     from {
-        opacity: 0;
-        transform: translateY(20px);
+      opacity: 0;
+      transform: translateY(20px);
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
-.input-box input {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .input-box input {
     width: 100%;
     height: 100%;
     background: rgba(255, 255, 255, 0.1);
@@ -264,20 +278,20 @@ body::before {
     color: #fff;
     padding: 20px 45px 20px 20px;
     transition: all 0.3s ease;
-}
+  }
 
-.input-box input::placeholder {
+  .input-box input::placeholder {
     color: rgba(255, 255, 255, 0.8);
-}
+  }
 
-.input-box input:focus {
+  .input-box input:focus {
     border-color: #ff7675;
     background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 0 20px rgba(255, 118, 117, 0.3);
     transform: translateY(-2px);
-}
+  }
 
-.input-box i {
+  .input-box i {
     position: absolute;
     right: 20px;
     top: 50%;
@@ -285,41 +299,41 @@ body::before {
     font-size: 20px;
     color: rgba(255, 255, 255, 0.8);
     transition: all 0.3s ease;
-}
+  }
 
-.input-box input:focus + i {
+  .input-box input:focus+i {
     color: #ff7675;
     transform: translateY(-50%) scale(1.1);
-}
+  }
 
-.remember-forgot {
+  .remember-forgot {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 14.5px;
     margin: 25px 0 30px 0;
     animation: fadeInUp 1s ease-out 0.5s both;
-}
+  }
 
-.remember-forgot label {
+  .remember-forgot label {
     display: flex;
     align-items: center;
     color: #fff;
     cursor: pointer;
     transition: color 0.3s ease;
-}
+  }
 
-.remember-forgot label:hover {
+  .remember-forgot label:hover {
     color: #ff7675;
-}
+  }
 
-.remember-forgot input[type="checkbox"] {
+  .remember-forgot input[type="checkbox"] {
     accent-color: #ff7675;
     margin-right: 8px;
     transform: scale(1.1);
-}
+  }
 
-.top-button {
+  .top-button {
     color: #fff;
     text-decoration: none;
     background: none;
@@ -330,15 +344,15 @@ body::before {
     padding: 5px 10px;
     border-radius: 6px;
     margin-left: 10px;
-}
+  }
 
-.top-button:hover {
+  .top-button:hover {
     color: #ff7675;
     background: rgba(255, 118, 117, 0.1);
     transform: translateY(-1px);
-}
+  }
 
-.btn {
+  .btn {
     width: 100%;
     height: 50px;
     background: linear-gradient(135deg, #ff7675, #fd79a8);
@@ -353,50 +367,50 @@ body::before {
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(255, 118, 117, 0.3);
     animation: fadeInUp 1s ease-out 0.6s both;
-}
+  }
 
-.btn:hover {
+  .btn:hover {
     background: linear-gradient(135deg, #fd79a8, #ff7675);
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(255, 118, 117, 0.4);
-}
+  }
 
-.btn:active {
+  .btn:active {
     transform: translateY(-1px);
-}
+  }
 
-.register-link {
+  .register-link {
     animation: fadeInUp 1s ease-out 0.7s both;
-}
+  }
 
-.register-btn {
+  .register-btn {
     background: linear-gradient(135deg, #00b894, #00cec9);
     box-shadow: 0 4px 15px rgba(0, 184, 148, 0.3);
-}
+  }
 
-.register-btn:hover {
+  .register-btn:hover {
     background: linear-gradient(135deg, #00cec9, #00b894);
     box-shadow: 0 8px 25px rgba(0, 184, 148, 0.4);
-}
+  }
 
-.resend-verify {
+  .resend-verify {
     margin-top: 30px;
     padding-top: 30px;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     animation: fadeInUp 1s ease-out 0.8s both;
-}
+  }
 
-.resend-verify .btn {
+  .resend-verify .btn {
     background: linear-gradient(135deg, #fdcb6e, #e17055);
     box-shadow: 0 4px 15px rgba(253, 203, 110, 0.3);
-}
+  }
 
-.resend-verify .btn:hover {
+  .resend-verify .btn:hover {
     background: linear-gradient(135deg, #e17055, #fdcb6e);
     box-shadow: 0 8px 25px rgba(253, 203, 110, 0.4);
-}
+  }
 
-.popup {
+  .popup {
     position: fixed;
     top: 30px;
     right: 30px;
@@ -412,44 +426,44 @@ body::before {
     z-index: 9999;
     border: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
-}
+  }
 
-.popup.show {
+  .popup.show {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0) scale(1);
-}
+  }
 
-/* Responsive design */
-@media (max-width: 480px) {
+  /* Responsive design */
+  @media (max-width: 480px) {
     .wrapper {
-        width: 90%;
-        padding: 30px 25px;
-        margin: 20px;
+      width: 90%;
+      padding: 30px 25px;
+      margin: 20px;
     }
-    
-    .wrapper h1 {
-        font-size: 1.8rem;
-    }
-    
-    .popup {
-        top: 20px;
-        right: 20px;
-        left: 20px;
-        right: 20px;
-    }
-    body,.wrapper{
-    
-    }
-}
 
-/* Loading animation for form submission */
-.btn.loading {
+    .wrapper h1 {
+      font-size: 1.8rem;
+    }
+
+    .popup {
+      top: 20px;
+      right: 20px;
+      left: 20px;
+      right: 20px;
+    }
+
+    body,
+    .wrapper {}
+  }
+
+  /* Loading animation for form submission */
+  .btn.loading {
     position: relative;
     color: transparent;
-}
+  }
 
-.btn.loading::after {
+  .btn.loading::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -461,32 +475,38 @@ body::before {
     border-top: 2px solid #fff;
     border-radius: 50%;
     animation: spin 1s linear infinite;
-}
+  }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
 
-.fade-out {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .fade-out {
     opacity: 0;
     transition: opacity 0.5s ease;
-}
-/* ...existing code... */
-.wrapper{
+  }
+
+  /* ...existing code... */
+  .wrapper {
     margin-top: 100px;
     margin-bottom: 200px;
-}
-@media (min-width: 768px) and (max-width: 1400px) {
-  .wrapper {
-    margin-bottom: 700px;
   }
-}
 
+  @media (min-width: 768px) and (max-width: 1400px) {
+    .wrapper {
+      margin-bottom: 700px;
+    }
+  }
 </style>
 <script>
   // Cookie Kontrolü ve Banner Yönetimi
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     // Cookie Banner Elementleri
     const cookieBanner = document.createElement('div');
     cookieBanner.id = 'cookie-banner';
@@ -504,10 +524,10 @@ body::before {
       backdrop-filter: blur(5px);
       border-top: 1px solid rgba(255,255,255,0.1);
     `;
-    
+
     cookieBanner.innerHTML = `
       <p style="margin-bottom: 10px;">Sitemizde deneyiminizi geliştirmek için çerezler kullanıyoruz. 
-        <a href="/cerez-politikasi.html" style="color: #ff7675; text-decoration: none;">Detaylar</a>
+         <a href="/cerez"" style="color: #ff7675; text-decoration: none;">Detaylar</a>
       </p>
       <button id="accept-cookies" style="
         background: #ff7675;
@@ -528,7 +548,7 @@ body::before {
         cursor: pointer;
       ">Reddet</button>
     `;
-    
+
     document.body.appendChild(cookieBanner);
 
     // Cookie Kontrolü
@@ -537,13 +557,13 @@ body::before {
     }
 
     // Buton Eventleri
-    document.getElementById('accept-cookies').addEventListener('click', function() {
+    document.getElementById('accept-cookies').addEventListener('click', function () {
       localStorage.setItem('cookiePreferences', 'accepted');
       cookieBanner.style.display = 'none';
       // Analytics çerezlerini yükleme kodu buraya gelecek
     });
 
-    document.getElementById('reject-cookies').addEventListener('click', function() {
+    document.getElementById('reject-cookies').addEventListener('click', function () {
       localStorage.setItem('cookiePreferences', 'rejected');
       cookieBanner.style.display = 'none';
       // Gerekirse çerezleri temizleme kodu buraya gelecek
@@ -552,7 +572,7 @@ body::before {
     // Form Gönderim Kontrolü
     const form = document.querySelector('form');
     if (form) {
-      form.addEventListener('submit', function(e) {
+      form.addEventListener('submit', function (e) {
         const kvkkCheckbox = document.querySelector('input[name="kvkk_approval"]');
         if (!kvkkCheckbox.checked) {
           e.preventDefault();
@@ -566,7 +586,7 @@ body::before {
     const links = document.querySelectorAll("a[href]");
     links.forEach((link) => {
       if (link.href.startsWith(window.location.origin) && !link.href.includes("#")) {
-        link.addEventListener("click", function(e) {
+        link.addEventListener("click", function (e) {
           e.preventDefault();
           document.body.classList.add("fade-out");
           setTimeout(() => {
