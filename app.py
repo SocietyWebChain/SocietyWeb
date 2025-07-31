@@ -290,27 +290,6 @@ def resetting_password():
         flash("Bir hata oluştu. Lütfen tekrar deneyin.", "error")
     return redirect(url_for('login'))
 
-@app.route('/password_change', methods=['GET', 'POST'])
-def password_change():
-    if request.method == "POST":
-        email = request.form.get('email')
-        
-        try:
-            redirect_url = request.url_root + 'password_change'
-            supabase.auth.reset_password_for_email(
-                email, 
-                {"redirect_to": redirect_url}
-            )
-            success_message = "Şifre sıfırlama e-postası gönderildi! E-postanızı kontrol edin."
-            return render_template('login.html', success=success_message, email=email)
-            
-        except Exception as e:
-            error_message = f"E-posta gönderilemedi: {str(e)}"
-            return render_template('login.html', error=error_message, email=email)
-    
-    return render_template('password_reset.html')
-
-
 @app.route("/password_change", methods=["GET", "POST"])
 def password_change():
     if request.method == "POST":
