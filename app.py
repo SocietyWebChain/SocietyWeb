@@ -29,6 +29,15 @@ cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache'})
 def cerez():
     return render_template("cerez.html")
 
+@app.route("/kullanım_kosul")
+def kullanım_kosul():
+    return render_template("kullanım_kosul.html")
+
+@app.route("/gizlilik")
+def gizlilik():
+    return render_template("gizlilik.html")
+
+
 @cache.memoize(timeout=60)
 def is_user_banned(user_id):
     response = supabase.table("banned_users").select("*").eq("user_id", user_id).execute()
