@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, abort, flash
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, abort, flash, send_from_directory
 from supabase import create_client, Client
 from dotenv import load_dotenv
 import re
@@ -177,6 +177,23 @@ def chat_page():
     if 'user' not in session:
         return redirect(url_for('login'))
     return render_template('forum.html')
+
+@app.route("/cerez")
+def cerez():
+    return render_template('cerez.html')
+
+@app.route("/gizlilik")
+def gizlilik():
+    return render_template('gizlilik.html')
+
+@app.route("/kullanım_kosul")
+def kullanım_kosul():
+    return render_template('kullanım_kosul.html')
+
+@app.route('/ads.txt')
+def ads_txt():
+    return send_from_directory('static', 'ads.txt')
+
 
 
 def is_user_banned(user_id):
