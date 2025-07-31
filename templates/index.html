@@ -128,18 +128,17 @@ window.addEventListener("load", function () {
 
   function handleConsent(status) {
     const cc = window.cookieconsent;
-    if (cc.allowedCategory('analytics')) {
-      // Google Analytics
-      var gaScript = document.createElement("script");
-      gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"; // Değiştir
-      gaScript.async = true;
-      document.head.appendChild(gaScript);
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXX'); // Değiştir
-    }
-
+    //if (cc.allowedCategory('analytics')) {
+    //  // Google Analytics
+    //  var gaScript = document.createElement("script");
+    //  gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-6977258738670620"; // Değiştir
+    //  gaScript.async = true;
+    //  document.head.appendChild(gaScript);
+    //  window.dataLayer = window.dataLayer || [];
+    //  function gtag(){dataLayer.push(arguments);}
+    //  gtag('js', new Date());
+    //  gtag('config', 'G-6977258738670620'); // Değiştir
+    //}
     if (cc.allowedCategory('marketing')) {
       // Google Ads
       var adScript = document.createElement("script");
