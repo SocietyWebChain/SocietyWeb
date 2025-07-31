@@ -39,7 +39,7 @@
 
             setTimeout(() => {
               window.location.href = link.href;
-            }, 100000);
+            }, 500); // 0.5 saniye bekle
           });
         }
       });
@@ -48,8 +48,10 @@
   <style>
     body {
       opacity: 1;
-      transition: opacity 100s ease;
+      transition: opacity 0.5s ease;
+      /* Animasyon 0.5 saniye sürsün */
     }
+
 
     body.fade-out {
       opacity: 0;
