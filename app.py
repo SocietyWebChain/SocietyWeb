@@ -25,9 +25,9 @@ max_message_limit = 200
 
 cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache'})
 
-@app.route("/cerezpolitikasi")
-def cerezpolitikasi():
-    return render_template("cerez-politikası.html")
+@app.route("/cerez")
+def cerez():
+    return render_template("cerez.html")
 
 @cache.memoize(timeout=60)
 def is_user_banned(user_id):
