@@ -5,6 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Çerez Politikası | Üniversite Toplulukları</title>
+  <script>
+      document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        fetch(this.href)
+          .then(res => res.text())
+          .then(html => {
+            document.getElementById('icerik-alani').innerHTML = html;
+          });
+      });
+    });
+
+  </script>    
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
