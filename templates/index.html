@@ -75,10 +75,6 @@
     <button class="left-button" id="help" onclick='window.location.href = "/help"'><i
         class="fas fa-question-circle"></i>Destek</button>
 
-    <div class="search-container">
-      <input class="search-input" id="searchBox" placeholder="Ara..." type="text" />
-    </div>
-
     <button class="top-button" {%if logged_in%} id="logout" {%else%} id="signup" {%endif%}
       onclick="window.location.href = '{% if logged_in %}/logout{% else %}/login{% endif %}'">
       {% if logged_in %}Çıkış Yap{% else %}Giriş Yap{% endif %}
@@ -100,6 +96,11 @@
 
 
   <div class="top-buttons">
+
+    <div class="search-container">
+      <input class="search-input" id="searchBox" placeholder="Ara..." type="text" />
+    </div>
+
     <button class="top-button" id="home" onclick="delcom(this)">Ana Sayfa</button>
     <button class="top-button" id="software" onclick="delcom(this)">Yazılım</button>
     <button class="top-button" id="science" onclick="delcom(this)">Bilim</button>
@@ -1245,5 +1246,19 @@
     .popup-modal {
       max-height: 70vh;
     }
+  }
+
+  @media {
+
+    #home {
+      margin: top 0;
+    }
+
+    #searchBox {
+      margin-top: 15px;
+
+
+    }
+
   }
 </style>
