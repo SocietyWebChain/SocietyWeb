@@ -39,7 +39,7 @@ def gizlilik():
 
 @app.route('/ads.txt')
 def ads_txt():
-    return send_from_directory('static', 'ads.txt')
+    return render_template('static', 'ads.txt')
 
 @cache.memoize(timeout=60)
 def is_user_banned(user_id):
