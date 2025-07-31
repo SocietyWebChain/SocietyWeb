@@ -320,13 +320,13 @@ def password_change():
         refresh_token = request.form.get("refresh_token")
         
         if password != password_confirm:
-            return render_template("password_reset.html", 
+            return render_template("password_reset_password.html", 
                                  error="Şifreler eşleşmiyor.",
                                  access_token=access_token,
                                  refresh_token=refresh_token)
         
         if not access_token:
-            return render_template("password_reset.html", 
+            return render_template("password_reset_password.html", 
                                  error="Geçersiz token.",
                                  access_token=access_token,
                                  refresh_token=refresh_token)
@@ -337,16 +337,16 @@ def password_change():
             
             supabase.auth.update_user({"password": password})
             
-            return render_template("password_reset.html", 
+            return render_template("password_reset_password.html", 
                                  success="Şifre başarıyla değiştirildi! Giriş yapabilirsiniz.")
                                  
         except Exception as e:
-            return render_template("password_reset.html", 
+            return render_template("password_reset_password.html", 
                                  error=f"Şifre güncellenirken hata: {e}",
                                  access_token=access_token,
                                  refresh_token=refresh_token)
     
-    return render_template("password_reset.html")
+    return render_template("password_reset_password.html")
     
 #if __name__ == "__main__":
 #    app.run(debug=True)
