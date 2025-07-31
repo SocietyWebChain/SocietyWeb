@@ -102,6 +102,10 @@ def register():
             return render_template('register.html', error="Kayıt sırasında hata oluştu. Lütfen tekrar deneyin.")
     
     return render_template('register.html')
+    
+@app.route('/password_reset_password', methods=['GET'])
+def password_reset_password():
+    return render_template('password_reset_password.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
