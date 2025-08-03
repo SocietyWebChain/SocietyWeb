@@ -1141,9 +1141,6 @@ window.addEventListener("load", function () {
 
   /* ...diğer hamburger animasyon stilleri... */
 
-  .left-buttons {
-    margin-right: 30%;
-  }
 
   @media (max-width: 768px) {
 
@@ -1327,5 +1324,41 @@ window.addEventListener("load", function () {
 
   #searchBox {
     margin-bottom: 15px;
+  }
+  .left-buttons {
+    margin-right: 27%;
+    margin-left: 27%;;
+    
+  }
+  @media (max-width: 768px) {
+     #benmalım {
+    width: 100%; /* Elementin tüm genişliği kaplamasını sağlar */
+    text-align: center; /* Metni yatayda ortalar */
+    padding-top: 15px; /* Üstten biraz boşluk bırakır */
+    padding-bottom: 15px; /* Alttan biraz boşluk bırakır */
+    margin-left: 0; /* Mevcut sol boşluğu sıfırlar */
+  }
+   .left-buttons.active {
+    left: 0; /* Menüyü görünür yapar */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-top: 80px;
+    z-index: 1000; /* Menüyü diğer elementlerin üzerine çıkarır */
+  }
+
+  .top-buttons {
+    /* ... mevcut stiller ... */
+    z-index: 1; /* Arama çubuğunun z-index'ini menüden düşük tutar */
+  }
+
+  .hamburger-menu {
+    /* ... mevcut stiller ... */
+    z-index: 1001; /* Hamburger ikonunun her zaman en üstte kalmasını sağlar */
+  }
+}
+
+    
   }
 </style>
