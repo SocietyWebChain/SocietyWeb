@@ -129,27 +129,21 @@ window.addEventListener("load", function () {
 
     <span id=benmalım class="text-xl font-bold gradient-text select-none">ÜniversiteToplulukları</span>
 
-    <button class="left-button" id="settings" onclick='window.location.href = "/settings"'><i
-        class="fas fa-cog"></i>Ayarlar</button>
-    <button class="left-button" id="forum" onclick='window.location.href = "./forum"'><i
-        class="fas fa-envelope"></i>Forum</button>
-    <button class="left-button" id="help" onclick='window.location.href = "/help"'><i
-        class="fas fa-question-circle"></i>Destek</button>
+    <button class="left-button" id="settings" onclick='window.location.href = "/settings"'><i class="fas fa-cog"></i>Ayarlar</button>
+    <button class="left-button" id="forum" onclick='window.location.href = "./forum"'><i class="fas fa-envelope"></i>Forum</button>
+    <button class="left-button" id="help" onclick='window.location.href = "/help"'><i class="fas fa-question-circle"></i>Destek</button>
 
-    <button class="top-button" {%if logged_in%} id="logout" {%else%} id="signup" {%endif%}
-      onclick="window.location.href = '{% if logged_in %}/logout{% else %}/login{% endif %}'">
+    <button class="top-button" {%if logged_in%} id="logout" {%else%} id="signup" {%endif%} onclick="window.location.href = '{% if logged_in %}/logout{% else %}/login{% endif %}'">
       {% if logged_in %}Çıkış Yap{% else %}Giriş Yap{% endif %}
     </button>
   </div>
 
   <div id="backendsiz">
     <span class="text-xl font-bold gradient-text select-none">Üniversite Topluluklarını Keşfet</span>
-    <span class="yazı">İlgi alanına uygun topluluklara katıl, etkinlikleri takip et, forumda sorularını sor ve destek
-      al.</span>
+    <span class="yazı">İlgi alanına uygun topluluklara katıl, etkinlikleri takip et, forumda sorularını sor ve destek al.</span>
 
     <div class="button-group">
-      <button onclick="document.getElementById('home').scrollIntoView({ behavior: 'smooth' });">Toplulukları
-        Keşfet</button>
+      <button onclick="document.getElementById('home').scrollIntoView({ behavior: 'smooth' });">Toplulukları Keşfet</button>
       <button class="left-button" id="forum" onclick='window.location.href = "/forum"'>Foruma Git</button>
     </div>
 
@@ -167,6 +161,7 @@ window.addEventListener("load", function () {
     <button class="top-button" id="science" onclick="delcom(this)">Bilim</button>
     <button class="top-button" id="social" onclick="delcom(this)">Sosyal Bilimler</button>
     <button class="top-button" id="fun" onclick="delcom(this)">Eğlence</button>
+    <button class="top-button" id="sanat" onclick="delcom(this)">Sanat</button>
   </div>
 
 
@@ -256,6 +251,30 @@ window.addEventListener("load", function () {
     </div>
 
 
+
+    <div class="com_box" id="sanat">
+      <div class="com-link"
+        data-desc="Bakırçay Dans Topluluğu ile kampüse hareket katıyoruz! Dans derslerinden sahne şovlarına uzanan eğitimlerle hem öğreniyor hem de üretiyoruz. Dans geceleri gibi organizasyonlarla öğrendiklerimizi pekiştirirken tüm dans tutkunlarını bir araya getirip bu enerjiyi birlikte paylaşıyoruz. Sen de bize katıl, dansın ve eğlencenin ritmini birlikte yakalayalım! 🎶"
+        data-cat="  
+          <h2>📅 <b>Yaklaşan Etkinlikler</b></h2>
+          <ul>
+            <li><strong> Planlama aşamasında beklemede kalın !</strong></li>
+          </ul>" 
+        data-img="/static/photos/bakırdans.webp" 
+        data-link=" 
+        <i class='fab fa-instagram' style='font-size:20px'></i> 
+        <a href=' https://www.instagram.com/bakircaydans?igsh=aThrbm5jYndmOXZm' target='_blank' style='font-weight: bold;'>Instagram</a>"
+
+        data-title="Bakırçay&nbsp;Dans&nbsp;Topluluğu">
+        
+
+        <img alt="Bakırçay&nbsp;Dans&nbsp;Topluluğu" id="com_image"
+          src="/static/photos/bakırdans.webp" />
+        <h2>Bakırçay&nbsp;Dans&nbsp;Topluluğu</h2>
+        <h3>&gt;Sanat&lt;</h3>
+        <h4>Bakırçay Dans Topluluğu ile kampüse hareket katıyoruz!.</h4>
+      </div>
+    </div>
 
 
 
