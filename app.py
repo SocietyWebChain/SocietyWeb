@@ -8,6 +8,10 @@ import dns.resolver
 import socket
 from gotrue.errors import AuthApiError
 from flask_caching import Cache
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 load_dotenv()
  
@@ -211,26 +215,12 @@ def send_message():
         display_name = session['display_name']
         user_id = session['user_id']
 
-        supabase.table("messages").insert({
-            "user_id": user_id,
-            "display_name": display_name,
-            "message": message
+        supabase.rpc("add_message_and_cleanup", {
+            "p_user_id": user_id,
+            "p_display_name": display_name,
+            "p_message": message,
+            "p_max_limit": max_message_limit
         }).execute()
-
-        max_message_limit = 100  
-
-        result = supabase.table("messages") \
-            .select("id") \
-            .order("created_at", desc=True) \
-            .execute()
-
-        messages = result.data
-        if len(messages) > max_message_limit:
-            to_delete_ids = [m["id"] for m in messages[max_message_limit:]]
-            supabase.table("messages") \
-                .delete() \
-                .in_("id", to_delete_ids) \
-                .execute()
 
         return jsonify(status="ok")
     except Exception as e:
@@ -358,5 +348,5 @@ def password_change():
     
     return render_template("password_reset_password.html")
     
-#if __name__ == "__main__":
-#    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
