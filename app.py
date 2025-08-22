@@ -211,12 +211,26 @@ def send_message():
         display_name = session['display_name']
         user_id = session['user_id']
 
-        supabase.rpc("add_message_and_cleanup", {
-            "p_user_id": user_id,
-            "p_display_name": display_name,
-            "p_message": message,
-            "p_max_limit": max_message_limit
+        supabase.table("messages").insert({
+            "user_id": user_id,
+            "display_name": display_name,
+            "message": message
         }).execute()
+
+        max_message_limit = 100  
+
+        result = supabase.table("messages") \
+            .select("id") \
+            .order("created_at", desc=True) \
+            .execute()
+
+        messages = result.data
+        if len(messages) > max_message_limit:
+            to_delete_ids = [m["id"] for m in messages[max_message_limit:]]
+            supabase.table("messages") \
+                .delete() \
+                .in_("id", to_delete_ids) \
+                .execute()
 
         return jsonify(status="ok")
     except Exception as e:
