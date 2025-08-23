@@ -195,8 +195,8 @@ def kullanım_kosul_page():
     return render_template('kullanım_kosul.html')
 
 @app.route('/ads.txt')
-def ads_txt_page():
-    return send_from_directory('static', 'ads.txt')
+def ads():
+    return send_from_directory('.','ads.txt')
 
 
 
