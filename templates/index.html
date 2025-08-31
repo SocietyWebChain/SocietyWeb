@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 
@@ -67,52 +68,52 @@
 
 
 <script>
-window.addEventListener("load", function () {
-  window.cookieconsent.initialise({
-    palette: {
-      popup: {
-        background: "#161B22",
-        text: "#ffffff"
+  window.addEventListener("load", function () {
+    window.cookieconsent.initialise({
+      palette: {
+        popup: {
+          background: "#161B22",
+          text: "#ffffff"
+        },
+        button: {
+          background: "#8A2BE2",
+          text: "#ffffff"
+        }
       },
-      button: {
-        background: "#8A2BE2",
-        text: "#ffffff"
+      theme: "classic",
+      position: "bottom-right",
+      type: "opt-in",
+      law: {
+        regionalLaw: false
+      },
+      content: {
+        message: "Bu site, kullanıcı deneyiminizi geliştirmek için çerezler kullanır.",
+        allow: "Kabul Et",
+        deny: "Reddet",
+        link: "Detaylar",
+        href: "/cerez"
+      },
+      onInitialise: function (status) {
+        if (status === 'allow') {
+          enableCookies();
+        }
+      },
+      onStatusChange: function (status) {
+        if (status === 'allow') {
+          enableCookies();
+        }
       }
-    },
-    theme: "classic",
-    position: "bottom-right",
-    type: "opt-in",
-    law: {
-      regionalLaw: false
-    },
-    content: {
-      message: "Bu site, kullanıcı deneyiminizi geliştirmek için çerezler kullanır.",
-      allow: "Kabul Et",
-      deny: "Reddet",
-      link: "Detaylar",
-      href: "/cerez"
-    },
-    onInitialise: function (status) {
-      if (status === 'allow') {
-        enableCookies();
-      }
-    },
-    onStatusChange: function (status) {
-      if (status === 'allow') {
-        enableCookies();
-      }
+    });
+  
+    function enableCookies() {
+      // Örnek: Google Ads
+      var adScript = document.createElement("script");
+      adScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6977258738670620";
+      adScript.async = true;
+      adScript.crossOrigin = "anonymous";
+      document.head.appendChild(adScript);
     }
   });
-
-  function enableCookies() {
-    // Örnek: Google Ads
-    var adScript = document.createElement("script");
-    adScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6977258738670620";
-    adScript.async = true;
-    adScript.crossOrigin = "anonymous";
-    document.head.appendChild(adScript);
-  }
-});
 </script>
 
 
