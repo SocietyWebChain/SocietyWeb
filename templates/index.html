@@ -57,9 +57,12 @@
 
 
   <!-- Tam Teşekküllü Cookie Consent Paneli (GDPR + KVKK Uyumlu) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+  />
 </head>
 
 
@@ -100,7 +103,7 @@
         }
       }
     });
-
+  
     function enableCookies() {
       // Örnek: Google Ads
       var adScript = document.createElement("script");
@@ -127,27 +130,21 @@
 
     <span id=benmalım class="text-xl font-bold gradient-text select-none">ÜniversiteToplulukları</span>
 
-    <button class="left-button" id="settings" onclick='window.location.href = "/settings"'><i
-        class="fas fa-cog"></i>Ayarlar</button>
-    <button class="left-button" id="forum" onclick='window.location.href = "./forum"'><i
-        class="fas fa-envelope"></i>Forum</button>
-    <button class="left-button" id="help" onclick='window.location.href = "/help"'><i
-        class="fas fa-question-circle"></i>Destek</button>
+    <button class="left-button" id="settings" onclick='window.location.href = "/settings"'><i class="fas fa-cog"></i>Ayarlar</button>
+    <button class="left-button" id="forum" onclick='window.location.href = "./forum"'><i class="fas fa-envelope"></i>Forum</button>
+    <button class="left-button" id="help" onclick='window.location.href = "/help"'><i class="fas fa-question-circle"></i>Destek</button>
 
-    <button class="top-button" {%if logged_in%} id="logout" {%else%} id="signup" {%endif%}
-      onclick="window.location.href = '{% if logged_in %}/logout{% else %}/login{% endif %}'">
+    <button class="top-button" {%if logged_in%} id="logout" {%else%} id="signup" {%endif%} onclick="window.location.href = '{% if logged_in %}/logout{% else %}/login{% endif %}'">
       {% if logged_in %}Çıkış Yap{% else %}Giriş Yap{% endif %}
     </button>
   </div>
 
   <div id="backendsiz">
     <span class="text-xl font-bold gradient-text select-none">Üniversite Topluluklarını Keşfet</span>
-    <span class="yazı">İlgi alanına uygun topluluklara katıl, etkinlikleri takip et, forumda sorularını sor ve destek
-      al.</span>
+    <span class="yazı">İlgi alanına uygun topluluklara katıl, etkinlikleri takip et, forumda sorularını sor ve destek al.</span>
 
     <div class="button-group">
-      <button onclick="document.getElementById('home').scrollIntoView({ behavior: 'smooth' });">Toplulukları
-        Keşfet</button>
+      <button onclick="document.getElementById('home').scrollIntoView({ behavior: 'smooth' });">Toplulukları Keşfet</button>
       <button class="left-button" id="forum" onclick='window.location.href = "/forum"'>Foruma Git</button>
     </div>
 
@@ -160,14 +157,14 @@
       <input class="search-input" id="searchBox" placeholder="Ara..." type="text" />
     </div>
 
-    <button class="top-button" id="home" onclick="delcom(this)">denemeAna Sayfa</button>
+    <button class="top-button" id="home" onclick="delcom(this)">Ana Sayfa</button>
     <button class="top-button" id="software" onclick="delcom(this)">Yazılım</button>
     <button class="top-button" id="science" onclick="delcom(this)">Bilim</button>
     <button class="top-button" id="social" onclick="delcom(this)">Sosyal Bilimler</button>
     <button class="top-button" id="fun" onclick="delcom(this)">Eğlence</button>
     <button class="top-button" id="sanat" onclick="delcom(this)">Sanat</button>
     <button class="top-button" id="ekonomi" onclick="delcom(this)">Ekonomi</button>
-    <button class="top-button" id="mühendislik" onclick="delcom(this)">Mühendislil</button>
+    <button class="top-button" id="mühendislik" onclick="delcom(this)">Mühendislik</button>
   </div>
 
 
@@ -195,7 +192,9 @@
           <h2>📅 <b>Yaklaşan Etkinlikler</b></h2>
           <ul>
             <li>🛡️ <strong> 3-7 Eylül:</strong> Uluslararası Hypatia Bilim ve İletişim Festivaline katılım sağlayacağız. Detaylı bilgi ve kayıt için <u><a href='https://www.hypatiabilimfestival.com/' target='_blank'>https://www.hypatiabilimfestival.com/</a></u>  adresini ziyaret edebilirsiniz.</li>
-          </ul>" data-img="/static/photos/qınz.webp" data-link=" 
+          </ul>" 
+        data-img="/static/photos/qınz.webp" 
+        data-link=" 
         <i class='fab fa-instagram' style='font-size:20px'></i> 
         <a href='https://www.instagram.com/iztechquantum/' target='_blank' style='font-weight: bold;'>Instagram</a> 
         &nbsp;&nbsp;
@@ -203,17 +202,19 @@
         <a href='https://x.com/iztechquantum' target='_blank'>Twitter</a> 
         &nbsp;&nbsp;
         <i class='fab fa-linkedin' style='font-size:20px'></i> 
-        <a href='https://www.linkedin.com/company/qsbiztech/' target='_blank'>LinkedIn</a>
+        <a href='https://www.linkedin.com/company/qsbiztech/' target='_blank'>Linkedin</a>
         &nbsp;&nbsp;
         <i class='material-icons' style='font-size:20px'>mail</i> 
-        <a href='mailto:qsbiztech@gmail.com' target='_blank'>Gmail</a>" data-title="Quantum&nbsp;IZTECH">
+        <a href='mailto:qsbiztech@gmail.com' target='_blank'>Gmail</a>"
 
+        data-title="Quantum&nbsp;IZTECH">
+        
 
-        <img alt="Quantum&nbsp;IZTECH" id="com_image" src="/static/photos/qınz.webp" />
+        <img alt="Quantum&nbsp;IZTECH" id="com_image"
+          src="/static/photos/qınz.webp" />
         <h2>Quantum&nbsp;IZTECH</h2>
         <h3>&gt;Bilim&lt;</h3>
-        <h4>QWorld ağının Türkiye kolu QTurkey çatısı altında, İzmir Yüksek Teknoloji Enstitüsü'nde faaliyet gösteren
-          bir öğrenci topluluğudur.</h4>
+        <h4>QWorld ağının Türkiye kolu QTurkey çatısı altında, İzmir Yüksek Teknoloji Enstitüsü'nde faaliyet gösteren bir öğrenci topluluğudur.</h4>
       </div>
     </div>
 
@@ -226,7 +227,9 @@
           <h2>📅 <b>Yaklaşan Etkinlikler</b></h2>
           <ul>
             <li><strong> Planlama aşamasında beklemede kalın !</strong></li>
-          </ul>" data-img="/static/photos/esport.webp" data-link=" 
+          </ul>" 
+        data-img="/static/photos/esport.webp" 
+        data-link=" 
         <i class='fab fa-instagram' style='font-size:20px'></i> 
         <a href=' https://www.instagram.com/iztechesports?igsh=MW40a3EzeGQ5dWp6cA==' target='_blank' style='font-weight: bold;'>Instagram</a> 
         &nbsp;&nbsp;
@@ -237,10 +240,13 @@
         <a href='https://youtube.com/@iztechesports?si=gcn_jyjc6HrJepx7' target='_blank'>Youtube</a>
         &nbsp;&nbsp;
         <i class='fa fa-twitch' style='font-size:20px'></i> 
-        <a href='https://m.twitch.tv/iztechesports/home' target='_blank'>Twitch</a>" data-title="IZTECH&nbsp;E Sports">
+        <a href='https://m.twitch.tv/iztechesports/home' target='_blank'>Twitch</a>"
 
+        data-title="IZTECH&nbsp;E Sports">
+        
 
-        <img alt="IZTECH&nbsp;E Sports" id="com_image" src="/static/photos/esport.webp" />
+        <img alt="IZTECH&nbsp;E Sports" id="com_image"
+          src="/static/photos/esport.webp" />
         <h2>IZTECH&nbsp;E Sports</h2>
         <h3>&gt;Eğlence&lt;</h3>
         <h4>İYTE Espor Topluluğu olarak, oyun tutkusunu kampüs kültürüyle bir araya getiriyoruz.</h4>
@@ -256,14 +262,17 @@
           <h2>📅 <b>Yaklaşan Etkinlikler</b></h2>
           <ul>
             <li><strong> Planlama aşamasında beklemede kalın !</strong></li>
-          </ul>" data-img="/static/photos/bakırdans.webp"
+          </ul>" 
+        data-img="/static/photos/bakırdans.webp" 
         data-link=" 
         <i class='fab fa-instagram' style='font-size:20px'></i> 
         <a href=' https://www.instagram.com/bakircaydans?igsh=aThrbm5jYndmOXZm' target='_blank' style='font-weight: bold;'>Instagram</a>"
+
         data-title="Bakırçay&nbsp;Dans&nbsp;Topluluğu">
+        
 
-
-        <img alt="Bakırçay&nbsp;Dans&nbsp;Topluluğu" id="com_image" src="/static/photos/bakırdans.webp" />
+        <img alt="Bakırçay&nbsp;Dans&nbsp;Topluluğu" id="com_image"
+          src="/static/photos/bakırdans.webp" />
         <h2>Bakırçay&nbsp;Dans&nbsp;Topluluğu</h2>
         <h3>&gt;Sanat&lt;</h3>
         <h4>Bakırçay Dans Topluluğu ile kampüse hareket katıyoruz!</h4>
@@ -279,24 +288,29 @@
           <h2>📅 <b>Yaklaşan Etkinlikler</b></h2>
           <ul>
             <li><strong> Planlama aşamasında beklemede kalın !</strong></li>
-          </ul>" data-img="/static/photos/bakırekonomi.webp"
+          </ul>" 
+        data-img="/static/photos/bakırekonomi.webp" 
         data-link=" 
         <i class='fab fa-instagram' style='font-size:20px'></i> 
         <a href=' https://www.instagram.com/bakircaytpt/' target='_blank' style='font-weight: bold;'>Instagram</a>
         &nbsp;&nbsp;
         <i class='fa-brands fa-tiktok'></i> 
-        <a href=' https://www.tiktok.com/search?q=%40bakircaytpt&t=1755878606880' target='_blank' style='font-weight: bold;'>TikTok</a>"
-        data-title="Bakırçay Üniversitesi<br>Ticaret ve Pazarlama<br>Topluluğu">
+        <a href=' https://www.tiktok.com/search?q=%40bakircaytpt&t=1755878606880' target='_blank' style='font-weight: bold;'>TikTok</a>
 
+        &nbsp;&nbsp;
+        <i class='fab fa-linkedin' style='font-size:20px'></i> 
+        <a href=' https://www.linkedin.com/company/i%CC%87zb%C3%BC-ticaret-ve-pazarlama/' target='_blank' style='font-weight: bold;'>Linkedin</a>"
+
+        data-title="Bakırçay Üniversitesi<br>Ticaret ve Pazarlama<br>Topluluğu">
+        
 
         <img alt="İzmir Bakırçay Üniversitesi Ticaret ve Pazarlama Topluluğu" id="com_image"
           src="/static/photos/bakırekonomi.webp" />
         <h2>İzmir Bakırçay Üniversitesi&nbsp;Ticaret ve Pazarlama Topluluğu</h2>
         <h3>&gt;Ekonomi&lt;</h3>
-        <h4>Ticaret ve Pazarlama Topluluğu , iş dünyasına ilgi duyan gençleri bir araya getirerek ticaret, pazarlama ve
-          girişimcilik alanlarında gelişim fırsatları sunmayı amaçlayan bir öğrenci topluluğudur.</h4>
+        <h4>Ticaret ve Pazarlama Topluluğu , iş dünyasına ilgi duyan gençleri bir araya getirerek ticaret, pazarlama ve girişimcilik alanlarında gelişim fırsatları sunmayı amaçlayan bir öğrenci topluluğudur.</h4>
       </div>
-    </div>
+    </div>    
 
 
 
@@ -307,19 +321,21 @@
           <h2>📅 <b>Yaklaşan Etkinlikler</b></h2>
           <ul>
             <li><strong> Planlama aşamasında beklemede kalın !</strong></li>
-          </ul>" data-img="/static/photos/mühendishane.webp"
+          </ul>" 
+        data-img="/static/photos/mühendishane.webp" 
         data-link="
         <i class='fab fa-linkedin' style='font-size:20px'></i> 
         <a href='https://www.linkedin.com/company/i%CC%87zmir-bak%C4%B1r%C3%A7ay-%C3%BCniversitesi-m%C3%BChendishane-toplulugu/' target='_blank'>LinkedIn</a>"
+
         data-title="Bakırçay Üniversitesi<br>Ticaret ve Pazarlama<br>Topluluğu">
 
-        <img alt="Mühendishane Bakırçay" id="com_image" src="/static/photos/mühendishane.webp" />
+        <img alt="Mühendishane Bakırçay" id="com_image"
+          src="/static/photos/mühendishane.webp" />
         <h2>Mühendishane Bakırçay</h2>
         <h3>&gt;Mühendislik&lt;</h3>
-        <h4>Mühendishane Topluluğu, mühendislik öğrencilerini bir araya getirip mesleki ve sosyal gelişimlerine katkı
-          sağlar.</h4>
+        <h4>Mühendishane Topluluğu, mühendislik öğrencilerini bir araya getirip mesleki ve sosyal gelişimlerine katkı sağlar.</h4>
       </div>
-    </div>
+    </div> 
 
 
 
@@ -1435,60 +1451,49 @@
 
     #searchBox {
       margin-top: 15px;
-      margin-bottom: 0px;
+      margin-bottom: 0px;
     }
   }
-
   #searchBox {
     margin-bottom: 15px;
   }
-
   .left-buttons {
     margin-right: 27%;
-    margin-left: 27%;
-    ;
-
+    margin-left: 27%;;
+    
   }
-
   @media (max-width: 768px) {
-    #benmalım {
-      width: 100%;
-      /* Elementin tüm genişliği kaplamasını sağlar */
-      text-align: center;
-      /* Metni yatayda ortalar */
-      padding-top: 15px;
-      /* Üstten biraz boşluk bırakır */
-      padding-bottom: 15px;
-      /* Alttan biraz boşluk bırakır */
-      margin-left: 15px;
-      /* Mevcut sol boşluğu sıfırlar */
-    }
-
-    .left-buttons.active {
-      left: 0;
-      /* Menüyü görünür yapar */
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: flex-start;
-      padding-top: 80px;
-      z-index: 1000;
-      /* Menüyü diğer elementlerin üzerine çıkarır */
-      width: 45%;
-    }
-
-    .top-buttons {
-      /* ... mevcut stiller ... */
-      z-index: 1;
-      /* Arama çubuğunun z-index'ini menüden düşük tutar */
-    }
-
-    .hamburger-menu {
-      /* ... mevcut stiller ... */
-      display: inline-block;
-      width: 34px;
-      z-index: 1001;
-      /* Hamburger ikonunun her zaman en üstte kalmasını sağlar */
-    }
+     #benmalım {
+    width: 100%; /* Elementin tüm genişliği kaplamasını sağlar */
+    text-align: center; /* Metni yatayda ortalar */
+    padding-top: 15px; /* Üstten biraz boşluk bırakır */
+    padding-bottom: 15px; /* Alttan biraz boşluk bırakır */
+    margin-left: 15px; /* Mevcut sol boşluğu sıfırlar */
   }
+   .left-buttons.active {
+    left: 0; /* Menüyü görünür yapar */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-top: 80px;
+    z-index: 1000; /* Menüyü diğer elementlerin üzerine çıkarır */
+    width: 45%;
+  }
+
+  .top-buttons {
+    /* ... mevcut stiller ... */
+    z-index: 1; /* Arama çubuğunun z-index'ini menüden düşük tutar */
+  }
+
+  .hamburger-menu {
+    /* ... mevcut stiller ... */
+    display: inline-block;
+    width: 34px;
+    z-index: 1001; /* Hamburger ikonunun her zaman en üstte kalmasını sağlar */
+  }
+}
+
+    
+  
 </style>
