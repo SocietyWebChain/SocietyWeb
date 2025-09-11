@@ -54,16 +54,16 @@ for row_events in com_events.data:
     
     if parsed_from == parsed_to:
         # aynı gün aynı ay
-        formatted_from = parsed_from.strftime("%#d %B")
+        formatted_from = parsed_from.strftime("%-d %B")
         formatted_to = formatted_from
     elif parsed_from.month == parsed_to.month and parsed_from.year == parsed_to.year:
         # aynı ay içinde farklı gün
-        formatted_from = parsed_from.strftime("%#d")
-        formatted_to = parsed_to.strftime("%#d %B")
+        formatted_from = parsed_from.strftime("%-d")
+        formatted_to = parsed_to.strftime("%-d %B")
     else:
         # farklı ay (veya yıl)
-        formatted_from = parsed_from.strftime("%#d %B")
-        formatted_to = parsed_to.strftime("%#d %B")
+        formatted_from = parsed_from.strftime("%-d %B")
+        formatted_to = parsed_to.strftime("%-d %B")
     if raw_time: 
         parsed_time = datetime.strptime(raw_time, "%H:%M:%S")
         formatted_time = parsed_time.strftime("%H:%M") 
