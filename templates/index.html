@@ -10,26 +10,20 @@
     content="Üniversite kulüplerini ve etkinliklerini tek çatı altında toplayan Türkiye'nin en büyük öğrenci platformu.">
   <meta name="google-adsense-account" content="ca-pub-6977258738670620">
 
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script> <!--İcon kodu tek satır-->
+
   <!-- Google Ads -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6977258738670620"
     crossorigin="anonymous">
-    </script>
+  </script>
 
   <!-- Faviconlar -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="icon" type="image/png" sizes="96x96" href="/static/photos/favicon-96x96.png" />
   <link rel="icon" type="image/svg+xml" href="/static/photos/favicon.svg" />
   <link rel="shortcut icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/static/photos/apple-touch-icon.png" />
   <link rel="manifest" href="/static/photos/site.webmanifest" />
 
-  <!-- Font ve İkonlar -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <!-- Sayfa geçiş animasyonu (fade-out) -->
   <script>
@@ -59,60 +53,57 @@
   <!-- Tam Teşekküllü Cookie Consent Paneli (GDPR + KVKK Uyumlu) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-  />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+
 </head>
-
-
 <script>
-  window.addEventListener("load", function () {
-    window.cookieconsent.initialise({
-      palette: {
-        popup: {
-          background: "#161B22",
-          text: "#ffffff"
-        },
-        button: {
-          background: "#8A2BE2",
-          text: "#ffffff"
-        }
+window.addEventListener("load", function () {
+  window.cookieconsent.initialise({
+    palette: {
+      popup: {
+        background: "#161B22",
+        text: "#ffffff"
       },
-      theme: "classic",
-      position: "bottom-right",
-      type: "opt-in",
-      law: {
-        regionalLaw: false
-      },
-      content: {
-        message: "Bu site, kullanıcı deneyiminizi geliştirmek için çerezler kullanır.",
-        allow: "Kabul Et",
-        deny: "Reddet",
-        link: "Detaylar",
-        href: "/cerez"
-      },
-      onInitialise: function (status) {
-        if (status === 'allow') {
-          enableCookies();
-        }
-      },
-      onStatusChange: function (status) {
-        if (status === 'allow') {
-          enableCookies();
-        }
+      button: {
+        background: "#8A2BE2",
+        text: "#ffffff"
       }
-    });
-  
-    function enableCookies() {
-      // Örnek: Google Ads
-      var adScript = document.createElement("script");
-      adScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6977258738670620";
-      adScript.async = true;
-      adScript.crossOrigin = "anonymous";
-      document.head.appendChild(adScript);
+    },
+    theme: "classic",
+    position: "bottom-right",
+    type: "opt-in",
+    law: {
+      regionalLaw: false
+    },
+    content: {
+      message: "Bu site, kullanıcı deneyiminizi geliştirmek için çerezler kullanır.",
+      allow: "Kabul Et",
+      deny: "Reddet",
+      link: "Detaylar",
+      href: "/cerez"
+    },
+    onInitialise: function (status) {
+      if (status === 'allow') {
+        enableCookies();
+      }
+    },
+    onStatusChange: function (status) {
+      if (status === 'allow') {
+        enableCookies();
+      }
     }
   });
+
+  function enableCookies() {
+    // Örnek: Google Ads
+    var adScript = document.createElement("script");
+    adScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6977258738670620";
+    adScript.async = true;
+    adScript.crossOrigin = "anonymous";
+    document.head.appendChild(adScript);
+  }
+});
 </script>
 
 
@@ -130,9 +121,9 @@
 
     <span id=benmalım class="text-xl font-bold gradient-text select-none">ÜniversiteToplulukları</span>
 
-    <button class="left-button" id="settings" onclick='window.location.href = "/settings"'><i class="fas fa-cog"></i>Ayarlar</button>
-    <button class="left-button" id="forum" onclick='window.location.href = "./forum"'><i class="fas fa-envelope"></i>Forum</button>
-    <button class="left-button" id="help" onclick='window.location.href = "/help"'><i class="fas fa-question-circle"></i>Destek</button>
+    <button class="left-button" id="settings" onclick='window.location.href = "/settings"'><iconify-icon icon="ix:cogwheel" style="font-size:23px;"></iconify-icon>Ayarlar</button>
+    <button class="left-button" id="forum" onclick='window.location.href = "./forum"'><iconify-icon icon="material-symbols:mail" width="24" height="24"></iconify-icon>Forum</button>
+    <button class="left-button" id="help" onclick='window.location.href = "/help"'><iconify-icon icon="material-symbols:help" width="24" height="24"></iconify-icon>Destek</button>
 
     <button class="top-button" {%if logged_in%} id="logout" {%else%} id="signup" {%endif%} onclick="window.location.href = '{% if logged_in %}/logout{% else %}/login{% endif %}'">
       {% if logged_in %}Çıkış Yap{% else %}Giriş Yap{% endif %}
@@ -158,192 +149,186 @@
     </div>
 
     <button class="top-button" id="home" onclick="delcom(this)">Ana Sayfa</button>
-    <button class="top-button" id="software" onclick="delcom(this)">Yazılım</button>
-    <button class="top-button" id="science" onclick="delcom(this)">Bilim</button>
-    <button class="top-button" id="social" onclick="delcom(this)">Sosyal Bilimler</button>
-    <button class="top-button" id="fun" onclick="delcom(this)">Eğlence</button>
+    <button class="top-button" id="yazılım" onclick="delcom(this)">Yazılım</button>
+    <button class="top-button" id="bilim" onclick="delcom(this)">Bilim</button>
+    <button class="top-button" id="sosyal bilimler" onclick="delcom(this)">Sosyal Bilimler</button>
+    <button class="top-button" id="eğlence" onclick="delcom(this)">Eğlence</button>
     <button class="top-button" id="sanat" onclick="delcom(this)">Sanat</button>
     <button class="top-button" id="ekonomi" onclick="delcom(this)">Ekonomi</button>
-    <button class="top-button" id="mühendislik" onclick="delcom(this)">Mühendislik</button>
   </div>
-
+  {% if logged_in %}
+    {% if role == "admin" %}
+      {% if not has_community%}
+        <a href ="/community/new" id="CreateCom">+ Topluluk Oluştur</a> <!--Onur bu id üzerinden değiştir cssi-->
+      {% endif %}
+    {% endif %}
+    &nbsp;&nbsp;
+    {% for com in com_list %}
+      {% if role == "admin" and com.owner == user_id %}
+        <a href="/community/{{ com.id }}/edit" id="EditCom"> Topluluk Ekleme / Düzenleme Paneli Aç</a><!--Onur bu id üzerinden değiştir cssi-->
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  
+  {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <script> alert("Değişiklikler başarılı")</script>
+      {% endif %}
+  {% endwith %}
 
   <div class="overlay hide" id="overlay"></div>
 
   <div class="popup-modal hide" id="popup">
     <span class="close-btn" id="closeModal">&times;</span>
-    <img alt="Görsel" id="popup-img" src="../static/photos/empty.png" />
-    <h2 id="popup-title"></h2>
+    <img src="{{ communities.image_url }}" alt="Topluluk Logosu" id="popup-img">
+    <h2 id="popup-title"></h2><!--id popup-img-->
     <h3 id="popup-cat"></h3>
     <h5 id="popup-link"></h5>
     <p id="popup-desc"></p>
-
-
   </div>
+
 
 
   <div class="com_boxes">
-
-
-    <div class="com_box" id="science">
+    {% for com in communities %}
+    <div class="com_box" id="{{ com.category_hide }}">
       <div class="com-link"
-        data-desc="Quantum IZTECH, Kuantum bilimi ve teknolojilerine ilgi duyan öğrencileri; akademisyenler, araştırmacılar ve sektör temsilcileriyle buluşturmak amacıyla konferanslar, hackathon'lar ve workshop'lar düzenliyoruz. Aynı zamanda disiplinler arası etkileşimi teşvik eden etkinliklerle, katılımcıların güçlü bir network oluşturmasına da olanak sağlıyoruz."
-        data-cat="  
-          <h2>📅 <b>Yaklaşan Etkinlikler</b></h2>
-          <ul>
-            <li>🛡️ <strong> 3-7 Eylül:</strong> Uluslararası Hypatia Bilim ve İletişim Festivaline katılım sağlayacağız. Detaylı bilgi ve kayıt için <u><a href='https://www.hypatiabilimfestival.com/' target='_blank'>https://www.hypatiabilimfestival.com/</a></u>  adresini ziyaret edebilirsiniz.</li>
-          </ul>" 
-        data-img="/static/photos/qınz.webp" 
-        data-link=" 
-        <i class='fab fa-instagram' style='font-size:20px'></i> 
-        <a href='https://www.instagram.com/iztechquantum/' target='_blank' style='font-weight: bold;'>Instagram</a> 
-        &nbsp;&nbsp;
-        <i class='fab fa-twitter' style='font-size:20px'></i> 
-        <a href='https://x.com/iztechquantum' target='_blank'>Twitter</a> 
-        &nbsp;&nbsp;
-        <i class='fab fa-linkedin' style='font-size:20px'></i> 
-        <a href='https://www.linkedin.com/company/qsbiztech/' target='_blank'>Linkedin</a>
-        &nbsp;&nbsp;
-        <i class='material-icons' style='font-size:20px'>mail</i> 
-        <a href='mailto:qsbiztech@gmail.com' target='_blank'>Gmail</a>"
-
-        data-title="Quantum&nbsp;IZTECH">
-        
-
-        <img alt="Quantum&nbsp;IZTECH" id="com_image"
-          src="/static/photos/qınz.webp" />
-        <h2>Quantum&nbsp;IZTECH</h2>
-        <h3>&gt;Bilim&lt;</h3>
-        <h4>QWorld ağının Türkiye kolu QTurkey çatısı altında, İzmir Yüksek Teknoloji Enstitüsü'nde faaliyet gösteren bir öğrenci topluluğudur.</h4>
+        data-desc="{{ com.long_desc | e }}"
+        data-link="{{ com.id }}"
+        data-img="{{ com.image_url}}"
+        data-title="{{ com.title }}">
+        <img src="{{ com.image_url }}" alt="Topluluk Logosu" id="com_image">
+        <h2>{{ com.title }}</h2> <!-- id com_image-->
+        <h3>&gt;{{ com.category }}&lt;</h3>
+        <h4>{{ com.tagline }}</h4>
       </div>
     </div>
-
-
-
-    <div class="com_box" id="fun">
-      <div class="com-link"
-        data-desc="İYTE Espor Topluluğu olarak, oyun tutkusunu kampüs kültürüyle bir araya getiriyoruz. Düzenlediğimiz turnuvalar, etkinlikler ve atölyelerle hem rekabeti hem de dostluğu ön plana çıkarıyoruz. Yalnızca oyunculara değil, tüm kampüse hitap eden geniş çaplı etkinlikler ve diğer topluluklarla ortak projelerle kampüs hayatını zenginleştiriyoruz. Sen de ister oyuncu ister organizasyon ekibinde yer almak iste, bize katıl ve bu enerjinin parçası ol!"
-        data-cat="  
-          <h2>📅 <b>Yaklaşan Etkinlikler</b></h2>
-          <ul>
-            <li><strong> Planlama aşamasında beklemede kalın !</strong></li>
-          </ul>" 
-        data-img="/static/photos/esport.webp" 
-        data-link=" 
-        <i class='fab fa-instagram' style='font-size:20px'></i> 
-        <a href=' https://www.instagram.com/iztechesports?igsh=MW40a3EzeGQ5dWp6cA==' target='_blank' style='font-weight: bold;'>Instagram</a> 
-        &nbsp;&nbsp;
-        <i class='fa fa-whatsapp' style='font-size:20px'></i> 
-        <a href='https://chat.whatsapp.com/DtZAAijWI1V3JyAdyzEvB4?mode=ac_t ' target='_blank'>Whatsapp</a> 
-        &nbsp;&nbsp;
-        <i class='fa fa-youtube-play' style='font-size:20px'></i> 
-        <a href='https://youtube.com/@iztechesports?si=gcn_jyjc6HrJepx7' target='_blank'>Youtube</a>
-        &nbsp;&nbsp;
-        <i class='fa fa-twitch' style='font-size:20px'></i> 
-        <a href='https://m.twitch.tv/iztechesports/home' target='_blank'>Twitch</a>"
-
-        data-title="IZTECH&nbsp;E Sports">
-        
-
-        <img alt="IZTECH&nbsp;E Sports" id="com_image"
-          src="/static/photos/esport.webp" />
-        <h2>IZTECH&nbsp;E Sports</h2>
-        <h3>&gt;Eğlence&lt;</h3>
-        <h4>İYTE Espor Topluluğu olarak, oyun tutkusunu kampüs kültürüyle bir araya getiriyoruz.</h4>
-      </div>
-    </div>
-
-
-
-    <div class="com_box" id="sanat">
-      <div class="com-link"
-        data-desc="Bakırçay Dans Topluluğu ile kampüse hareket katıyoruz! Dans derslerinden sahne şovlarına uzanan eğitimlerle hem öğreniyor hem de üretiyoruz. Dans geceleri gibi organizasyonlarla öğrendiklerimizi pekiştirirken tüm dans tutkunlarını bir araya getirip bu enerjiyi birlikte paylaşıyoruz. Sen de bize katıl, dansın ve eğlencenin ritmini birlikte yakalayalım! 🎶"
-        data-cat="  
-          <h2>📅 <b>Yaklaşan Etkinlikler</b></h2>
-          <ul>
-            <li><strong> Planlama aşamasında beklemede kalın !</strong></li>
-          </ul>" 
-        data-img="/static/photos/bakırdans.webp" 
-        data-link=" 
-        <i class='fab fa-instagram' style='font-size:20px'></i> 
-        <a href=' https://www.instagram.com/bakircaydans?igsh=aThrbm5jYndmOXZm' target='_blank' style='font-weight: bold;'>Instagram</a>"
-
-        data-title="Bakırçay&nbsp;Dans&nbsp;Topluluğu">
-        
-
-        <img alt="Bakırçay&nbsp;Dans&nbsp;Topluluğu" id="com_image"
-          src="/static/photos/bakırdans.webp" />
-        <h2>Bakırçay&nbsp;Dans&nbsp;Topluluğu</h2>
-        <h3>&gt;Sanat&lt;</h3>
-        <h4>Bakırçay Dans Topluluğu ile kampüse hareket katıyoruz!</h4>
-      </div>
-    </div>
-
-
-
-    <div class="com_box" id="ekonomi">
-      <div class="com-link"
-        data-desc="İzmir Bakırçay Üniversitesi öğrencileri tarafından kurulan Ticaret ve Pazarlama Topluluğu , <br><br>İş dünyasına ilgi duyan gençleri bir araya getirerek ticaret, pazarlama ve girişimcilik alanlarında gelişim fırsatları sunmayı amaçlayan bir öğrenci topluluğudur.<br><br><strong>Vizyonumuz</strong>, öğrencilerin yaratıcılıklarını ve yetkinliklerini artırarak iş dünyasına daha donanımlı adım atmalarını sağlamak;<br><br><strong>Misyonumuz</strong> ise eğitici etkinlikler, atölyeler, seminerler ve marka iş birlikleri aracılığıyla üyelerimize yeni bakış açıları kazandırmaktır.<br><br><strong>Topluluğumuz</strong>, farklı sektörlerden marka ve profesyonellerle iş birliği yaparak öğrenciler için hem networking hem de deneyim kazanma fırsatları yaratır. Bu sayede TPT, üniversite yaşamında sadece akademik değil, sosyal ve profesyonel anlamda da değer katan bir platform olmayı hedeflemektedir."
-        data-cat="  
-          <h2>📅 <b>Yaklaşan Etkinlikler</b></h2>
-          <ul>
-            <li><strong> Planlama aşamasında beklemede kalın !</strong></li>
-          </ul>" 
-        data-img="/static/photos/bakırekonomi.webp" 
-        data-link=" 
-        <i class='fab fa-instagram' style='font-size:20px'></i> 
-        <a href=' https://www.instagram.com/bakircaytpt/' target='_blank' style='font-weight: bold;'>Instagram</a>
-        &nbsp;&nbsp;
-        <i class='fa-brands fa-tiktok'></i> 
-        <a href=' https://www.tiktok.com/search?q=%40bakircaytpt&t=1755878606880' target='_blank' style='font-weight: bold;'>TikTok</a>
-
-        &nbsp;&nbsp;
-        <i class='fab fa-linkedin' style='font-size:20px'></i> 
-        <a href=' https://www.linkedin.com/company/i%CC%87zb%C3%BC-ticaret-ve-pazarlama/' target='_blank' style='font-weight: bold;'>Linkedin</a>"
-
-        data-title="Bakırçay Üniversitesi<br>Ticaret ve Pazarlama<br>Topluluğu">
-        
-
-        <img alt="İzmir Bakırçay Üniversitesi Ticaret ve Pazarlama Topluluğu" id="com_image"
-          src="/static/photos/bakırekonomi.webp" />
-        <h2>İzmir Bakırçay Üniversitesi&nbsp;Ticaret ve Pazarlama Topluluğu</h2>
-        <h3>&gt;Ekonomi&lt;</h3>
-        <h4>Ticaret ve Pazarlama Topluluğu , iş dünyasına ilgi duyan gençleri bir araya getirerek ticaret, pazarlama ve girişimcilik alanlarında gelişim fırsatları sunmayı amaçlayan bir öğrenci topluluğudur.</h4>
-      </div>
-    </div>    
-
-
-
-    <div class="com_box" id="mühendislik">
-      <div class="com-link"
-        data-desc="Mühendishane Topluluğu, Bakırçay Üniversitesi’nde mühendislik öğrencilerinin bir araya geldiği, kendini geliştirdiği ve paylaşım yaptığı bir topluluktur. Amacımız; hem akademik hem de sosyal anlamda öğrencilerin yanında olmak, teknik gezilerden atölyelere, sosyal etkinliklerden projelere kadar dolu dolu bir mühendislik deneyimi sunmaktır."
-        data-cat="  
-          <h2>📅 <b>Yaklaşan Etkinlikler</b></h2>
-          <ul>
-            <li><strong> Planlama aşamasında beklemede kalın !</strong></li>
-          </ul>" 
-        data-img="/static/photos/mühendishane.webp" 
-        data-link="
-        <i class='fab fa-linkedin' style='font-size:20px'></i> 
-        <a href='https://www.linkedin.com/company/i%CC%87zmir-bak%C4%B1r%C3%A7ay-%C3%BCniversitesi-m%C3%BChendishane-toplulugu/' target='_blank'>LinkedIn</a>"
-
-        data-title="Bakırçay Üniversitesi<br>Ticaret ve Pazarlama<br>Topluluğu">
-
-        <img alt="Mühendishane Bakırçay" id="com_image"
-          src="/static/photos/mühendishane.webp" />
-        <h2>Mühendishane Bakırçay</h2>
-        <h3>&gt;Mühendislik&lt;</h3>
-        <h4>Mühendishane Topluluğu, mühendislik öğrencilerini bir araya getirip mesleki ve sosyal gelişimlerine katkı sağlar.</h4>
-      </div>
-    </div> 
-
-
-
-
-
-
-
+    {% endfor %}
   </div>
+
+
+  <script>
+    //function turkishSuffix(word) {
+    //  const vowels = word.match(/[aeıioöuü]/gi);
+    //  if (!vowels) return "da";
+    //  const lastVowel = vowels[vowels.length - 1].toLowerCase();
+
+    //  const suffixMap = {
+    //    'a': 'da', 'ı': 'da', 'o': 'da', 'u': 'da',
+    //    'e': 'de', 'i': 'de', 'ö': 'de', 'ü': 'de'
+    //  };
+    //  return suffixMap[lastVowel] || "da";
+    //}
+
+
+    //function turkischNumber(number){
+    //  const de = number.match(/[1278]/gi);
+    //  const te = number.match(/[345]/gi);
+    //  const da = number.match(/[069]/gi);
+    //  if (de) return "de";
+    //  if (te) return "te";
+    //  return "da";
+    //}
+
+    //function turkmonth(month){
+    //  const ta = month.match(/\b(January|February|March|May|August|December)\b/g);
+    //  const da = month.match(/\b(April|June|July|November)\b/g);
+    //  const de = month.match(/\b(September|October)\b/g);
+    //  if (ta) return "ta";
+    //  if (da) return "da";
+    //  return "de";
+    //}
+//Bu üstteki kapalı fonksiyonlar ve alttaki kapalı yer de da ekleri için lakin şu an gerek yok gibi duruyor. istenirse bunlar aktif edilip eklenir.
+
+    function turkeydate(str){
+      return str.replace(/\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/g,
+        a => ({
+          'January'   : 'Ocak',
+          'February'  : 'Şubat',
+          'March'     : 'Mart',
+          'April'     : 'Nisan',
+          'May'       : 'Mayıs',
+          'June'      : 'Haziran',
+          'July'      : 'Temmuz',
+          'August'    : 'Ağustos',
+          'September' : 'Eylül',
+          'October'   : 'Ekim',
+          'November'  : 'Kasım',
+          'December'  : 'Aralık'        
+        }[a])
+      );
+    }
+
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, m => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }[m]));
+    }
+
+    function linkify(text) {
+      if (!text) return "";
+      const urlPattern = /(\bhttps?:\/\/[^\s]+)/g;
+      return text.replace(urlPattern, url => `<a href="${url}" target="_blank"><u>${url}</u></a>`);
+    }
+
+
+    const eventsMap = {{ events_map|tojson }}
+
+    const cache_events = {};
+
+    async function renderEvents(communityId, eventsDiv) {
+      if (cache_events[communityId]) {
+        eventsDiv.innerHTML = cache_events[communityId];
+        return;
+      }
+    
+      const data_events = Array.isArray(eventsMap[communityId]) ? eventsMap[communityId] : [];
+      let html = `<h2><iconify-icon icon="fluent-emoji-flat:calendar"></iconify-icon> Yaklaşan Etkinlikler</h2><ul style="padding-left: 25px;">`;
+    
+      if (data_events.length === 0) {
+        html += `<p style="padding-left:25px; font-style:italic; color:#666;">Planlama aşamasında, beklemede kalın!</p>`;
+      } else {
+        for (const ev of data_events) {
+          let timetext = ev.time ? `${escapeHtml(ev.time)}` : ""; 
+          let rangedate = (ev.from !== ev.to) ? `${escapeHtml(ev.from)} - ${escapeHtml(ev.to)}` : `${escapeHtml(ev.from)}`; 
+          html += `<li>${turkeydate(rangedate)} ${timetext} : ${linkify(escapeHtml(ev.event))}</li>`;
+        }
+      }
+    
+      html += "</ul>";
+      cache_events[communityId] = html;
+      eventsDiv.innerHTML = html;
+    }
+
+
+    const iconsMap = {{ icons_map|tojson }} 
+    const cache_links = {};
+      
+    async function renderLinks(communityId, linksDiv) {
+      if (cache_links[communityId]) {
+        linksDiv.innerHTML = cache_links[communityId];
+        return;
+      }
+
+      const data_links = iconsMap[communityId] || {};
+      let html = "";
+
+      for ( const [platform, url] of Object.entries(data_links)) {
+        const href = platform.toLowerCase() === "email" ? `mailto:${url}` : url;
+        const icon = platform.toLowerCase() === "tiktok" ? `ic:baseline-tiktok` :`mdi:${platform.toLowerCase()}`;
+        html += `
+        &nbsp;&nbsp;<a href="${href}" target="_blank" style="font-size:20px"><iconify-icon icon="${icon}" style="font-size: 26px; height: 21px;"></iconify-icon>&nbsp;${platform}</a>
+        `;
+      }    
+      cache_links[communityId] = html; // cache’e yaz
+      linksDiv.innerHTML = html;
+    }
+  </script>
 
   <!-- TAM YASAL UYUMLU FOOTER ÖRNEĞİ -->
   <footer style="
@@ -431,12 +416,22 @@
     const overlay = document.getElementById("overlay");
 
     document.querySelectorAll('.com-link').forEach(link => {
-      link.addEventListener('click', () => {
-        document.getElementById("popup-title").innerHTML = link.dataset.title;
-        document.getElementById("popup-cat").innerHTML = link.dataset.cat;
-        document.getElementById("popup-desc").innerHTML = link.dataset.desc;
-        document.getElementById("popup-img").src = link.dataset.img;
-        document.getElementById("popup-link").innerHTML = link.dataset.link;
+      link.addEventListener('click', async () => {
+        const popupTitle = document.getElementById("popup-title");
+        const popupCat   = document.getElementById("popup-cat");
+        const popupDesc  = document.getElementById("popup-desc");
+        const popupImg   = document.getElementById("popup-img");
+        const popupLinks = document.getElementById("popup-link");
+
+        const decText = link.dataset.desc;
+      
+        popupTitle.innerHTML = link.dataset.title;
+        popupImg.src         = link.dataset.img;
+
+        popupDesc.innerHTML = linkify(decText);
+
+        renderLinks(link.dataset.link, popupLinks);
+        renderEvents(link.dataset.link, popupCat);
 
         overlay.classList.remove("hide");
         overlay.classList.add("show");

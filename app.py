@@ -1,15 +1,18 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, abort, flash, send_from_directory
 from supabase import create_client, Client
 from dotenv import load_dotenv
-import re
-import os
-import datetime
-import dns.resolver
-import socket
+from collections import defaultdict
+from datetime import datetime
 from gotrue.errors import AuthApiError
 from flask_caching import Cache
+from PIL import Image
+import re
+from markupsafe import Markup, escape
 import sys
 import io
+import os
+import uuid
+
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
@@ -27,13 +30,87 @@ app.secret_key = os.getenv("SECRET_KEY")
 
 max_message_limit = 200
 
+
 cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache'})
+
+icons_map = defaultdict(dict)
+
+icons_res = supabase.table("community_links").select("*").execute()
+
+for row in icons_res.data:
+    icons_map[str(row["community_id"])][row["platform"]] = row["url"]
+    
+events_map = defaultdict(list)
+    
+com_events = supabase.table("community_events").select("*").execute()
+
+for row_events in com_events.data:
+    raw_time = row_events["time"]
+    raw_date_from = row_events["from"]
+    raw_date_to = row_events["to"]
+    
+    parsed_from = datetime.strptime(raw_date_from, "%Y-%m-%d")
+    parsed_to = datetime.strptime(raw_date_to, "%Y-%m-%d")
+    
+    if parsed_from == parsed_to:
+        # aynı gün aynı ay
+        formatted_from = parsed_from.strftime("%#d %B")
+        formatted_to = formatted_from
+    elif parsed_from.month == parsed_to.month and parsed_from.year == parsed_to.year:
+        # aynı ay içinde farklı gün
+        formatted_from = parsed_from.strftime("%#d")
+        formatted_to = parsed_to.strftime("%#d %B")
+    else:
+        # farklı ay (veya yıl)
+        formatted_from = parsed_from.strftime("%#d %B")
+        formatted_to = parsed_to.strftime("%#d %B")
+    if raw_time: 
+        parsed_time = datetime.strptime(raw_time, "%H:%M:%S")
+        formatted_time = parsed_time.strftime("%H:%M") 
+    else:
+        formatted_time = None   
+    
+    events_map[row_events["community_id"]].append({
+        "event": row_events["events"],
+        "from": formatted_from,
+        "to": formatted_to,
+        "time": formatted_time
+    })
+
+
+def linkify(text):
+    if not text:
+        return ""
+    
+    # Önce özel karakterleri güvenli hale getir
+    text = escape(text)
+    
+    # www. ile başlayanlara http ekle
+    text = re.sub(
+        r'(^|[^/])(www\.[^\s]+)',
+        r'\1<a href="http://\2" target="_blank">\2</a>',
+        text
+    )
+    
+    # http:// veya https:// ile başlayan linkler
+    text = re.sub(
+        r'(https?://[^\s]+)',
+        r'<a href="\1" target="_blank">\1</a>',
+        text
+    )
+    
+    return Markup(text)
+
+# Jinja'ya filtre olarak ekle
+app.jinja_env.filters['linkify'] = linkify
+
 
 @cache.memoize(timeout=60)
 def is_user_banned(user_id):
     response = supabase.table("banned_users").select("*").eq("user_id", user_id).execute()
     
     return len(response.data) > 0
+
 @app.context_processor
 def inject_logged_in():
     return dict(logged_in='user' in session)
@@ -150,9 +227,271 @@ def login():
 
 @app.route("/")
 def index():
-    user = session.get("user")
-    logged_in = user is not None
-    return render_template("index.html", user=user, logged_in=logged_in)
+    user_id = session.get("user_id")
+    role = session.get("role", "user")
+    
+    logged_in = user_id is not None
+    
+    communities = supabase.table("communities").select("*").execute().data
+    com = supabase.table("communities").select("id, owner, title").execute()
+    
+    com_list = []
+    for c in com.data:
+        # owner ile user_id eşleşiyorsa user_owner True olacak
+        c["user_owner"] = (str(c["owner"]) == str(user_id))
+        com_list.append(c)
+
+    # Profil sorgusu sadece giriş varsa yapılmalı
+    profile = None
+    if user_id:
+        profile = supabase.table("profiles").select("id, role").eq("id", str(user_id)).single().execute()
+        if profile.data:
+            session["user_id"] = profile.data["id"]
+            session["role"] = profile.data["role"]
+
+    # Kullanıcının toplulukları
+    user_communities = []
+    if user_id:
+        user_communities = supabase.table("communities").select("id").eq("owner", str(user_id)).execute().data
+    
+    has_community = len(user_communities) > 0
+
+    return render_template( "index.html", user_id=user_id, logged_in=logged_in, communities=communities, icons_map=dict(icons_map), events_map=events_map, com_list=com_list, role=role, has_community=has_community )
+
+
+@app.route("/community/new", methods=["GET", "POST"])
+def create_community():
+    user_id = session.get("user_id")
+    if not user_id:
+        return "Giriş yapmanız gerekli", 403
+
+    if request.method == "POST":
+        title = request.form.get("title")
+        desc = request.form.get("long_desc")
+        category = request.form.get("category")
+        tagline = request.form.get("tagline")
+
+        # Yeni community oluştur
+        new_com = supabase_admin.table("communities").insert({
+            "title": title,
+            "long_desc": desc,
+            "category": category,
+            "tagline": tagline,
+            "owner": str(user_id)
+        }).execute()
+
+        com_id = new_com.data[0]["id"]
+
+        # Fotoğraf yükleme (varsa)
+        file = request.files.get("image")
+        if file and file.filename:
+            file_bytes = file.read()
+            filename = f"{com_id}_{uuid.uuid4().hex}{os.path.splitext(file.filename)[1]}"
+            supabase_admin.storage.from_("logolar").upload(
+                filename,
+                file_bytes,
+                {"content-type": file.content_type}
+            )
+            public_url = supabase_admin.storage.from_("logolar").get_public_url(filename)
+            supabase_admin.table("communities").update({
+                "image_url": public_url,
+                "image_path": filename
+            }).eq("id", str(com_id)).execute()
+
+        # Linkler
+        link_ids = request.form.getlist("link_id[]")
+        platforms = request.form.getlist("platform[]")
+        urls = request.form.getlist("url[]")
+
+        for lid, p, u in zip(link_ids, platforms, urls):
+            if not p.strip() or not u.strip():
+                continue
+            supabase_admin.table("community_links").insert({
+                "community_id": str(com_id),
+                "platform": p,
+                "url": u
+            }).execute()
+
+        # Etkinlikler
+        event_ids = request.form.getlist("event_id[]")
+        event_starts = request.form.getlist("event_start[]")
+        event_times = request.form.getlist("event_time[]")
+        event_ends = request.form.getlist("event_end[]")
+        event_descs = request.form.getlist("event_desc[]")
+
+        for eid, start, st_time, end, desc in zip(event_ids, event_starts, event_times, event_ends, event_descs):
+            if not start or not end or not desc.strip():
+                continue
+            supabase_admin.table("community_events").insert({
+                "community_id": str(com_id),
+                "from": start,
+                "to": end,
+                "time": st_time if st_time else None,
+                "events": desc
+            }).execute()
+
+        flash("Topluluk başarıyla oluşturuldu", "success")
+        return redirect(url_for("index"))
+
+    return render_template("create_community.html")
+
+
+
+@app.route("/community/<uuid:com_id>/upload_image", methods=["POST"])
+def upload_image(com_id):
+    user_id = session.get("user_id")
+    role = session.get("role", "user")
+
+    # Yetki kontrolü → sadece owner yükleyebilir
+    com = supabase.table("communities").select("owner").eq("id", str(com_id)).single().execute()
+    if not com.data or str(com.data["owner"]) != str(user_id):
+        return "Yetkiniz yok", 403
+
+    file = request.files.get("image")
+    if not file:
+        return "Dosya yok", 400
+    
+    file_bytes = file.read()
+    
+    try:
+        img = Image.open(io.BytesIO(file_bytes))
+        img.verify()
+    except:
+        return "Geçersiz resim dosyası",400
+
+    # Dosya ismini benzersiz yap (uuid ile)
+    filename = f"{com_id}_{uuid.uuid4().hex}{os.path.splitext(file.filename)[1]}"
+
+    # Storage'a yükle (private bucket, admin client ile)
+    res = supabase_admin.storage.from_("logolar").upload(
+        filename,
+        file_bytes,
+        {"content-type": file.content_type}
+    )
+
+    public_url = supabase_admin.storage.from_("logolar").get_public_url(filename)
+    
+    supabase_admin.table("communities").update({
+        "image_url": public_url
+    }).eq("id", str(com_id)).execute()
+
+    return redirect(url_for("index"))
+
+
+@app.route("/community/<uuid:com_id>/edit", methods=["GET", "POST"])
+def edit_community(com_id):
+    user_id = session.get("user_id")
+
+    com = supabase.table("communities").select("*").eq("id", str(com_id)).single().execute()
+    if not com.data or str(com.data["owner"]) != str(user_id):
+        return "Yetkiniz yok", 403
+
+    links = supabase.table("community_links").select("*").eq("community_id", str(com_id)).execute().data
+    events = supabase.table("community_events").select("*").eq("community_id", str(com_id)).execute().data
+
+    if request.method == "POST":
+        title = request.form.get("title")
+        desc = request.form.get("long_desc")
+        category = request.form.get("category")
+        tagline = request.form.get("tagline")
+
+        # Metin alanlarını güncelle
+        supabase_admin.table("communities").update({
+            "title": title,
+            "long_desc": desc,
+            "category": category,
+            "tagline": tagline
+        }).eq("id", str(com_id)).execute()
+
+        # Fotoğraf güncelle
+        file = request.files.get("image")
+        if file and file.filename:
+            old_path = com.data.get("image_path")
+            if old_path:
+                try:
+                    supabase_admin.storage.from_("logolar").remove([old_path])
+                except:
+                    pass
+            file_bytes = file.read()
+            filename = f"{com_id}_{uuid.uuid4().hex}{os.path.splitext(file.filename)[1]}"
+            supabase_admin.storage.from_("logolar").upload(filename, file_bytes, {"content-type": file.content_type})
+            public_url = supabase_admin.storage.from_("logolar").get_public_url(filename)
+            supabase_admin.table("communities").update({
+                "image_url": public_url,
+                "image_path": filename
+            }).eq("id", str(com_id)).execute()
+
+        # Linkler
+        link_ids = request.form.getlist("link_id[]")
+        platforms = request.form.getlist("platform[]")
+        urls = request.form.getlist("url[]")
+
+        # Önce eski linkleri sil
+        supabase_admin.table("community_links").delete().eq("community_id", str(com_id)).execute()
+
+        for lid, p, u in zip(link_ids, platforms, urls):
+            if not p.strip() or not u.strip():
+                continue
+            supabase_admin.table("community_links").insert({
+                "community_id": str(com_id),
+                "platform": p,
+                "url": u
+            }).execute()
+
+        # Etkinlikler
+        event_ids = request.form.getlist("event_id[]")
+        event_starts = request.form.getlist("event_start[]")
+        event_times = request.form.getlist("event_time[]")
+        event_ends = request.form.getlist("event_end[]")
+        event_descs = request.form.getlist("event_desc[]")
+
+        # Önce eski etkinlikleri sil
+        supabase_admin.table("community_events").delete().eq("community_id", str(com_id)).execute()
+
+        for eid, start, st_time, end, desc in zip(event_ids, event_starts, event_times, event_ends, event_descs):
+            if not start or not end or not desc.strip():
+                continue
+            supabase_admin.table("community_events").insert({
+                "community_id": str(com_id),
+                "from": start,
+                "to": end,
+                "time": st_time if st_time else None,
+                "events": desc
+            }).execute()
+
+        flash("Değişiklikler başarıyla kaydedildi", "success")
+        return redirect(url_for("index"))
+
+    return render_template("edit_community.html", community=com.data, links=links, events=events)
+
+
+
+@app.route("/community/<uuid:com_id>/add_link", methods=["POST"])
+def add_link(com_id):
+    user_id = session.get("user_id")
+
+    # Owner kontrolü
+    com = supabase.table("communities").select("owner, title").eq("id", str(com_id)).single().execute()
+    if not com.data or str(com.data["owner"]) != str(user_id):
+        return "Yetkiniz yok", 403
+
+    platform = request.form.get("platform")
+    url = request.form.get("url")
+
+    if not platform or not url:
+        return "Eksik bilgi", 400
+
+    # Supabase'e kaydet
+    supabase_admin.table("community_links").insert({
+        "community_id": str(com_id),
+        "platform": platform,
+        "url": url
+    }).execute()
+
+    flash("Link başarıyla eklendi", "success")
+    return redirect(url_for("edit_community", com_id=com_id))
+
+
 
 @app.route('/logout')
 def logout():
@@ -348,5 +687,5 @@ def password_change():
     
     return render_template("password_reset_password.html")
     
-#if __name__ == "__main__":
-#    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)

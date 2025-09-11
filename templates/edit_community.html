@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Topluluk Düzenle</title>
+</head>
+<body>
+<h1>Topluluk Düzenle</h1>
+
+<form method="POST" enctype="multipart/form-data">
+  <label>Başlık</label>
+  <input type="text" name="title" value="{{ community.title }}" required><br>
+
+  <label>Açıklama</label>
+  <textarea name="long_desc">{{ community.long_desc | e}}</textarea><br>
+
+  <label>Kategori</label>
+  <input type="text" name="category" value="{{ community.category }}"><br>
+
+  <label>Slogan</label>
+  <input type="text" name="tagline" value="{{ community.tagline }}"><br>
+
+  <label for="image">Topluluk Profil Fotoğrafı Yükle</label>
+  <input type="file" name="image" id="image" accept="image/*"><br>
+
+  <h3>Linkler</h3>
+  <div id="links-container">
+    {% for link in links %}
+    <div class="link-row">
+      <input type="hidden" name="link_id[]" value="{{ link.id }}">
+      <select name="platform[]" class="platform-select">
+        <option value="Twitter" {% if link.platform == "Twitter" %}selected{% endif %}>Twitter</option>
+        <option value="Instagram" {% if link.platform == "Instagram" %}selected{% endif %}>Instagram</option>
+        <option value="Linkedin" {% if link.platform == "Linkedin"%}selected{% endif %}>Linkedin</option>
+        <option value="Whatsapp" {% if link.platform == "Whatsapp"%}selected{% endif %}>Whatsapp</option>
+        <option value="Youtube" {% if link.platform == "Youtube"%}selected{% endif %}>Youtube</option>
+        <option value="Twitch" {% if link.platform == "Twitch"%}selected{% endif %}>Twitch</option>
+        <option value="Tiktok" {% if link.platform == "Tiktok"%}selected{% endif %}>Tiktok</option>
+        <option value="Email" {% if link.platform == "Email" %}selected{% endif %}>Email</option>
+        <option value="Website" {% if link.platform == "Website" %}selected{% endif %}>Website</option>
+      </select>
+      <input type="text" name="url[]" value="{{ link.url }}" placeholder="Linkinizi girin">
+      <button type="button" class="remove-link">X</button>
+    </div>
+    {% endfor %}
+  </div>
+  <button type="button" id="add-link">Yeni Link Ekle</button>
+
+  <h3>Etkinlikler</h3>
+  <div id="events-container">
+    {% for event in events %}
+    <div class="event-row">
+      <input type="hidden" name="event_id[]" value="{{ event.id }}">
+      <input type="date" name="event_start[]" value="{{ event.from }}">
+      <label>
+        <input type="checkbox" class="toggle-time" {% if event.time and event.time != '00:00' %}checked{% endif %}>
+        Saat ekle
+      </label>
+      <input type="time" name="event_time[]" class="event-time-input" value="{{ (event.time[:5] if event.time else '') | e }}" {% if not (event.time and event.time != '00:00') %}style="display:none;"{% endif %}>
+      <input type="date" name="event_end[]" value="{{ event.to }}">
+      <input type="text" name="event_desc[]" value="{{ event.events | e }}" placeholder="Etkinlik açıklaması">
+      <button type="button" class="remove-event">X</button>
+    </div>
+    {% endfor %}
+  </div>
+  <button type="button" id="add-event">Yeni Etkinlik Ekle</button><br><br>
+
+  <button type="submit">Güncelle</button>
+</form>
+
+<script>
+// ---------- LINK EKLEME ----------
+const linksContainer = document.getElementById("links-container");
+
+function updatePlatformOptions() {
+  const selected = Array.from(linksContainer.querySelectorAll(".platform-select")).map(s => s.value);
+  linksContainer.querySelectorAll(".platform-select").forEach(sel => {
+    Array.from(sel.options).forEach(opt => {
+      opt.disabled = selected.includes(opt.value) && opt.value !== sel.value;
+    });
+  });
+}
+
+document.querySelectorAll(".remove-link").forEach(btn => btn.addEventListener("click", () => { btn.parentElement.remove(); updatePlatformOptions(); }));
+document.getElementById("add-link").addEventListener("click", () => {
+  const row = document.createElement("div");
+  row.classList.add("link-row");
+  row.innerHTML = `
+    <input type="hidden" name="link_id[]" value="">
+    <select name="platform[]" class="platform-select">
+      <option value="Twitter">Twitter</option>
+      <option value="Instagram">Instagram</option>
+      <option value="Linkedin">Linkedin</option>
+      <option value="Whatsapp">Whatsapp</option>
+      <option value="Youtube">Youtube</option>
+      <option value="Twitch">Twitch</option>
+      <option value="Tiktok">Tiktok</option>
+      <option value="Email">Email</option>
+      <option value="Website">Website</option>
+    </select>
+    <input type="text" name="url[]" placeholder="Linkinizi girin">
+    <button type="button" class="remove-link">X</button>
+  `;
+  linksContainer.appendChild(row);
+  row.querySelector(".remove-link").addEventListener("click", () => { row.remove(); updatePlatformOptions(); });
+  row.querySelector(".platform-select").addEventListener("change", updatePlatformOptions);
+  updatePlatformOptions();
+});
+
+// ---------- ETKİNLİK EKLEME ----------
+const eventsContainer = document.getElementById("events-container");
+
+function attachRemove(btn) { if (!btn) return; btn.addEventListener("click", () => btn.parentElement.remove()); }
+function attachToggle(cb) { if (!cb) return; cb.addEventListener("change", () => {
+  const row = cb.closest(".event-row");
+  const timeInput = row.querySelector(".event-time-input");
+  if (!timeInput) return;
+  if(cb.checked){ timeInput.style.display=""; } else { timeInput.style.display="none"; timeInput.value=""; }
+}); }
+
+document.querySelectorAll(".remove-event").forEach(attachRemove);
+document.querySelectorAll(".toggle-time").forEach(attachToggle);
+
+document.getElementById("add-event").addEventListener("click", () => {
+  const row = document.createElement("div");
+  row.classList.add("event-row");
+  row.innerHTML = `
+    <input type="hidden" name="event_id[]" value="">
+    <input type="date" name="event_start[]">
+    <label>
+      <input type="checkbox" class="toggle-time"> Saat ekle
+    </label>
+    <input type="time" name="event_time[]" class="event-time-input" style="display:none;">
+    <input type="date" name="event_end[]">
+    <input type="text" name="event_desc[]" placeholder="Etkinlik açıklaması">
+    <button type="button" class="remove-event">X</button>
+  `;
+  eventsContainer.appendChild(row);
+  attachRemove(row.querySelector(".remove-event"));
+  attachToggle(row.querySelector(".toggle-time"));
+});
+</script>
+</body>
+</html>
+
+
+
+
+<!--Onur buralara istediğin id yi verip css oluşturabilirsin !-->
