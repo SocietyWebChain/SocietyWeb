@@ -1,7 +1,10 @@
 flask
 gunicorn
 supabase
-dotenv
+python-dotenv
+gotrue
+pillow
+markupsafe
 datetime
 resolver
 dnspython
