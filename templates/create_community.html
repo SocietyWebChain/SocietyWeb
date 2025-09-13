@@ -12,22 +12,23 @@
   <link rel="manifest" href="/static/photos/site.webmanifest" />
 </head>
 <body>
-<h2>Yeni Topluluk Oluştur</h2>
+
 
 <form action="{{ url_for('create_community') }}" method="POST" enctype="multipart/form-data">
-  <label>Başlık:</label><br>
-  <input type="text" name="title" required><br>
+  <h2>Yeni Topluluk Oluştur</h2>
+  <label id="Başlık"> Başlık:</label><br>
+  <input type="text" name="title" required placeholder="Topluluk Adınız"><br>
 
-  <label>Tür:</label><br>
-  <input type="text" name="category"><br>
+  <label id="Tür">Tür:</label><br>
+  <input type="text" name="category" placeholder="Topluluğunuz hangi türe ait çalışmalar yapıyor  (Yazılım,Spor vb.)"><br>
 
-  <label>Kısa Açıklama:</label><br>
-  <input type="text" name="tagline"><br>
+  <label id="KısaAçıklama">Kısa Açıklama:</label><br>
+  <input type="text" name="tagline"placeholder="Ana sayfada gözüken bir iki cümlelik kısa yazınız "><br>
 
-  <label>Açıklama:</label><br>
-  <textarea name="long_desc"></textarea><br>
+  <label id="Açıklama">Açıklama:</label><br>
+  <textarea name="long_desc" placeholder="Topluluğunuz hakkında bilgilendirici yazı "></textarea><br>
 
-  <label for="image">Topluluk Profil Fotoğrafı Yükle:</label>
+  <label for="image" id="Fotoğraf">Topluluk Profil Fotoğrafı Yükle:</label>
   <input type="file" name="image" id="image" accept="image/*"><br>
 
   <h3>Link Ekle</h3>
@@ -36,7 +37,10 @@
 
   <h3>Etkinlikler</h3>
   <div id="events-container"></div>
+     <br> 
+    Not: Eğer etkinlik tek gün ise 1. tarih(etkinlik başlangıç tarihi) 2. tarih-sağdaki(etkinlik bitiş tarihi) aynı yapınız.   <br> 
   <button type="button" id="add-event">Yeni Etkinlik Ekle</button><br><br>
+  <h</h4>
 
   <button type="submit">Kaydet</button>
 </form>
@@ -83,7 +87,9 @@ document.getElementById("add-event").addEventListener("click", () => {
     <input type="time" name="event_time[]" disabled>
     <input type="date" name="event_end[]">
     <input type="text" name="event_desc[]" placeholder="Etkinlik açıklaması">
+    
     <button type="button" class="remove-event">X</button>
+
   `;
 
   // toggle checkbox
@@ -104,3 +110,404 @@ document.getElementById("add-event").addEventListener("click", () => {
 
 
 <!--Onur buralara istediğin id yi verip css oluşturabilirsin !-->
+
+<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ===== KÖK DEĞİŞKENLER ===== */
+:root {
+  --dark-bg: #0d0f14;
+  --card-bg: rgba(25, 25, 35, 0.8);
+  --accent-purple: #8a2be2;
+  --accent-blue: #5b9dff;
+  --accent-hover: #a865ff;
+  --text-primary: #f0f0f0;
+  --text-secondary: #b5b5c3;
+  --input-bg: rgba(40, 40, 50, 0.7);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --shadow-color: rgba(0, 0, 0, 0.6);
+  --danger-color: #ff5b5b;
+}
+
+/* ===== GENEL STİLLER ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, var(--dark-bg), #141621);
+  color: var(--text-primary);
+  padding: 40px 20px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ===== FORM'UN KENDİSİNİ CONTAINER OLARAK KULLANMA ===== */
+form {
+  width: 100%;
+  max-width: 900px;
+  background: var(--card-bg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 40px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 32px 0 var(--shadow-color);
+  animation: fadeIn 0.7s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== BAŞLIKLAR VE METİNLER ===== */
+h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 25px;
+  background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+h3 {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--accent-blue);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+/* ===== GENEL FORM ELEMANLARI ===== */
+label {
+  display: block;
+  margin-top: 20px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+input[type="text"],
+textarea,
+select {
+  width: 100%;
+  padding: 12px 15px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #888;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Custom Select Arrow */
+select {
+  -webkit-appearance: none; -moz-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2724%27%20height%3D%2724%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%23b5b5c3%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpolyline%20points%3D%276%209%2012%2015%2018%209%27%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 1em;
+}
+
+/* ===== ÖZEL DOSYA YÜKLEME STİLİ ===== */
+input[type="file"] {
+  width: 100%;
+  margin-top: 8px;
+  background-color: var(--input-bg);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+}
+input[type="file"]::file-selector-button {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  border: none;
+  padding: 12px 15px;
+  border-radius: 8px 0 0 8px;
+  margin-right: 15px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+input[type="file"]::file-selector-button:hover {
+  transform: scale(1.02);
+}
+
+/* ===== BUTONLAR ===== */
+button,
+input[type="submit"] { /* Submit butonu da olabilir diye ekliyorum */
+  display: inline-block;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 10px; /* Dinamik ekleme butonları için */
+}
+
+button[type="submit"] {
+  width: 100%; /* Ana kaydet butonu tam genişlik */
+  margin-top: 30px;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(138, 43, 226, 0.4);
+}
+
+/* ===== DİNAMİK ALANLAR (LINK/ETKINLIK) ===== */
+.link-row,
+.event-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px; /* Her satır arasına boşluk */
+  animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Dinamik alan içindeki elemanlar için margin-top'ı sıfırla */
+.link-row > *, .event-row > * {
+  margin-top: 0;
+}
+
+/* Dinamik alan içindeki eleman genişlikleri */
+.link-row select { flex: 0 0 150px; }
+.link-row input[type="text"] { flex-grow: 1; }
+
+.event-row input[type="date"] { flex: 1; }
+.event-row input[type="time"] { flex: 0 0 120px; }
+.event-row input[type="text"] { flex: 2; }
+
+
+/* ===== Dinamik Satır Silme Butonları ===== */
+.remove-link,
+.remove-event {
+  background: rgba(255, 91, 91, 0.2);
+  color: var(--danger-color);
+  border: 1px solid var(--danger-color);
+  width: 45px;
+  height: 45px;
+  padding: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 50%;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.remove-link:hover,
+.remove-event:hover {
+  background: var(--danger-color);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(255, 91, 91, 0.5);
+  transform: scale(1.1) translateY(0);
+}
+
+/* ===== ÖZEL CHECKBOX (HTML DEĞİŞMEDEN) ===== */
+.event-row .toggle-time {
+  display: none; /* Orijinal checkbox'ı gizle */
+}
+.event-row label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-top: 0; /* Dinamik satır içinde margin sıfırla */
+  user-select: none; /* Metin seçilmesini engelle */
+}
+.event-row label::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+.event-row .toggle-time:checked + label::before {
+  background: var(--accent-purple);
+  border-color: var(--accent-purple);
+  content: '✓';
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  line-height: 18px; /* Dikeyde ortalamak için */
+}
+
+
+/* ===== RESPONSIVE TASARIM ===== */
+@media (max-width: 768px) {
+  body { padding: 20px 10px; }
+  form { padding: 25px; }
+  h2 { font-size: 1.8rem; }
+  .link-row, .event-row {
+    flex-wrap: wrap; /* Küçük ekranda alt alta geç */
+    row-gap: 10px;
+  }
+  .link-row > *, .event-row > * {
+    flex-basis: 100%;
+    width: 100%;
+  }
+  .remove-link, .remove-event {
+    border-radius: 8px;
+  }
+}
+/* ============================================= */
+/* ===== 🌟 DÜNYANIN EN İYİ EVENT ROW'U 🌟 ===== */
+/* ============================================= */
+
+/* 1. Kapsayıcı (Ana Satır) Stili */
+/*---------------------------------------------*/
+.event-row {
+  /* TEMEL YERLEŞİM: Esnek, ortalanmış ve aralıklı */
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Elemanlar arası boşluğu biraz artırdık */
+
+  /* GÖRSEL GRUPLAMA: Satırı belirgin hale getirir */
+  background: rgba(0, 0, 0, 0.25); /* Hafif koyu bir arka plan */
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Çok ince bir çerçeve */
+  border-radius: 12px;
+  padding: 12px;
+  margin: 15px 0;
+
+  /* ANİMASYON VE GEÇİŞLER: Pürüzsüz bir deneyim için */
+  transition:
+    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    border-color 0.3s ease;
+  animation: slideInFade 0.5s ease-out forwards; /* Ekrana giriş animasyonu */
+}
+
+/* 2. Etkileşim (Hover) Efekti */
+/*---------------------------------------------*/
+.event-row:hover {
+  transform: translateY(-4px) scale(1.01); /* Hafifçe yukarı kalkar ve büyür */
+  border-color: var(--accent-purple); /* Vurgu renginde çerçeve */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* Belirgin bir gölge */
+}
+
+/* 3. Akıllı ve Esnek İç Yerleşim (Flexbox) */
+/*---------------------------------------------*/
+/* Her elemanın ne kadar yer kaplayacağını mantıksal olarak ayarlarız */
+
+/* Etkinlik Açıklaması: En geniş alan bu elemana ait olmalı */
+.event-row input[type="text"] {
+  flex: 3 1 250px; /* Büyüme oranı: 3, Küçülme oranı: 1, Temel genişlik: 250px */
+}
+
+/* Tarih Alanları: Orta büyüklükte ve eşit */
+.event-row input[type="date"] {
+  flex: 1.5 1 140px; /* Büyüme oranı: 1.5, Küçülme oranı: 1, Temel genişlik: 140px */
+}
+
+/* Saat Alanı: En dar alan yeterli */
+.event-row input[type="time"] {
+  flex: 1 1 100px; /* Büyüme oranı: 1, Küçülme oranı: 1, Temel genişlik: 100px */
+}
+
+/* Checkbox ve Silme Butonu: Boyutları sabit kalmalı, esnememeli */
+.event-row label,
+.remove-event {
+  flex-shrink: 0; /* Bu elemanların sıkışarak küçülmesini engeller */
+}
+
+/* 4. Giriş Animasyonu */
+/*---------------------------------------------*/
+@keyframes slideInFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 5. Responsive (Mobil Uyumlu) Tasarım */
+/*---------------------------------------------*/
+@media (max-width: 850px) {
+  .event-row {
+    flex-wrap: wrap; /* Elemanlar sığmadığında alt satıra geçer */
+    row-gap: 15px; /* Alt alta geçen elemanlar arasına dikey boşluk */
+  }
+
+  /* Mobil ekranda açıklama tam genişlik kaplar */
+  .event-row input[type="text"] {
+    flex-basis: 100%;
+  }
+
+  /* Diğer inputlar yan yana 2'li sığmaya çalışır */
+  .event-row input[type="date"],
+  .event-row input[type="time"],
+  .event-row label {
+    flex-grow: 1; /* Boşlukları doldurmak için büyür */
+    flex-basis: calc(50% - 10px); /* Temel olarak %50 genişlik alır */
+  }
+
+  /* Silme butonu en altta ve tam genişlikte */
+  .remove-event {
+    flex-basis: 100%;
+    margin-top: 10px;
+  }
+  .label {
+    font-size: medium; /* Checkbox label'ını ortala */
+  }
+  
+
+}
+ #Başlık, #Tür, #KısaAçıklama, #Açıklama, #Fotoğraf {
+      font-size: 20px;
+
+    }
+input, textarea{
+  margin: 0px;
+    }
+.form {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+</style>
