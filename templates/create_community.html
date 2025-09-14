@@ -510,4 +510,52 @@ input, textarea{
   padding-top: 0px;
   padding-bottom: 0px;
 }
+/* 🌙 Tarih ve Saat Input Genel Stili */
+input[type="date"],
+input[type="time"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Hover efekti */
+input[type="date"]:hover,
+input[type="time"]:hover {
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 6px rgba(138, 43, 226, 0.5);
+}
+
+/* Focus (seçili) efekti */
+input[type="date"]:focus,
+input[type="time"]:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 10px rgba(91, 157, 255, 0.6);
+}
+
+/* Takvim ve Saat ikonlarını stillendir */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.8);   /* Koyu arka planda beyaz görünüm */
+  opacity: 0.75;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover,
+input[type="time"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
 </style>
