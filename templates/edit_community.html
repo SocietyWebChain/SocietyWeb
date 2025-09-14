@@ -6,9 +6,10 @@
   <title>Topluluk Düzenle</title>
 </head>
 <body>
-<h1>Topluluk Düzenle</h1>
+
 
 <form method="POST" enctype="multipart/form-data">
+  <h1>Topluluk Düzenle</h1>
   <label>Başlık</label>
   <input type="text" name="title" value="{{ community.title }}" required><br>
 
@@ -145,6 +146,284 @@ document.getElementById("add-event").addEventListener("click", () => {
 </html>
 
 
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+/* ===== KÖK DEĞİŞKENLER ===== */
+:root {
+  --dark-bg: #0d0f14;
+  --card-bg: rgba(25, 25, 35, 0.8);
+  --accent-purple: #8a2be2;
+  --accent-blue: #5b9dff;
+  --accent-hover: #a865ff;
+  --text-primary: #f0f0f0;
+  --text-secondary: #b5b5c3;
+  --input-bg: rgba(40, 40, 50, 0.7);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --shadow-color: rgba(0, 0, 0, 0.6);
+  --danger-color: #ff5b5b;
+}
+
+/* ===== GENEL STİLLER ===== */
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, var(--dark-bg), #141621);
+  color: var(--text-primary);
+  padding: 40px 20px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+form {
+  width: 100%;
+  max-width: 900px;
+  background: var(--card-bg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 40px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 32px 0 var(--shadow-color);
+  animation: fadeIn 0.7s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== BAŞLIKLAR ===== */
+h1, h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 25px;
+  background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+h3 {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--accent-blue);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+/* ===== LABEL ===== */
+label {
+  display: block;
+  margin-top: 20px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* ===== INPUT & TEXTAREA ===== */
+input[type="text"],
+textarea,
+select,
+input[type="date"],
+input[type="time"] {
+  width: 100%;
+  padding: 12px 15px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+}
+
+input::placeholder,
+textarea::placeholder { color: #888; }
+
+textarea { min-height: 120px; resize: vertical; }
+
+/* ===== DATE & TIME özel ikon stilleri ===== */
+input[type="date"],
+input[type="time"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.8);
+  opacity: 0.75;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover,
+input[type="time"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* ===== SELECT özel ok ===== */
+select {
+  -webkit-appearance: none; -moz-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg%20xmlns%3D%27http://www.w3.org/2000/svg%27%20width%3D%2724%27%20height%3D%2724%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%23b5b5c3%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpolyline%20points%3D%276%209%2012%2015%2018%209%27/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 1em;
+}
+
+/* ===== DOSYA INPUT ===== */
+input[type="file"] {
+  width: 100%;
+  margin-top: 8px;
+  background-color: var(--input-bg);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+}
+input[type="file"]::file-selector-button {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  border: none;
+  padding: 12px 15px;
+  border-radius: 8px 0 0 8px;
+  margin-right: 15px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+input[type="file"]::file-selector-button:hover { transform: scale(1.02); }
+
+/* ===== BUTON ===== */
+button,
+input[type="submit"] {
+  display: inline-block;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 10px;
+}
+
+button[type="submit"] { width: 100%; margin-top: 30px; }
+
+button:hover,
+input[type="submit"]:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(138, 43, 226, 0.4);
+}
+
+/* ===== LİNK & EVENT SATIRLARI ===== */
+.link-row,
+.event-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+  animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.link-row select { flex: 0 0 150px; }
+.link-row input[type="text"] { flex-grow: 1; }
+
+.event-row input[type="date"] { flex: 1.5 1 140px; }
+.event-row input[type="time"] { flex: 1 1 100px; }
+.event-row input[type="text"] { flex: 3 1 250px; }
+
+/* ===== REMOVE BUTTON ===== */
+.remove-link,
+.remove-event {
+  background: rgba(255, 91, 91, 0.2);
+  color: var(--danger-color);
+  border: 1px solid var(--danger-color);
+  width: 45px;
+  height: 45px;
+  padding: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 50%;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.remove-link:hover,
+.remove-event:hover {
+  background: var(--danger-color);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(255, 91, 91, 0.5);
+  transform: scale(1.1);
+}
+
+/* ===== CUSTOM CHECKBOX ===== */
+.event-row .toggle-time { display: none; }
+.event-row label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-top: 0;
+  user-select: none;
+}
+.event-row label::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+.event-row .toggle-time:checked + label::before {
+  background: var(--accent-purple);
+  border-color: var(--accent-purple);
+  content: '✓';
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  line-height: 18px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  body { padding: 20px 10px; }
+  form { padding: 25px; }
+  h1, h2 { font-size: 1.8rem; }
+  .link-row, .event-row { flex-wrap: wrap; row-gap: 10px; }
+  .link-row > *, .event-row > * { flex-basis: 100%; width: 100%; }
+  .remove-link, .remove-event { border-radius: 8px; }
+}
+</style>
 
 <!--Onur buralara istediğin id yi verip css oluşturabilirsin !-->
