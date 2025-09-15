@@ -165,7 +165,7 @@ window.addEventListener("load", function () {
     &nbsp;&nbsp;
     {% for com in com_list %}
       {% if role == "admin" and com.owner == user_id %}
-        <a href="/community/{{ com.id }}/edit" id="EditCom"> Topluluk Ekleme / Düzenleme Paneli Aç</a><!--Onur bu id üzerinden değiştir cssi-->
+        <a href="/community/{{ com.id }}/edit" id="EditCom"> Topluluk Düzenleme Paneli Aç</a><!--Onur bu id üzerinden değiştir cssi-->
       {% endif %}
     {% endfor %}
   {% endif %}
@@ -1492,6 +1492,7 @@ window.addEventListener("load", function () {
     
 
   #EditCom,#CreateCom {
+  z-index: 1000;
   display: inline-block;
   padding: 12px 20px;
   background: linear-gradient(135deg, #4cafef, #1976d2);
