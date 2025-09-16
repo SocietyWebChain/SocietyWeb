@@ -229,34 +229,67 @@ def login():
 def index():
     user_id = session.get("user_id")
     role = session.get("role", "user")
-    
     logged_in = user_id is not None
-    
+
+    # Topluluklar
     communities = supabase.table("communities").select("*").execute().data
     com = supabase.table("communities").select("id, owner, title").execute()
-    
+
     com_list = []
     for c in com.data:
-        # owner ile user_id eşleşiyorsa user_owner True olacak
         c["user_owner"] = (str(c["owner"]) == str(user_id))
         com_list.append(c)
 
-    # Profil sorgusu sadece giriş varsa yapılmalı
-    profile = None
-    if user_id:
-        profile = supabase.table("profiles").select("id, role").eq("id", str(user_id)).single().execute()
-        if profile.data:
-            session["user_id"] = profile.data["id"]
-            session["role"] = profile.data["role"]
+    # Etkinlikler -> her request'te taze çek
+    events_map = defaultdict(list)
+    com_events = supabase.table("community_events").select("*").execute()
+    for row_events in com_events.data:
+        try:
+            raw_time = row_events["time"]
+            raw_date_from = row_events["from"]
+            raw_date_to = row_events["to"]
+
+            parsed_from = datetime.strptime(raw_date_from[:10], "%Y-%m-%d")
+            parsed_to = datetime.strptime(raw_date_to[:10], "%Y-%m-%d")
+
+            if parsed_from == parsed_to:
+                formatted_from = parsed_from.strftime("%-d %B")
+                formatted_to = formatted_from
+            elif parsed_from.month == parsed_to.month and parsed_from.year == parsed_to.year:
+                formatted_from = parsed_from.strftime("%-d")
+                formatted_to = parsed_to.strftime("%-d %B")
+            else:
+                formatted_from = parsed_from.strftime("%-d %B")
+                formatted_to = parsed_to.strftime("%-d %B")
+
+            formatted_time = None
+            if raw_time:
+                try:
+                    parsed_time = datetime.strptime(raw_time, "%H:%M:%S")
+                    formatted_time = parsed_time.strftime("%H:%M")
+                except ValueError:
+                    formatted_time = raw_time[:5]  # 'HH:MM'
+
+            events_map[row_events["community_id"]].append({
+                "event": row_events["events"],
+                "from": formatted_from,
+                "to": formatted_to,
+                "time": formatted_time
+            })
+        except Exception as e:
+            print(f"Etkinlik parse hatası: {e}")
 
     # Kullanıcının toplulukları
     user_communities = []
     if user_id:
         user_communities = supabase.table("communities").select("id").eq("owner", str(user_id)).execute().data
-    
+        profile = supabase.table("profiles").select("id, role").eq("id", str(user_id)).single().execute()
+        if profile.data:
+            session["role"] = profile.data["role"]
+
     has_community = len(user_communities) > 0
 
-    return render_template( "index.html", user_id=user_id, logged_in=logged_in, communities=communities, icons_map=dict(icons_map), events_map=events_map, com_list=com_list, role=role, has_community=has_community )
+    return render_template( "index.html", user_id=user_id, logged_in=logged_in, communities=communities, icons_map=dict(icons_map), events_map=events_map, com_list=com_list, role=role, has_community=has_community)
 
 
 @app.route("/community/new", methods=["GET", "POST"])
