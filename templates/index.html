@@ -122,7 +122,6 @@ window.addEventListener("load", function () {
     <span id=benmalım class="text-xl font-bold gradient-text select-none">ÜniversiteToplulukları</span>
 
     <button class="left-button" id="settings" onclick='window.location.href = "/settings"'><iconify-icon icon="ix:cogwheel" style="font-size:23px;"></iconify-icon>Ayarlar</button>
-    <button class="left-button" id="forum" onclick='window.location.href = "./forum"'><iconify-icon icon="material-symbols:mail" width="24" height="24"></iconify-icon>Forum</button>
     <button class="left-button" id="help" onclick='window.location.href = "/help"'><iconify-icon icon="material-symbols:help" width="24" height="24"></iconify-icon>Destek</button>
 
     <button class="top-button" {%if logged_in%} id="logout" {%else%} id="signup" {%endif%} onclick="window.location.href = '{% if logged_in %}/logout{% else %}/login{% endif %}'">
