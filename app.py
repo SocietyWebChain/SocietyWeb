@@ -540,19 +540,13 @@ def settings_page():
     username = session['user']  
     return render_template('settings.html', username=username)
 
-@app.route('/forum')
-def forum_page():
-    return render_template('forum.html')
+
 
 @app.route('/help')
 def help_page():
     return render_template('help.html')
 
-@app.route("/chat")
-def chat_page():
-    if 'user' not in session:
-        return redirect(url_for('login'))
-    return render_template('forum.html')
+
 
 @app.route("/cerez")
 def cerez_page():
