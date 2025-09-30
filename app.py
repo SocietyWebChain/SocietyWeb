@@ -722,3 +722,31 @@ def password_change():
     
 #if __name__ == "__main__":
 #    app.run(debug=True)
+def get_any_admin_id():
+    """Herhangi bir admin ID'si döndürür"""
+    try:
+        # Tüm adminleri bul
+        response = supabase.table('users').select('id').eq('role', 'admin').execute()
+        
+        if response.data and len(response.data) > 0:
+            # İlk adminin ID'sini döndür
+            return response.data[0]['id']
+        else:
+            # Eğer users tablosu yoksa, auth tablosundan bak
+            response = supabase.from_('auth.users').select('id').eq('raw_user_meta_data->>role', 'admin').execute()
+            if response.data and len(response.data) > 0:
+                return response.data[0]['id']
+            
+        print("Hiç admin bulunamadı!")
+        return None
+        
+    except Exception as e:
+        print(f"Hata: {e}")
+        return None
+
+# Kullanım:
+admin_id = get_any_admin_id()
+if admin_id:
+    print(f"Bulunan admin ID: {admin_id}")
+else:
+    print("Admin bulunamadı!")
