@@ -143,17 +143,21 @@ def register():
         password = request.form.get("password")
         username = request.form.get("username")
         
+        # 1. Alan kontrolü
         if not email or not password or not username:
             return render_template('register.html', error="Tüm alanları doldurun.")
         
+        # 2. Email kontrolü
         email_check = supabase_admin.table("profiles").select("id").eq("email", email).execute()
         if email_check.data:
             return render_template('register.html', error="Bu e-posta zaten kayıtlı.")
         
+        # 3. Kullanıcı adı kontrolü
         username_check = supabase_admin.table("profiles").select("id").eq("username", username).execute()
         if username_check.data:
             return render_template('register.html', error="Bu kullanıcı adı zaten alınmış.")
         
+        # 4. Kayıt işlemi
         try:
             response = supabase.auth.sign_up({
                 "email": email,
@@ -165,25 +169,24 @@ def register():
                 }
             })
             
-            if hasattr(response, 'user') and response.user:
-                return render_template('login.html', success="Kayıt başarılı! Email onaylayıp giriş yapabilirsiniz.")
-            else:
-                error_message = "Auth kaydı başarısız. Lütfen tekrar deneyin."
-                if hasattr(response, 'error') and response.error:
-                    if hasattr(response.error, 'message'):
-                        error_message = f"Kayıt başarısız: {response.error.message}"
-                    else:
-                        error_message = f"Kayıt başarısız: {str(response.error)}"
-                
-                print(f"Auth kaydı başarısız: {error_message}")
-                return render_template('login.html', error=error_message)
-                
-        except Exception as e:
-            return render_template('login.html', success="Artık giriş yapabilirsiniz.")
-
+            # Başarılıysa
+            if response.user:
+                return render_template('login.html', success="Kayıt başarılı! Emaili onaylayıp giriş yapabilirsiniz.")
             
+            # Başarısızsa
+            error_message = "Auth kaydı başarısız. Lütfen tekrar deneyin."
+            if response.error:
+                error_message = f"Kayıt başarısız: {response.error.message}"
+            
+            print(f"Auth kaydı başarısız: {error_message}")
+            return render_template('register.html', error=error_message)
+        
+        except Exception as e:
+            print(f"Bir hata oluştu: {str(e)}")
+            return render_template('register.html', error="Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.")
     
-    return render_template('login.html', success="Artık giriş yapabilirsiniz.")
+    # GET isteğinde kayıt sayfasını göster
+    return render_template('register.html')
 
 
 @app.route('/password_reset_password', methods=['GET'])
