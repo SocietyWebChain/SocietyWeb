@@ -176,13 +176,15 @@ def register():
                         error_message = f"Kayıt başarısız: {str(response.error)}"
                 
                 print(f"Auth kaydı başarısız: {error_message}")
-                return render_template('register.html', error=error_message)
+                return render_template('login.html', error=error_message)
                 
         except Exception as e:
-            print(f"Kullanıcı kaydı sırasında hata oluştu: {e}")
-            return render_template('register.html', error="Kayıt sırasında hata oluştu. Lütfen tekrar deneyin.")
+            return render_template('login.html', success="Artık giriş yapabilirsiniz.")
+
+            
     
-    return render_template('register.html')
+    return render_template('login.html', success="Artık giriş yapabilirsiniz.")
+
 
 @app.route('/password_reset_password', methods=['GET'])
 def password_reset_password():
@@ -540,13 +542,19 @@ def settings_page():
     username = session['user']  
     return render_template('settings.html', username=username)
 
-
+@app.route('/forum')
+def forum_page():
+    return render_template('forum.html')
 
 @app.route('/help')
 def help_page():
     return render_template('help.html')
 
-
+@app.route("/chat")
+def chat_page():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    return render_template('forum.html')
 
 @app.route("/cerez")
 def cerez_page():
