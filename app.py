@@ -681,7 +681,12 @@ def password_reset():
 def resetting_password():
     email = request.form.get('email')
     try:
-        supabase.auth.reset_password_for_email(email)
+        supabase.auth.reset_password_for_email(
+            email,
+            {
+                
+            }
+        )
         flash("Şifre sıfırlama e-postası gönderildi!", "success")
     except Exception as e:
         print(e)
