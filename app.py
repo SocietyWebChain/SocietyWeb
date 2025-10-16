@@ -22,8 +22,20 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
-supabase_admin = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+supabase = None
+supabase_admin = None
+
+def get_supabase():
+    global supabase
+    if supabase is None:
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+    return supabase
+
+def get_supabase_admin():
+    global supabase_admin
+    if supabase_admin is None:
+        supabase_admin = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+    return supabase_admin
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
@@ -33,12 +45,22 @@ max_message_limit = 200
 
 cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache'})
 
-icons_map = defaultdict(dict)
+#icons_map = defaultdict(dict)
+#
+#icons_res = supabase.table("community_links").select("*").execute()
+#
+#for row in icons_res.data:
+#    icons_map[str(row["community_id"])][row["platform"]] = row["url"]
 
-icons_res = supabase.table("community_links").select("*").execute()
-
-for row in icons_res.data:
-    icons_map[str(row["community_id"])][row["platform"]] = row["url"]
+@cache.memoize(timeout=300)
+def get_icons_map():
+    icons_map = defaultdict(dict)
+    res = get_supabase().table("community_links").select("*").execute()
+    if not res.data:
+        return {}
+    for row in res.data:
+        icons_map[str(row["community_id"])][row["platform"]] = row["url"]
+    return dict(icons_map)
     
 events_map = defaultdict(list)
     
@@ -294,7 +316,7 @@ def index():
 
     has_community = len(user_communities) > 0
 
-    return render_template( "index.html", user_id=user_id, logged_in=logged_in, communities=communities, icons_map=dict(icons_map), events_map=events_map, com_list=com_list, role=role, has_community=has_community)
+    return render_template( "index.html", user_id=user_id, logged_in=logged_in, communities=communities, icons_map=get_icons_map(), events_map=events_map, com_list=com_list, role=role, has_community=has_community)
 
 
 @app.route("/community/new", methods=["GET", "POST"])
