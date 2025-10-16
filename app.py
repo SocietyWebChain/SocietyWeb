@@ -22,20 +22,20 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
-supabase = None
-supabase_admin = None
+_supabase = None
+_supabase_admin = None
 
 def get_supabase():
-    global supabase
-    if supabase is None:
-        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-    return supabase
+    global _supabase
+    if _supabase is None:
+        _supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+    return _supabase
 
 def get_supabase_admin():
-    global supabase_admin
-    if supabase_admin is None:
-        supabase_admin = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
-    return supabase_admin
+    global _supabase_admin
+    if _supabase_admin is None:
+        _supabase_admin = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+    return _supabase_admin
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
@@ -64,7 +64,7 @@ def get_icons_map():
     
 events_map = defaultdict(list)
     
-com_events = supabase.table("community_events").select("*").execute()
+com_events = get_supabase().table("community_events").select("*").execute()
 
 for row_events in com_events.data:
     raw_time = row_events["time"]
@@ -129,7 +129,7 @@ app.jinja_env.filters['linkify'] = linkify
 
 @cache.memoize(timeout=60)
 def is_user_banned(user_id):
-    response = supabase.table("banned_users").select("*").eq("user_id", user_id).execute()
+    response = get_supabase().table("banned_users").select("*").eq("user_id", user_id).execute()
     
     return len(response.data) > 0
 
@@ -142,7 +142,7 @@ def check_ban():
     if 'user_id' in session:
         try:
             user_id = session['user_id']
-            user_response = supabase.auth.admin.get_user_by_id(user_id)
+            user_response = get_supabase().auth.admin.get_user_by_id(user_id)
             user_data = user_response.user
             user_metadata = user_data.user_metadata or {}
 
@@ -170,18 +170,18 @@ def register():
             return render_template('register.html', error="Tüm alanları doldurun.")
         
         # 2. Email kontrolü
-        email_check = supabase_admin.table("profiles").select("id").eq("email", email).execute()
+        email_check = get_supabase_admin().table("profiles").select("id").eq("email", email).execute()
         if email_check.data:
             return render_template('register.html', error="Bu e-posta zaten kayıtlı.")
         
         # 3. Kullanıcı adı kontrolü
-        username_check = supabase_admin.table("profiles").select("id").eq("username", username).execute()
+        username_check = get_supabase_admin().table("profiles").select("id").eq("username", username).execute()
         if username_check.data:
             return render_template('register.html', error="Bu kullanıcı adı zaten alınmış.")
         
         # 4. Kayıt işlemi
         try:
-            response = supabase.auth.sign_up({
+            response = get_supabase().auth.sign_up({
                 "email": email,
                 "password": password,
                 "options": {
@@ -222,7 +222,7 @@ def login():
         password = request.form.get('password')
 
         try:
-            response = supabase.auth.sign_in_with_password({
+            response = get_supabase().auth.sign_in_with_password({
                 "email": email,
                 "password": password
             })
@@ -230,7 +230,7 @@ def login():
             if response.user:
                 session['user'] = response.user.user_metadata.get('display_name', response.user.email)
                 session['user_id'] = response.user.id
-                result = supabase.table("profiles").select("username").eq("id", response.user.id).single().execute()
+                result = get_supabase().table("profiles").select("username").eq("id", response.user.id).single().execute()
                 display_name = result.data['username']
                 session['display_name'] = display_name
                 return redirect(url_for('index'))
@@ -259,8 +259,8 @@ def index():
     logged_in = user_id is not None
 
     # Topluluklar
-    communities = supabase.table("communities").select("*").execute().data
-    com = supabase.table("communities").select("id, owner, title").execute()
+    communities = get_supabase().table("communities").select("*").execute().data
+    com = get_supabase().table("communities").select("id, owner, title").execute()
 
     com_list = []
     for c in com.data:
@@ -269,7 +269,7 @@ def index():
 
     # Etkinlikler -> her request'te taze çek
     events_map = defaultdict(list)
-    com_events = supabase.table("community_events").select("*").execute()
+    com_events = get_supabase().table("community_events").select("*").execute()
     for row_events in com_events.data:
         try:
             raw_time = row_events["time"]
@@ -309,8 +309,8 @@ def index():
     # Kullanıcının toplulukları
     user_communities = []
     if user_id:
-        user_communities = supabase.table("communities").select("id").eq("owner", str(user_id)).execute().data
-        profile = supabase.table("profiles").select("id, role").eq("id", str(user_id)).single().execute()
+        user_communities = get_supabase().table("communities").select("id").eq("owner", str(user_id)).execute().data
+        profile = get_supabase().table("profiles").select("id, role").eq("id", str(user_id)).single().execute()
         if profile.data:
             session["role"] = profile.data["role"]
 
@@ -332,7 +332,7 @@ def create_community():
         tagline = request.form.get("tagline")
 
         # Yeni community oluştur
-        new_com = supabase_admin.table("communities").insert({
+        new_com = get_supabase_admin().table("communities").insert({
             "title": title,
             "long_desc": desc,
             "category": category,
@@ -347,13 +347,13 @@ def create_community():
         if file and file.filename:
             file_bytes = file.read()
             filename = f"{com_id}_{uuid.uuid4().hex}{os.path.splitext(file.filename)[1]}"
-            supabase_admin.storage.from_("logolar").upload(
+            get_supabase_admin().storage.from_("logolar").upload(
                 filename,
                 file_bytes,
                 {"content-type": file.content_type}
             )
-            public_url = supabase_admin.storage.from_("logolar").get_public_url(filename)
-            supabase_admin.table("communities").update({
+            public_url = get_supabase_admin().storage.from_("logolar").get_public_url(filename)
+            get_supabase_admin().table("communities").update({
                 "image_url": public_url,
                 "image_path": filename
             }).eq("id", str(com_id)).execute()
@@ -366,7 +366,7 @@ def create_community():
         for lid, p, u in zip(link_ids, platforms, urls):
             if not p.strip() or not u.strip():
                 continue
-            supabase_admin.table("community_links").insert({
+            get_supabase_admin().table("community_links").insert({
                 "community_id": str(com_id),
                 "platform": p,
                 "url": u
@@ -382,7 +382,7 @@ def create_community():
         for eid, start, st_time, end, desc in zip(event_ids, event_starts, event_times, event_ends, event_descs):
             if not start or not end or not desc.strip():
                 continue
-            supabase_admin.table("community_events").insert({
+            get_supabase_admin().table("community_events").insert({
                 "community_id": str(com_id),
                 "from": start,
                 "to": end,
@@ -403,7 +403,7 @@ def upload_image(com_id):
     role = session.get("role", "user")
 
     # Yetki kontrolü → sadece owner yükleyebilir
-    com = supabase.table("communities").select("owner").eq("id", str(com_id)).single().execute()
+    com = get_supabase().table("communities").select("owner").eq("id", str(com_id)).single().execute()
     if not com.data or str(com.data["owner"]) != str(user_id):
         return "Yetkiniz yok", 403
 
@@ -423,15 +423,15 @@ def upload_image(com_id):
     filename = f"{com_id}_{uuid.uuid4().hex}{os.path.splitext(file.filename)[1]}"
 
     # Storage'a yükle (private bucket, admin client ile)
-    res = supabase_admin.storage.from_("logolar").upload(
+    res = get_supabase_admin().storage.from_("logolar").upload(
         filename,
         file_bytes,
         {"content-type": file.content_type}
     )
 
-    public_url = supabase_admin.storage.from_("logolar").get_public_url(filename)
+    public_url = get_supabase_admin().storage.from_("logolar").get_public_url(filename)
     
-    supabase_admin.table("communities").update({
+    get_supabase_admin().table("communities").update({
         "image_url": public_url
     }).eq("id", str(com_id)).execute()
 
@@ -442,12 +442,12 @@ def upload_image(com_id):
 def edit_community(com_id):
     user_id = session.get("user_id")
 
-    com = supabase.table("communities").select("*").eq("id", str(com_id)).single().execute()
+    com = get_supabase().table("communities").select("*").eq("id", str(com_id)).single().execute()
     if not com.data or str(com.data["owner"]) != str(user_id):
         return "Yetkiniz yok", 403
 
-    links = supabase.table("community_links").select("*").eq("community_id", str(com_id)).execute().data
-    events = supabase.table("community_events").select("*").eq("community_id", str(com_id)).execute().data
+    links = get_supabase().table("community_links").select("*").eq("community_id", str(com_id)).execute().data
+    events = get_supabase().table("community_events").select("*").eq("community_id", str(com_id)).execute().data
 
     if request.method == "POST":
         title = request.form.get("title")
@@ -456,7 +456,7 @@ def edit_community(com_id):
         tagline = request.form.get("tagline")
 
         # Metin alanlarını güncelle
-        supabase_admin.table("communities").update({
+        get_supabase_admin().table("communities").update({
             "title": title,
             "long_desc": desc,
             "category": category,
@@ -469,14 +469,14 @@ def edit_community(com_id):
             old_path = com.data.get("image_path")
             if old_path:
                 try:
-                    supabase_admin.storage.from_("logolar").remove([old_path])
+                    get_supabase_admin().storage.from_("logolar").remove([old_path])
                 except:
                     pass
             file_bytes = file.read()
             filename = f"{com_id}_{uuid.uuid4().hex}{os.path.splitext(file.filename)[1]}"
-            supabase_admin.storage.from_("logolar").upload(filename, file_bytes, {"content-type": file.content_type})
-            public_url = supabase_admin.storage.from_("logolar").get_public_url(filename)
-            supabase_admin.table("communities").update({
+            get_supabase_admin().storage.from_("logolar").upload(filename, file_bytes, {"content-type": file.content_type})
+            public_url = get_supabase_admin().storage.from_("logolar").get_public_url(filename)
+            get_supabase_admin().table("communities").update({
                 "image_url": public_url,
                 "image_path": filename
             }).eq("id", str(com_id)).execute()
@@ -487,12 +487,12 @@ def edit_community(com_id):
         urls = request.form.getlist("url[]")
 
         # Önce eski linkleri sil
-        supabase_admin.table("community_links").delete().eq("community_id", str(com_id)).execute()
+        get_supabase_admin().table("community_links").delete().eq("community_id", str(com_id)).execute()
 
         for lid, p, u in zip(link_ids, platforms, urls):
             if not p.strip() or not u.strip():
                 continue
-            supabase_admin.table("community_links").insert({
+            get_supabase_admin().table("community_links").insert({
                 "community_id": str(com_id),
                 "platform": p,
                 "url": u
@@ -506,12 +506,12 @@ def edit_community(com_id):
         event_descs = request.form.getlist("event_desc[]")
 
         # Önce eski etkinlikleri sil
-        supabase_admin.table("community_events").delete().eq("community_id", str(com_id)).execute()
+        get_supabase_admin().table("community_events").delete().eq("community_id", str(com_id)).execute()
 
         for eid, start, st_time, end, desc in zip(event_ids, event_starts, event_times, event_ends, event_descs):
             if not start or not end or not desc.strip():
                 continue
-            supabase_admin.table("community_events").insert({
+            get_supabase_admin().table("community_events").insert({
                 "community_id": str(com_id),
                 "from": start,
                 "to": end,
@@ -531,7 +531,7 @@ def add_link(com_id):
     user_id = session.get("user_id")
 
     # Owner kontrolü
-    com = supabase.table("communities").select("owner, title").eq("id", str(com_id)).single().execute()
+    com = get_supabase().table("communities").select("owner, title").eq("id", str(com_id)).single().execute()
     if not com.data or str(com.data["owner"]) != str(user_id):
         return "Yetkiniz yok", 403
 
@@ -542,7 +542,7 @@ def add_link(com_id):
         return "Eksik bilgi", 400
 
     # Supabase'e kaydet
-    supabase_admin.table("community_links").insert({
+    get_supabase_admin().table("community_links").insert({
         "community_id": str(com_id),
         "platform": platform,
         "url": url
@@ -600,7 +600,7 @@ def ads():
 
 
 def is_user_banned(user_id):
-    response = supabase.table("banned_users").select("*").eq("user_id", user_id).execute()
+    response = get_supabase().table("banned_users").select("*").eq("user_id", user_id).execute()
     return len(response.data) > 0
 
 @app.route("/send_message", methods=["POST"])
@@ -614,7 +614,7 @@ def send_message():
         display_name = session['display_name']
         user_id = session['user_id']
 
-        supabase.rpc("add_message_and_cleanup", {
+        get_supabase().rpc("add_message_and_cleanup", {
             "p_user_id": user_id,
             "p_display_name": display_name,
             "p_message": message,
@@ -628,7 +628,7 @@ def send_message():
 
 @app.route("/get_messages", methods=["GET"])
 def get_messages():
-    res = supabase.table("messages").select("*").order("created_at", desc=False).limit(max_message_limit).execute()
+    res = get_supabase().table("messages").select("*").order("created_at", desc=False).limit(max_message_limit).execute()
     return jsonify(messages=res.data)
 
 @app.route("/update_username", methods=["POST"])
@@ -637,13 +637,13 @@ def update_username():
     user_id = session.get("user_id")
 
 
-    auth_response = supabase.auth.update_user(
+    auth_response = get_supabase().auth.update_user(
         {"data": {"display_name": new_username}}
     )
     if not auth_response:
         return jsonify({"error": "Auth metadata update failed"}), 400
 
-    update_response = supabase.table("profiles").update({
+    update_response = get_supabase().table("profiles").update({
         "username": new_username
     }).eq("id", user_id).execute()
 
@@ -659,7 +659,7 @@ def update_username():
 def change_password():
     new_password = request.form.get("new_password")
 
-    response = supabase.auth.update_user(
+    response = get_supabase().auth.update_user(
         {"password": new_password}
     )
 
@@ -678,7 +678,7 @@ def resend_verify():
             return render_template('login.html', error="E‑posta adresi gereklidir.")
 
         try:
-            response = supabase.auth.resend({
+            response = get_supabase().auth.resend({
                 "type": "signup",
                 "email": email,
                 "options": {
@@ -703,7 +703,7 @@ def password_reset():
 def resetting_password():
     email = request.form.get('email')
     try:
-        supabase.auth.reset_password_for_email(
+        get_supabase().auth.reset_password_for_email(
             email,
             {
                 
@@ -737,9 +737,9 @@ def password_change():
         
         try:
             if refresh_token:
-                supabase.auth.set_session(access_token, refresh_token)
+                get_supabase().auth.set_session(access_token, refresh_token)
             
-            supabase.auth.update_user({"password": password})
+            get_supabase().auth.update_user({"password": password})
             
             return render_template("password_reset_password.html", 
                                  success="Şifre başarıyla değiştirildi! Giriş yapabilirsiniz.")
@@ -758,14 +758,14 @@ def get_any_admin_id():
     """Herhangi bir admin ID'si döndürür"""
     try:
         # Tüm adminleri bul
-        response = supabase.table('users').select('id').eq('role', 'admin').execute()
+        response = get_supabase().table('users').select('id').eq('role', 'admin').execute()
         
         if response.data and len(response.data) > 0:
             # İlk adminin ID'sini döndür
             return response.data[0]['id']
         else:
             # Eğer users tablosu yoksa, auth tablosundan bak
-            response = supabase.from_('auth.users').select('id').eq('raw_user_meta_data->>role', 'admin').execute()
+            response = get_supabase().from_('auth.users').select('id').eq('raw_user_meta_data->>role', 'admin').execute()
             if response.data and len(response.data) > 0:
                 return response.data[0]['id']
             
