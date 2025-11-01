@@ -758,7 +758,7 @@ def get_any_admin_id():
     """Herhangi bir admin ID'si döndürür"""
     try:
         # Tüm adminleri bul
-        response = get_supabase().table('users').select('id').eq('role', 'admin').execute()
+        response = get_supabase().table('profiles').select('id').eq('role', 'admin').execute()
         
         if response.data and len(response.data) > 0:
             # İlk adminin ID'sini döndür
