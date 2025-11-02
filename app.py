@@ -127,36 +127,36 @@ def linkify(text):
 app.jinja_env.filters['linkify'] = linkify
 
 
-@cache.memoize(timeout=60)
-def is_user_banned(user_id):
-    response = get_supabase().table("banned_users").select("*").eq("user_id", user_id).execute()
+#@cache.memoize(timeout=60)
+#def is_user_banned(user_id):
+#    response = get_supabase().table("banned_users").select("*").eq("user_id", user_id).execute()
     
-    return len(response.data) > 0
+#    return len(response.data) > 0
 
 @app.context_processor
 def inject_logged_in():
     return dict(logged_in='user' in session)
 
-@app.before_request
-def check_ban():
-    if 'user_id' in session:
-        try:
-            user_id = session['user_id']
-            user_response = get_supabase().auth.admin.get_user_by_id(user_id)
-            user_data = user_response.user
-            user_metadata = user_data.user_metadata or {}
-
-            banned_until = user_metadata.get('banned_until')
-            if banned_until and banned_until != "null":
-                try:
-                    banned_time = datetime.datetime.fromisoformat(banned_until)
-                    if datetime.datetime.now() < banned_time:
-                        return render_template("banned.html", banned_until=banned_until)
-                except Exception as e:
-                    print("Ban kontrolünde tarih hatası:", e)
-
-        except Exception as e:
-            print("Ban kontrol hatası:", e)
+#@app.before_request
+#def check_ban():
+#    if 'user_id' in session:
+#        try:
+#            user_id = session['user_id']
+#            user_response = get_supabase().auth.admin.get_user_by_id(user_id)
+#            user_data = user_response.user
+#            user_metadata = user_data.user_metadata or {}
+#
+#            banned_until = user_metadata.get('banned_until')
+#            if banned_until and banned_until != "null":
+#                try:
+#                    banned_time = datetime.datetime.fromisoformat(banned_until)
+#                    if datetime.datetime.now() < banned_time:
+#                        return render_template("banned.html", banned_until=banned_until)
+#                except Exception as e:
+#                    print("Ban kontrolünde tarih hatası:", e)
+#
+#        except Exception as e:
+#            print("Ban kontrol hatası:", e)
 
 @app.route('/register_page', methods=['GET', 'POST'])
 def register():
@@ -599,9 +599,9 @@ def ads():
 
 
 
-def is_user_banned(user_id):
-    response = get_supabase().table("banned_users").select("*").eq("user_id", user_id).execute()
-    return len(response.data) > 0
+#def is_user_banned(user_id):
+#    response = get_supabase().table("banned_users").select("*").eq("user_id", user_id).execute()
+#    return len(response.data) > 0
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
